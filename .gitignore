@@ -1,0 +1,5 @@
+# Nunca commitar chaves
+.env
+*.key
+localStorage-export.txt
+config.local.js

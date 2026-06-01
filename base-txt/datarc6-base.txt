@@ -1,0 +1,67 @@
+================================================================================
+DATARC6 — BASE DE CONHECIMENTO (extraída PH3A)
+Uso: colar em outras IAs para roteiros, prompts e materiais do produto DataRC6.
+Extraído de: PH3A_Base_de_Conhecimento_Completa 1.pdf (pasta video-novo)
+Conteúdo: apenas DataRC6. Outros produtos do portfólio removidos.
+================================================================================
+
+DATARC6
+DataRC6
+BASE DE CONHECIMENTO - DATARC6 1.0
+PH3A | Infraestrutura Regulatória RC6 — Registro e Consulta
+
+LINHA DE PRODUTO PH3A: Compliance regulatório — Resolução Conjunta nº 6 (RC6).
+
+SEÇÃO 1 -- VISÃO GERAL E PROPÓSITO
+O DataRC6 é a solução PH3A para atender exigências regulatórias de registro e consulta
+RC6, com processo padronizado, auditável e controlado. Transforma obrigação regulatória
+em operação contínua com evidência formal de conformidade.
+
+Produto atômico: foco em infraestrutura RC6, não em marketing nem antifraude comercial.
+Pode integrar internamente o ecossistema PH3A (ex.: camada de governança, fonte para
+antifraude), mas o discurso comercial primário é regulatório e operacional.
+
+SEÇÃO 2 -- PROBLEMA DE MERCADO
+• Obrigação RC6 imposta — risco de multa e sanção se falhar.
+• Processos manuais ou planilhas sem trilha auditável.
+• Dificuldade de provar conformidade em fiscalização.
+• Sistemas legados sem padronização entre áreas (compliance, TI, operações).
+• Pressão por resposta rápida em consultas sem perder controle.
+
+SEÇÃO 3 -- O QUE O DATARC6 ENTREGA
+• Registro e consulta RC6 de forma padronizada.
+• Mecanismo formal de evidência de conformidade (logs, trilha, relatórios).
+• Resposta operacional alinhada à Resolução Conjunta nº 6.
+• Ambientes seguros e processamento auditável (ISO 27001/27701, LGPD).
+• Produto atômico — implementação clara, escopo definido.
+
+SEÇÃO 4 -- BENEFÍCIOS
+• Redução de risco regulatório e reputacional institucional.
+• Processo contínuo em vez de projeto pontual.
+• Governança e previsibilidade para compliance e auditoria interna.
+• Padronização entre filiais e sistemas.
+
+SEÇÃO 5 -- DIFERENCIAIS PH3A
+• Experiência PH3A em dados, segurança e governança.
+• Integração opcional com outras soluções PH3A sem confundir escopos comerciais.
+• Foco em evidência e auditoria — linguagem de compliance, não de vendas.
+
+SEÇÃO 6 -- DIFERENÇA VISUAL (VÍDEO / MATERIAIS)
+• NÃO usar funil marketing, leads, visitantes de site.
+• NÃO usar antifraude comercial como protagonista.
+• USAR: documentos regulatórios, selo de conformidade, timeline de registro/consulta,
+checklist, escudo "RC6", trilha de auditoria, interface de consulta mock.
+
+SEÇÃO 7 -- MENSAGENS-CHAVE (VENDAS / VÍDEO)
+• "RC6 sob controle. Conformidade com evidência."
+• "Obrigação regulatória virou processo auditável."
+• "Registro e consulta RC6 padronizados."
+• Tagline sugerida: "Conformidade RC6 com trilha e governança."
+
+SEÇÃO 8 -- PÚBLICO-ALVO
+Instituições financeiras, pagamentos, fintechs, compliance, auditoria interna, jurídico
+regulatório, áreas de risco operacional sujeitas à RC6.
+
+SEÇÃO 9 -- RELAÇÃO COM ECOSSISTEMA PH3A
+DataRC6 é apresentado como produto atômico. Integrações internas com antifraude/
+governança não substituem o escopo regulatório nem o discurso comercial primário.

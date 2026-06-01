@@ -1,0 +1,68 @@
+================================================================================
+DATACOB — BASE DE CONHECIMENTO (extraída PH3A)
+Uso: colar em outras IAs para roteiros, prompts e materiais do produto DataCob.
+Extraído de: PH3A_Base_de_Conhecimento_Completa 1.pdf (pasta video-novo)
+Conteúdo: apenas DataCob. Outros produtos do portfólio removidos.
+Nota: capítulo DataCob no sumário do PDF (p.09); corpo não extraído no workspace —
+texto estruturado pela linha de produto PH3A + recuperação de crédito. Revisar quando PDF estiver disponível.
+================================================================================
+
+DATACOB
+DataCob
+BASE DE CONHECIMENTO - DATACOB 1.0
+PH3A | Solução de Cobrança e Análise de Crédito
+
+LINHA DE PRODUTO PH3A: Recuperação de Crédito e eficiência na cobrança.
+
+SEÇÃO 1 -- VISÃO GERAL E PROPÓSITO
+O DataCob é a solução PH3A para cobrança e análise de crédito, unindo Big Data,
+segmentação e priorização para recuperar receita com mais eficiência e menos custo por
+contato. Ajuda operadores de cobrança, financeiro e crédito a focar quem tem maior
+propensão a pagar e capacidade financeira real — não apenas volume de tentativas.
+
+Transforma carteiras de inadimplência em filas inteligentes: quem ligar primeiro, com qual
+abordagem e em qual canal, com base em dados e não só em aging da dívida.
+
+SEÇÃO 2 -- PROBLEMA DE MERCADO
+• Carteira grande com recursos limitados — equipes ligam para todos igualmente.
+• Baixa taxa de recuperação e alto custo por acordo.
+• Dados de contato desatualizados ou incompletos.
+• Estratégias genéricas (mesma régua para perfis diferentes).
+• Falta de integração entre análise de crédito, cobrança e enriquecimento cadastral.
+• Pressão por resultado sem aumentar headcount proporcionalmente.
+
+SEÇÃO 3 -- O QUE O DATACOB ENTREGA
+• Priorização de devedores por propensão a pagar, capacidade e perfil comportamental.
+• Enriquecimento de cadastro (telefone, endereço, vínculos) via Big Data PH3A.
+• Segmentação de carteira para régua de cobrança personalizada.
+• Análise de crédito apoiada em dados atualizados para renegociação.
+• Métricas de recuperação, promessa e efetividade por canal.
+
+SEÇÃO 4 -- FLUXO TÍPICO (VISÃO OPERACIONAL)
+1. Carteira inadimplente entra no sistema.
+2. Enriquecimento e score de recuperação.
+3. Segmentação (alta, média, baixa prioridade).
+4. Ação: contato humano, digital, renegociação ou write-off orientado.
+5. Feedback de resultado retroalimenta o modelo.
+
+SEÇÃO 5 -- DIFERENCIAIS PH3A
+• Big Data brasileiro com profundidade em renda, crédito e comportamento.
+• Integração natural com DataBusca (localizar/enriquecer) no mesmo ecossistema.
+• Foco em recuperação e análise de crédito — não marketing (DataTag) nem antifraude puro (DataFraud).
+• Conformidade LGPD e governança PH3A.
+
+SEÇÃO 6 -- DIFERENÇA VISUAL (VÍDEO / MATERIAIS)
+• NÃO usar funil de leads/marketing DataTag.
+• NÃO usar workflow antifraude como cena principal.
+• USAR: carteira de títulos, filas priorizadas, telefone/WhatsApp mock, gráfico de recuperação,
+calendário de promessas, badges "Alta chance de acordo".
+
+SEÇÃO 7 -- MENSAGENS-CHAVE (VENDAS / VÍDEO)
+• "Recupere mais. Ligue para quem pode pagar."
+• "Cobrança inteligente, não cobrança em massa."
+• "Análise de crédito e cobrança no mesmo Big Data."
+• Tagline sugerida: "Cobrança e crédito com dados que recuperam receita."
+
+SEÇÃO 8 -- PÚBLICO-ALVO
+Varejo, telecom, utilities, financeiras, cobrança terceirizada, recuperação de crédito,
+áreas de renegociação e RCM.

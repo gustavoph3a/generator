@@ -1,0 +1,49 @@
+{
+  "sourcePdf": "PH3A_Base_de_Conhecimento_Completa 1.pdf",
+  "bases": [
+    {
+      "id": "databusca",
+      "file": "databusca-base.txt",
+      "label": "DataBusca — Big Data e Enriquecimento",
+      "profile": "databusca",
+      "status": "ready"
+    },
+    {
+      "id": "datatag",
+      "file": "datatag-base.txt",
+      "label": "DataTag — Marketing e Vendas Digital",
+      "profile": "datatag",
+      "status": "ready"
+    },
+    {
+      "id": "datafraud",
+      "file": "datafraud-base.txt",
+      "label": "DataFraud — Análise e Prevenção de Fraude",
+      "profile": "datafraud",
+      "status": "ready"
+    },
+    {
+      "id": "datadossie",
+      "file": "datadossie-base.txt",
+      "label": "DataDossiê — Risco, Reputação e Compliance",
+      "profile": "datadossie",
+      "status": "ready"
+    },
+    {
+      "id": "datacob",
+      "file": "datacob-base.txt",
+      "label": "DataCob — Cobrança e Análise de Crédito",
+      "profile": "datacob",
+      "status": "ready"
+    },
+    {
+      "id": "datarc6",
+      "file": "datarc6-base.txt",
+      "label": "DataRC6 — Registro e Consulta RC6",
+      "profile": "datarc6",
+      "status": "ready"
+    }
+  ],
+  "pendingInPdf": ["DataCuboBI"]
+}
+

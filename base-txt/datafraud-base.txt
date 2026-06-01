@@ -1,0 +1,117 @@
+================================================================================
+DATAFRAUD — BASE DE CONHECIMENTO (extraída PH3A)
+Uso: colar em outras IAs para roteiros, prompts e materiais do produto DataFraud.
+Extraído de: PH3A_Base_de_Conhecimento_Completa 1.pdf (pasta video-novo)
+Conteúdo: apenas DataFraud. Outros produtos do portfólio removidos.
+================================================================================
+
+DATAFRAUD
+DataFraud
+BASE DE CONHECIMENTO - DATAFRAUD 1.0
+PH3A | Motor de Orquestração de Decisões de Risco
+
+SEÇÃO 1 -- VISÃO GERAL E PROPÓSITO
+O DataFraud é um motor de orquestração de decisões de risco orientado a antifraude,
+análise de crédito e alertas de risco, calibrado predominantemente para antifraude.
+Diferente de soluções que entregam decisão pronta com modelo externo, o DataFraud
+executa, de forma automatizada, a política de risco definida pelo próprio cliente.
+
+Transforma políticas, regras e critérios — hoje dispersos em documentos, planilhas ou
+conhecimento tácito — em fluxos decisórios automatizados, rastreáveis, versionados e
+ajustáveis.
+
+NÃO é um score isolado. NÃO é antifraude de prateleira fechado. É sistema de decisão
+com controle pleno do cliente sobre como decisões antifraude, de crédito e de risco são
+tomadas, com quais dados e em que sequência.
+
+LINHA DE PRODUTO PH3A: Análise de fraude sem intervenção humana.
+
+SEÇÃO 2 -- PROBLEMA DE MERCADO
+Fraude é fenômeno estrutural em ambientes digitais instantâneos. A maioria das soluções
+antifraude é parametrizável, mas a parametrização depende do fornecedor — aumenta
+custo, tempo e desestimula customização. O cliente adapta-se à lógica do fornecedor.
+
+Resultado: desalinhamento entre como a empresa pensa risco e como o antifraude executa.
+Traduz-se em perdas financeiras, falsos positivos, fricção com clientes legítimos e
+dificuldade de adaptação quando o padrão de fraude muda.
+
+Falhas típicas das soluções tradicionais:
+• Adaptabilidade lenta (fraude muda rápido; regras não).
+• Pouca transparência (cliente consome score, não domina a lógica).
+• Flexibilidade limitada (bom em um fluxo, não como motor reutilizável).
+• Dados fragmentados (fontes isoladas, não orquestradas no mesmo fluxo).
+
+SEÇÃO 3 -- TESE FUNDADORA
+O DataFraud existe porque o modelo predominante resolve sintomas, não o problema
+estrutural: recebe evento, aplica modelo proprietário, devolve resultado.
+
+O DataFraud inverte o paradigma: não decide pelo cliente — executa a política de risco
+do cliente em antifraude, crédito e monitoramento.
+
+MENSAGEM CENTRAL: "O DataFraud não decide pelo cliente. Ele executa a política do
+cliente."
+
+SEÇÃO 4 -- COMO FUNCIONA (WORKFLOW)
+Núcleo: workflow decisório (esteira de etapas), não decisão única por score.
+Cada etapa valida, consulta dados, avalia consistência/risco e define próximo passo.
+Decisão final (aprovação, reprovação, alerta, quarentena) é consequência do caminho.
+
+Ciclo de vida governado: fluxos concluídos não são editados diretamente; mudanças por
+versionamento/clonagem.
+
+Evento de negócio (cadastro, transação, crédito, pagamento) percorre o workflow;
+sistema registra etapas, critérios e resultados intermediários.
+
+Dados participam ativamente: bifurcações, bloqueios, exceções. Integração de dados
+internos, externos e Big Data PH3A no mesmo fluxo (HTTP Request para serviços externos).
+
+Score no DataFraud: consequência do fluxo, não ponto de partida.
+
+Quiz: step-up de identidade em casos limítrofes (reforço, não substitui outras validações).
+
+SEÇÃO 5 -- SAÍDAS DO PROCESSO
+• Aprovação automática
+• Negação automática
+• Step-up (ex.: Quiz)
+• Quarentena
+• Alertas, eventos, integrações externas
+
+SEÇÃO 6 -- TIPOS DE FRAUDE (CONTEXTO)
+Identidade e cadastro; perfil declarado vs real; transacional; abuso comportamental;
+casos limítrofes (step-up/quarentena).
+
+SEÇÃO 7 -- COMPONENTES (RESUMO)
+Blocos de decisão, pontuação, listas (block/whitelist), normalização, quarentena,
+histórico, alertas, e-mail/SMS, HTTP Request, consultas (CPF, protestos, processos, etc.).
+
+SEÇÃO 8 -- GOVERNANÇA E COMPLIANCE
+Decisões rastreáveis, auditáveis, explicáveis. LGPD (exclusão do titular pode interromper
+fluxo). 2FA, restrição IP, horários. Relatórios de execução e consumo.
+
+SEÇÃO 9 -- RESULTADOS (QUALITATIVOS)
+Reduz perdas por fraude; diminui falsos positivos; aumenta velocidade de adaptação;
+menos dependência de parametrização do fornecedor; deploy mais rápido de regras;
+escala operacional; maior clareza nas decisões automatizadas.
+
+Não elimina fraude totalmente — reduz perdas e aumenta controle com política consistente.
+
+SEÇÃO 10 -- MERCADOS
+Financeiro, fintechs, e-commerce, marketplaces, seguradoras, telecom, crédito,
+consórcios, varejo parcelado. Entrada típica: antifraude transacional ou onboarding digital;
+expansão para crédito e monitoramento.
+
+SEÇÃO 11 -- DIFERENÇA VISUAL EM RELAÇÃO A OUTROS PRODUTOS PH3A
+• DataTag: tráfego web, visitantes anônimos, tag, funil digital.
+• DataBusca: localizar e enriquecer cadastros PF/PJ, fichas de dados.
+• DataFraud: motor de workflow de decisão de risco, eventos suspeitos, etapas de
+validação, aprovação/negação/quarentena — ambiente de operações de risco, não site
+nem fichas de enriquecimento comerciais.
+
+SEÇÃO 12 -- MENSAGENS-CHAVE (VENDAS / VÍDEO)
+• Antifraude tradicional entrega decisões prontas. O DataFraud entrega controle.
+• Não é score. É sistema de decisão.
+• Motor onde o cliente define o processo, escolhe fontes e executa decisões.
+• Workflows versionados, execução rastreável.
+• Integração real de dados no fluxo (PH3A + cliente + mercado/regulatório).
+
+================================================================================

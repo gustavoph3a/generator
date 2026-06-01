@@ -1,0 +1,25 @@
+PH3A — Índice das bases em base-txt/
+=====================================
+
+Fonte original: PH3A_Base_de_Conhecimento_Completa 1.pdf (pasta video-novo/)
+
+ARQUIVOS PRONTOS (use na ferramenta)
+------------------------------------
+databusca-base.txt   → DataBusca · Big Data e Enriquecimento de Dados
+datatag-base.txt      → DataTag · Marketing e Vendas Digital
+datafraud-base.txt    → DataFraud · Análise e Prevenção de Fraude
+datadossie-base.txt   → DataDossiê · Risco, Reputação e Compliance
+datacob-base.txt       → DataCob · Cobrança e Análise de Crédito
+datarc6-base.txt       → DataRC6 · Registro e Consulta RC6
+
+PRODUTO NO PDF — AINDA SEM BASE .txt
+------------------------------------
+DataCuboBI (extração futura do mesmo PDF)
+
+Como carregar na ferramenta-textos:
+- http://localhost:8080 → seletor «Carregar base pronta»
+- ou Envie arquivo → escolher um .txt desta pasta
+
+Nota: datacob-base.txt foi estruturado a partir da linha de produto PH3A;
+revisar com o capítulo completo do PDF quando disponível.
+

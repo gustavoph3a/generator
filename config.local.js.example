@@ -1,0 +1,2 @@
+/** Copie para config.local.js e cole sua chave do AI Studio. */
+window.PH3A_GEMINI_KEY_DEFAULT = "AIzaSUA_CHAVE_AQUI";

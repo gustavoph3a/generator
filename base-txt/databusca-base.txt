@@ -1,0 +1,144 @@
+================================================================================
+DATABUSCA — BASE DE CONHECIMENTO (extraída PH3A)
+Uso: colar em outras IAs para roteiros, prompts e materiais do produto DataBusca.
+Extraído de: PH3A_Base_de_Conhecimento_Completa 1.pdf (pasta video-novo)
+Conteúdo: apenas DataBusca. Outros produtos do portfólio removidos.
+================================================================================
+
+DATABUSCA
+DataBusca
+BASE DE CONHECIMENTO - DATABUSCA 1.0
+PH3A | Inteligência de Dados para Decisão, Risco e Efetividade Operacional
+
+SEÇÃO 1 -- VISÃO GERAL E PROPÓSITO
+O DataBusca é a solução da PH3A para localizar, identificar, enriquecer e analisar pessoas
+(PF) e empresas (PJ) em todo o Brasil, com alta precisão e atualização contínua. Opera
+como motor de dados robusto — e, com predominância, como marketplace de dados —
+capaz de abastecer processos críticos em crédito, cobrança, prevenção à fraude,
+compliance, operações regulatórias, marketing e vendas.
+
+O DataBusca resolve um problema estrutural: decisões e ações operacionais são cada vez
+mais automatizadas, mas continuam sendo tomadas com base em dados incompletos,
+desatualizados e inconsistentes. Quando os dados são ruins, todo o ciclo de
+relacionamento com o cliente se degrada — do atendimento e cadastro até crédito, risco,
+cobrança e cross-sell.
+
+Em termos práticos, o DataBusca reduz erros e desperdícios ao entregar uma visão mais
+rica e confiável do perfil real de uma pessoa ou empresa — dados cadastrais, contato,
+capacidade de pagamento, sinais de risco e vínculos (rede de relacionamentos).
+
+MISSÃO: Garantir que empresas tenham acesso imediato a informações seguras,
+atualizadas e precisas para localizar pessoas e empresas, enriquecer bases internas e
+suportar processos críticos de decisão.
+
+SLOGAN PRINCIPAL: "Nenhum processo é melhor do que a qualidade dos dados que ele
+utiliza. Dados completos e precisos são o motor dos negócios."
+
+VALORES FUNDAMENTAIS:
+• Precisão e atualização contínua.
+• Segurança e privacidade, com compromisso integral à LGPD.
+• Inteligência e acionabilidade: dados prontos para decisão, não apenas informação bruta.
+• Velocidade e flexibilidade de entrega (tela, API e processamento em lote).
+
+SEÇÃO 2 -- O QUE É (E O QUE NÃO É)
+Big Data da PH3A = ativo de informações (base nacional PF e PJ).
+DataBusca = produto que permite buscar, consultar, enriquecer e entregar dados do Big
+Data de forma segura, flexível e escalável.
+SaaS de acesso ao Big Data em diferentes modalidades de consumo.
+
+DIFERENÇA EM RELAÇÃO AO DATATAG (para materiais visuais):
+• DataTag: tráfego do site, visitantes anônimos, tag, scoring, funil digital.
+• DataBusca: cadastros e bases internas, localização PF/PJ, consulta e enriquecimento —
+não é sala de tráfego web; é ambiente de busca, fichas de cadastro e perfis enriquecidos.
+
+SEÇÃO 3 -- CONTEXTO DE MERCADO
+Três mudanças críticas: digitalização de cadastros e decisões automáticas; regulação e
+compliance (KYC); combinação de dados 1st party, 3rd party e fontes públicas.
+Confiar só em cadastro interno ou só em perfil online é insuficiente. O DataBusca viabiliza
+visão unificada e acionável.
+
+PRINCIPAIS ERROS POR DADOS RUINS:
+• Erros no atendimento e validações (contato incorreto, duplicidades).
+• Ofertas incorretas por perfil equivocado.
+• Crédito com percepção errada de capacidade de pagamento → inadimplência.
+• Fraude (roubo de identidade) sem referência externa confiável.
+• Retrabalho, perdas operacionais, cross-sell perdido.
+
+SEÇÃO 4 -- POSICIONAMENTO
+Marketplace de dados orientado por IA: o cliente descreve o problema de negócio; o
+DataBusca indica conjuntos de atributos que melhor resolvem (IA proprietária em evolução
+— comunicar como diferencial, sem promessas operacionais específicas).
+Exemplos: crédito (renda, score, vínculos); fraude (identidade, inconsistências); cobrança
+(localização, capacidade de pagamento); cross-sell (perfil real).
+
+SEÇÃO 5 -- MODALIDADES DE CONSUMO
+5.1 Busca em tela — consulta por PF/PJ, múltiplas chaves, busca fonética, painel de dados.
+5.2 Busca por API — tempo real (onboarding, cadastro, elegibilidade, risco).
+5.3 Troca de arquivos — enriquecimento incremental (só dados novos/diferentes cobrados).
+5.4 Enriquecimento completo — arquivo só com chave (CPF/CNPJ); retorno de atributos
+conforme pacote.
+
+SEÇÃO 6 -- MÓDULOS FUNCIONAIS
+6.1 LOCALIZAÇÃO — PF e PJ com alta precisão, matching (MatchCode), chaves variadas,
+rede de relacionamentos (família, sócios, empresas, bens). Objetivo: aumentar taxa de
+localização e contato.
+6.2 ENRIQUECIMENTO — base interna vira base rica: renda presumida, score, telefones,
+e-mails, endereços, vínculos, indicadores para crédito, fraude e cobrança.
+6.3 QUALIDADE E PROCESSAMENTO — normalização, deduplicação, inconsistências,
+agrupamentos inteligentes.
+
+SEÇÃO 7 -- BIG DATA PH3A (RESUMO)
+~30 anos de construção e atualização. ~220 milhões de CPFs e ~25 milhões de CNPJs.
+Mais de 300 data points por entidade. DataBusca = porta de entrada mais direta e
+flexível ao dado “aplicável” a múltiplos processos.
+
+PF (exemplos): cadastrais, contato, renda/score, cobrança, vínculos, processos, bens.
+PJ (exemplos): CNPJ, razão social, porte, CNAE, faturamento presumido, score, sócios.
+Integração com sinais de perfil online quando o caso exige visão híbrida.
+
+SEÇÃO 8 -- DORES E COMO RESOLVE
+Dores: cadastros incompletos; dificuldade de localização; fraude; inadimplência por perfil
+errado; cobrança lenta; cross-sell limitado.
+Como resolve: dados atualizados e verificáveis; matching e localização; enriquecimento
+renda/score; checagem declaração vs base; compliance/KYC; visão híbrida tradicional +
+online quando necessário.
+
+SEÇÃO 9 -- RESULTADOS (QUALITATIVOS)
+Sem métricas fixas prometidas — ganho depende da base do cliente. Impactos
+recorrentes: maior taxa de localização/contato; menos inconsistências e retrabalho;
+melhor percepção de perfil e pagamento; redução de perdas por fraude; carteira de
+crédito mais saudável; mais oportunidades de cross-sell.
+
+CENÁRIOS ANTES/DEPOIS (resumo):
+• Crédito: decisão com dados incompletos → calibragem com renda e risco.
+• Fraude/KYC: só declaração → cruzamento com referências e inconsistências.
+• Cobrança: contatos antigos → localização e priorização por capacidade de pagamento.
+• Cross-sell: suposições → oferta com perfil real e capacidade de pagamento.
+
+SEÇÃO 10 -- SEGMENTOS PRIORITÁRIOS
+Financeiro, fintechs, seguradoras, cobrança, varejo/e-commerce, utilities, saúde,
+telecom, educação, automotivo, órgãos públicos.
+Menos valor típico: MEI/pequena escala de consultas; publishers com pouco cadastro.
+
+SEÇÃO 11 -- DIFERENCIAIS
+Combina dados tradicionais (perfil real, renda, crédito, vínculos) com sinais online.
+Produto coringa, baixo atrito, ciclo de venda mais curto. Marketplace orientado por
+problema. Qualidade demonstrável em testes de precisão.
+
+SEÇÃO 12 -- COMPLIANCE
+LGPD integral. ISO 27001 e ISO 27701. Ambientes seguros, anonimização e criptografia
+quando aplicável.
+
+SEÇÃO 13 -- MENSAGENS-CHAVE (VENDAS / MATERIAIS)
+• Evita decisões erradas por dados incompletos e desatualizados.
+• Marketplace: você descreve o problema; ele encontra os dados que resolvem.
+• Reduz perdas e retrabalho; melhora carteira e oportunidades com perfil real.
+• Integração perfil real + sinais online quando necessário.
+• Flexível, fácil de adotar, alta recorrência.
+
+SEÇÃO 14 -- MODELO COMERCIAL (LÓGICA)
+Por consumo/volume e modalidade (PF/PJ, pacotes de atributos). Consulta por registro;
+API por transações; arquivo incremental por dados novos; enriquecimento completo por
+atributos retornados. Detalhes de preço em proposta comercial.
+
+================================================================================

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PH3A — Gerador de textos (keyframes + roteiro)</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>PH3A · Textos para vídeo</h1>
+    <p class="sub">Templates locais (padrão) · imagens no ChatGPT · Gemini só se tiver cota API</p>
+  </header>
+
+  <main class="layout">
+    <section class="card mode-card">
+      <h2>Como gerar as 5 narrativas</h2>
+      <div class="mode-options">
+        <label class="mode-option selected" id="modeLocalLabel">
+          <input type="radio" name="textSource" value="local" checked />
+          <strong>Templates locais</strong>
+          <span>Recomendado — funciona sem Google, sem cota, offline após abrir a página.</span>
+        </label>
+        <label class="mode-option" id="modeGeminiLabel">
+          <input type="radio" name="textSource" value="gemini" />
+          <strong>Gemini (API)</strong>
+          <span>Exige chave com cota free (formato AIza… no AI Studio). Chave AQ. costuma dar erro 429.</span>
+        </label>
+      </div>
+      <p class="hint" id="narrativeSourceHint"></p>
+
+      <details class="gemini-details" id="geminiDetails">
+        <summary>Configurar chave Gemini (opcional)</summary>
+        <div class="gemini-inner">
+          <label class="field">
+            <span>Chave de API — só neste navegador (<code>config.local.js</code>)</span>
+            <input type="password" id="geminiApiKey" autocomplete="off" placeholder="AIza…" />
+          </label>
+          <div class="row">
+            <button type="button" class="btn" id="btnSaveKey">Salvar</button>
+            <button type="button" class="btn" id="btnTestKey">Testar</button>
+            <button type="button" class="btn secondary" id="btnClearGeminiStatus">Limpar aviso</button>
+          </div>
+          <p class="gemini-status" id="geminiStatus" aria-live="polite"></p>
+        </div>
+      </details>
+    </section>
+
+    <section class="card">
+      <h2>1. Base do produto</h2>
+      <label class="field">
+        <span>Carregar base pronta (pasta <code>base-txt/</code>)</span>
+        <div class="row align-end">
+          <select id="basePreset" class="base-select">
+            <option value="">— escolha o produto —</option>
+          </select>
+          <button type="button" class="btn primary" id="btnLoadPreset" disabled>Carregar base</button>
+        </div>
+      </label>
+      <p class="hint" id="basePresetHint">Requer <code>http://localhost:8080</code> — ou envie o .txt manualmente abaixo.</p>
+      <label class="field">
+        <span>Arquivo .txt da base (upload)</span>
+        <input type="file" id="fileBase" accept=".txt,text/plain" />
+      </label>
+      <label class="field">
+        <span>Ou cole o texto da base aqui</span>
+        <textarea id="baseText" rows="8" placeholder="Cole datatag-base.txt, datafraud-base.txt…"></textarea>
+      </label>
+      <div class="row">
+        <label class="field flex">
+          <span>Nome do produto (tela)</span>
+          <input type="text" id="productName" placeholder="DATATAG" />
+        </label>
+        <label class="field flex">
+          <span>Tagline (cena 4)</span>
+          <input type="text" id="tagline" placeholder="Frase curta pt-BR" />
+        </label>
+      </div>
+      <label class="field">
+        <span>Perfil detectado</span>
+        <select id="productProfile">
+          <option value="auto">Automático (pelo texto)</option>
+          <option value="databusca">DataBusca (Big Data, enriquecimento PF/PJ)</option>
+          <option value="datatag">DataTag (marketing e vendas digital)</option>
+          <option value="datafraud">DataFraud (análise e prevenção de fraude)</option>
+          <option value="datadossie">DataDossiê (risco, reputação, compliance)</option>
+          <option value="datacob">DataCob (cobrança e análise de crédito)</option>
+          <option value="datarc6">DataRC6 (registro e consulta RC6)</option>
+          <option value="generic">Genérico PH3A</option>
+        </select>
+      </label>
+      <button type="button" class="btn primary" id="btnNarratives">Gerar 5 narrativas</button>
+    </section>
+
+    <section class="card">
+      <h2>2. Escolha a narrativa</h2>
+      <p class="hint" id="narrativeHint">Carregue a base (§1), depois gere narrativas. Pode clicar várias vezes até achar um lote que goste — cada clique traz <strong>5 novas opções</strong>.</p>
+      <div id="narrativeList" class="narrative-list"></div>
+    </section>
+
+    <section class="card">
+      <h2>3. Roteiro Flow</h2>
+      <div class="row">
+        <label class="chip"><input type="radio" name="vertente" value="omni" checked /> Omni (~10s)</label>
+        <label class="chip"><input type="radio" name="vertente" value="extend" /> Extend (8s + 8s)</label>
+      </div>
+      <button type="button" class="btn primary" id="btnExport" disabled>Gerar arquivos .txt</button>
+      <p class="hint">Na seção 4: <code>roteiro-flow.txt</code> (v1) e <code>roteiro-flow-v2.txt</code> (força fidelidade aos PNGs no Omni).</p>
+    </section>
+
+    <section class="card full output-section" id="outputSection">
+      <h2>4. Texto gerado</h2>
+      <p class="hint" id="outputEmptyHint">Após escolher a narrativa, clique em «Gerar arquivos .txt» para ver o conteúdo aqui.</p>
+      <div id="outputReady" class="output-ready" hidden>
+        <div class="tabs" id="outputTabs"></div>
+        <p class="output-filename" id="outputFileName"></p>
+        <div class="output-actions">
+          <button type="button" class="btn primary" id="btnCopyActive">Copiar aba .txt</button>
+          <button type="button" class="btn secondary" id="btnDownloadActive">Baixar .txt</button>
+          <button type="button" class="btn secondary" id="btnOpenV2" hidden title="Abre o roteiro que exige copiar os keyframes no Omni">roteiro-flow-v2</button>
+          <span class="copy-status" id="copyStatus" aria-live="polite"></span>
+        </div>
+        <label class="field output-view-label">
+          <span>Pré-visualização (copie ou baixe o .txt da aba ativa)</span>
+          <textarea id="outputText" class="output-text" readonly spellcheck="false"></textarea>
+        </label>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>
+      <strong>Gemini:</strong> chave em <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com/app/apikey</a> — salva só no seu PC.
+      <strong>Local:</strong> templates sem internet.
+    </p>
+    <p>Processo completo: <code>../PROCESSO-VIDEOS-PH3A.md</code></p>
+  </footer>
+
+  <script src="config.local.js"></script>
+  <script src="gemini.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

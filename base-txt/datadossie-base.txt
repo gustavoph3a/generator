@@ -1,0 +1,72 @@
+================================================================================
+DATADOSSIÊ — BASE DE CONHECIMENTO (extraída PH3A)
+Uso: colar em outras IAs para roteiros, prompts e materiais do produto DataDossiê.
+Extraído de: PH3A_Base_de_Conhecimento_Completa 1.pdf (pasta video-novo)
+Conteúdo: apenas DataDossiê. Outros produtos do portfólio removidos.
+Nota: PDF completo não estava no workspace; texto consolidado do sumário PH3A + trechos extraídos.
+================================================================================
+
+DATADOSSIÊ
+DataDossiê
+BASE DE CONHECIMENTO - DATADOSSIÊ 1.0
+PH3A | Inteligência de Risco, Reputação e Compliance
+
+LINHA DE PRODUTO PH3A: Dossiês completos para inteligência cadastral e decisões seguras.
+
+SEÇÃO 1 -- VISÃO GERAL E PROPÓSITO
+O DataDossiê é a plataforma PH3A para consolidar inteligência de risco, reputação e
+compliance em dossiês analíticos sobre pessoas e empresas (PF/PJ), apoiando due
+diligence, onboarding, KYC e decisões que exigem profundidade sem perder velocidade.
+
+Além de perdas diretas com fraude e ilícitos, empresas acumulam passivo de sanções,
+multas e dano reputacional — especialmente em setores regulados. Muitas equipes fazem
+screening manual, consultas fragmentadas e lentas.
+
+O DataDossiê resolve o dilema estrutural entre velocidade e profundidade: processos
+lentos perdem negócio; processos superficiais aumentam risco.
+
+NÃO é só um bureau isolado. É visão integrada de risco e reputação para decidir com
+segurança, com dados do Big Data PH3A e trilha auditável.
+
+SEÇÃO 2 -- PROBLEMA DE MERCADO
+• Screening manual e fragmentado (várias fontes, planilhas, retrabalho).
+• Due diligence lenta bloqueia contratos e parcerias.
+• Risco reputacional e compliance descobertos tarde demais.
+• Falta de visão única: crédito, fraude, sanções, vínculos e mídia em silos.
+• Pressão regulatória (PLD/FT, KYC, ESG) sem processo padronizado.
+
+SEÇÃO 3 -- O QUE O DATADOSSIÊ ENTREGA
+• Dossiê unificado PF/PJ com centenas de atributos do Big Data brasileiro.
+• Camadas de risco, reputação, vínculos societários e sinais de alerta.
+• Apoio a decisões: aprovar, aprofundar análise, recusar ou monitorar.
+• Redução de tempo de análise versus processo 100% manual.
+• Evidência documental para auditoria e compliance.
+
+SEÇÃO 4 -- MÓDULOS / CAPACIDADES (VISÃO FUNCIONAL)
+• Consulta e montagem de dossiê cadastral.
+• Screening de listas, sanções e sinais reputacionais (sem dados sensíveis reais em demos).
+• Análise de vínculos PF/PJ e estrutura societária.
+• Score e indicadores de risco para priorização.
+• Exportação e integração com fluxos de crédito, fraude (DataFraud) e operações.
+
+SEÇÃO 5 -- DIFERENCIAIS PH3A
+• Big Data brasileiro: 215M pessoas, 25M empresas, 300+ atributos.
+• Profundidade local que ferramentas globais genéricas não cobrem bem.
+• Mesmo ecossistema PH3A (DataBusca enriquece; DataFraud decide; DataDossiê avalia risco/reputação).
+• Governança, LGPD e ISO 27001/27701.
+
+SEÇÃO 6 -- DIFERENÇA VISUAL (VÍDEO / MATERIAIS)
+• NÃO usar funil de marketing DataTag nem visitantes anônimos.
+• NÃO usar workflow antifraude Evento→Decisão como protagonista (é DataFraud).
+• NÃO focar só em enriquecimento de cadastro (é DataBusca).
+• USAR: dossiê/documento analítico, lupa, escudo compliance, vínculos, alertas discretos.
+
+SEÇÃO 7 -- MENSAGENS-CHAVE (VENDAS / VÍDEO)
+• "Decisão segura começa com visão completa."
+• "Menos screening manual. Mais inteligência cadastral."
+• "Risco, reputação e compliance em um só dossiê."
+• Tagline sugerida: "Inteligência de risco, reputação e compliance."
+
+SEÇÃO 8 -- PÚBLICO-ALVO
+Bancos, fintechs, seguradoras, varejo financeiro, B2B com onboarding de parceiros,
+compras M&A, compliance e jurídico.
