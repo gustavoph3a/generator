@@ -2223,6 +2223,8 @@ function renderNarrativeList() {
       selectedIndex = i;
       renderNarrativeList();
       $("btnExport").disabled = false;
+      const videoHint = $("videoExportHint");
+      if (videoHint) videoHint.textContent = "Pronto — vá à aba Vídeos ou clique em «Gerar arquivos .txt».";
       if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();
     });
     const btn = el.querySelector(".narrative-preview-btn");
@@ -2353,17 +2355,30 @@ function loadBaseFromInputs() {
   return { text, profile, productDisplay, tagline };
 }
 
-$("fileBase").addEventListener("change", async (e) => {
+function syncBaseManualDetails() {
+  const details = $("baseManualDetails");
+  if (!details) return;
+  const isDyn = typeof isStudioDynamic === "function" && isStudioDynamic();
+  const hasText = Boolean($("baseText")?.value.trim());
+  const hasFile = Boolean($("fileBase")?.files?.length);
+  if (isDyn || hasText || hasFile) details.open = true;
+  else details.open = false;
+}
+
+$("fileBase")?.addEventListener("change", async (e) => {
   const file = e.target.files?.[0];
   if (!file) return;
   const text = await file.text();
   $("baseText").value = text;
+  syncBaseManualDetails();
   const { profile, productDisplay, tagline } = loadBaseFromInputs();
   $("productProfile").value =
     $("productProfile").value === "auto" ? profile : $("productProfile").value;
   if (!$("productName").value) $("productName").value = productDisplay;
   if (!$("tagline").value) $("tagline").value = tagline;
 });
+
+$("baseText")?.addEventListener("input", syncBaseManualDetails);
 
 function getTextSource() {
   const el = document.querySelector('input[name="textSource"]:checked');
@@ -2536,11 +2551,11 @@ async function initBaseCatalog() {
     baseCatalog = fallback;
     if (hint) {
       hint.textContent =
-        "Abra via http://localhost:8080 para listar bases automaticamente — ou envie o .txt de base-txt/ manualmente.";
+        "Não encontrou o produto? Use «Entrada manual ou upload» abaixo com um .txt seu.";
     }
   }
 
-  select.innerHTML = '<option value="">— escolha o produto —</option>';
+  select.innerHTML = '<option value="">Escolhe o produto</option>';
   baseCatalog.forEach((b) => {
     const opt = document.createElement("option");
     opt.value = b.id;
@@ -2909,6 +2924,8 @@ window.Ph3aApp = {
     selectedIndex = -1;
     narrativeBatchCount = 0;
     $("btnExport").disabled = true;
+    const videoHint = $("videoExportHint");
+    if (videoHint) videoHint.textContent = "Selecione uma narrativa na aba Keyframes (§2) para habilitar.";
     outputFiles = [];
     renderNarrativeList();
     renderOutput();
@@ -2922,6 +2939,7 @@ window.Ph3aApp = {
     return "";
   },
   getAvatarStatus: () => (window.Ph3aAvatarState ? Ph3aAvatarState.getStatusShort() : { type: "cubo", label: "Avatar Cubo PH3A", detail: "CUBO-PH" }),
+  syncBaseManualDetails,
   refreshOutputs: () => {
     if (selectedIndex >= 0) buildOutputs();
     renderOutput({ noScroll: true });
@@ -2931,6 +2949,7 @@ window.Ph3aApp = {
 
 initApiUi();
 initBaseCatalog();
+syncBaseManualDetails();
 updateNarrativesButton();
 renderOutput();
 if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();

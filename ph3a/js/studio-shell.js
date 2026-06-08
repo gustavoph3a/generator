@@ -164,7 +164,10 @@
     });
 
     document.querySelectorAll('input[name="vertente"]').forEach(function (radio) {
-      radio.addEventListener("change", syncVideoModeCards);
+      radio.addEventListener("change", function () {
+        syncVideoModeCards();
+        if (window.Ph3aApp && Ph3aApp.refreshOutputs) Ph3aApp.refreshOutputs();
+      });
     });
   }
 

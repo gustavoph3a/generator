@@ -147,8 +147,166 @@ body.ph3a-stitch {
   max-width: 720px;
 }
 
+.ph3a-stitch .stitch-settings-modal {
+  max-width: 640px;
+}
+
+/* Modal config — fonte narrativas (grid 3 colunas) */
+.ph3a-stitch .settings-source-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  flex-direction: row !important;
+}
+
+.ph3a-stitch .settings-source-option {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.5rem;
+  min-height: 7.5rem;
+  padding: 1rem 0.65rem 0.85rem;
+  margin-bottom: 0;
+  border: 1px solid #5b4139;
+  border-radius: 0.75rem;
+  background: #20201f;
+  cursor: pointer;
+  text-align: center;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ph3a-stitch .settings-source-option:hover {
+  border-color: #aa8980;
+}
+
+.ph3a-stitch .settings-source-icon {
+  font-size: 1.75rem;
+  color: #aa8980;
+  line-height: 1;
+}
+
+.ph3a-stitch .settings-source-icon.is-filled {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.ph3a-stitch .settings-source-label {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #f5f1ea;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ph3a-stitch .settings-source-radio {
+  width: 1.125rem;
+  height: 1.125rem;
+  margin: 0;
+  accent-color: #fb5b28;
+  flex-shrink: 0;
+}
+
+.ph3a-stitch .settings-source-option:has(input:checked),
+.ph3a-stitch .settings-source-option.selected {
+  border: 2px solid #fb5b28 !important;
+  background: rgba(251, 91, 40, 0.1);
+  box-shadow: 0 0 0 1px rgba(251, 91, 40, 0.25);
+}
+
+.ph3a-stitch .settings-source-option:has(input:checked) .settings-source-icon,
+.ph3a-stitch .settings-source-option:has(input:checked) .settings-source-label,
+.ph3a-stitch .settings-source-option.selected .settings-source-icon,
+.ph3a-stitch .settings-source-option.selected .settings-source-label {
+  color: #fb5b28;
+}
+
+@media (max-width: 520px) {
+  .ph3a-stitch .settings-source-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ph3a-stitch .settings-source-option {
+    flex-direction: row !important;
+    min-height: auto;
+    padding: 0.875rem 1rem;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .ph3a-stitch .settings-source-label {
+    flex: 1;
+    justify-content: flex-start;
+    padding-left: 0.5rem;
+  }
+}
+
 .ph3a-stitch .section-heading-row {
   width: 100%;
+}
+
+/* Base do produto — entrada manual colapsável */
+.ph3a-stitch .base-preset-label {
+  color: #fb5b28;
+  font-weight: 600;
+}
+
+.ph3a-stitch .base-manual-details {
+  border-top: 1px solid #5b4139;
+  padding-top: 0.25rem;
+}
+
+.ph3a-stitch .base-manual-summary {
+  cursor: pointer;
+  color: #b8b5ae;
+  font-size: 0.9rem;
+  font-weight: 500;
+  user-select: none;
+  padding: 0.65rem 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.ph3a-stitch .base-manual-summary::-webkit-details-marker {
+  display: none;
+}
+
+.ph3a-stitch .base-manual-summary::before {
+  content: "›";
+  font-size: 1.1rem;
+  line-height: 1;
+  color: #aa8980;
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.ph3a-stitch .base-manual-details[open] .base-manual-summary::before {
+  transform: rotate(90deg);
+  color: #fb5b28;
+}
+
+.ph3a-stitch .base-manual-summary:hover {
+  color: #e5e2e1;
+}
+
+.ph3a-stitch .base-manual-details[open] .base-manual-summary {
+  color: #f5f1ea;
+}
+
+.ph3a-stitch .base-manual-inner {
+  padding: 0.25rem 0 0.5rem;
+}
+
+.ph3a-stitch.studio-mode-dynamic .base-manual-details {
+  border-top: none;
+  padding-top: 0;
+}
+
+.ph3a-stitch.studio-mode-dynamic .base-preset-block {
+  display: none;
 }
 
 /* Widgets legados — harmonizados */
@@ -774,9 +932,21 @@ body.ph3a-stitch {
   color: #fb5b28;
 }
 
+.ph3a-stitch .ph3a-mode-card {
+  display: block;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+
+.ph3a-stitch .ph3a-mode-card:hover {
+  border-color: #aa8980;
+}
+
+.ph3a-stitch .ph3a-mode-card:has(input:checked),
 .ph3a-stitch .ph3a-mode-card.is-selected {
   border: 2px solid #fb5b28;
   background: #2a221e;
+  box-shadow: 0 0 0 1px rgba(251, 91, 40, 0.25);
 }
 
 .ph3a-stitch .tabs button.active {

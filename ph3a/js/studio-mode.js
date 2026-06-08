@@ -72,6 +72,7 @@
     } else if (hint && typeof updateSourceHint === "function") {
       updateSourceHint();
     }
+    if (window.Ph3aApp && Ph3aApp.syncBaseManualDetails) Ph3aApp.syncBaseManualDetails();
   }
 
   function syncNarrativesButton() {

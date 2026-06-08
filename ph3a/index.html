@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PH3A Studio v2</title>
+  <link rel="shortcut icon" type="image/x-icon" href="https://ph3a.com.br/Content/site/images/favicon-ph3a.ico" />
+  <link rel="icon" type="image/x-icon" href="https://ph3a.com.br/Content/site/images/favicon-ph3a.ico" />
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script src="js/stitch-theme.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
@@ -258,32 +260,43 @@
             <button type="button" class="btn secondary shrink-0" id="btnBaseExample" data-studio-dynamic-only hidden>Exemplo</button>
           </div>
           <div class="stitch-card space-y-4">
-            <div data-studio-ph3a-only>
-            <label class="field block">
-              <span class="text-label-md text-on-surface-variant">Carregar base pronta (<code>base-txt/</code>)</span>
-              <div class="row align-end flex flex-wrap gap-2 mt-2">
-                <select id="basePreset" class="base-select flex-1 min-w-[200px] h-12 px-4">
-                  <option value="">— escolha o produto —</option>
-                </select>
-                <button type="button" class="btn primary" id="btnLoadPreset" disabled>Carregar base</button>
-              </div>
-            </label>
-            <p class="hint" id="basePresetHint">Requer <code>http://localhost:8080</code></p>
+            <div data-studio-ph3a-only class="base-preset-block">
+              <label class="field block">
+                <span class="base-preset-label text-label-md">Base de conhecimento</span>
+                <div class="row align-end flex flex-wrap gap-2 mt-2">
+                  <select id="basePreset" class="base-select flex-1 min-w-[200px] h-12 px-4">
+                    <option value="">Escolhe o produto</option>
+                  </select>
+                  <button type="button" class="btn primary" id="btnLoadPreset" disabled>Carregar base</button>
+                </div>
+              </label>
+              <p class="hint" id="basePresetHint">Não encontrou o produto? Use «Entrada manual ou upload» abaixo com um .txt seu.</p>
             </div>
             <div data-studio-dynamic-only hidden>
               <p class="hint mb-3">White label — envie ou cole a base do cliente (.txt). A IA analisa marca, paleta e metáforas visuais antes das narrativas.</p>
             </div>
-            <label class="field block"><span>Arquivo .txt (upload)</span><input type="file" id="fileBase" accept=".txt,text/plain" class="mt-2" /></label>
-            <label class="field block"><span>Ou cole a base</span><textarea id="baseText" rows="6" placeholder="Base do produto…" class="mt-2 w-full"></textarea></label>
-            <div data-studio-dynamic-only hidden class="space-y-3">
-              <button type="button" class="btn primary w-full sm:w-auto" id="btnAnalyzeBase">Carregar base</button>
-              <p class="hint dynamic-base-status" id="dynamicBaseStatus" aria-live="polite">Cole a base do cliente e clique em «Carregar base».</p>
-              <p class="hint dynamic-brand-summary" id="dynamicBrandSummary" hidden></p>
-              <div id="dynamicPalettePicker" class="dynamic-palette-picker" hidden>
-                <span class="text-label-sm text-tertiary uppercase tracking-wider block mb-3">Paleta sugerida (escolha uma)</span>
-                <div id="dynamicPaletteGrid" class="dynamic-palette-grid"></div>
+            <details id="baseManualDetails" class="base-manual-details">
+              <summary class="base-manual-summary">Entrada manual ou upload de arquivo (.txt)</summary>
+              <div class="base-manual-inner space-y-4">
+                <label class="field block">
+                  <span>Upload de arquivo</span>
+                  <input type="file" id="fileBase" accept=".txt,text/plain" class="mt-2 w-full" />
+                </label>
+                <label class="field block">
+                  <span>Colar base de dados</span>
+                  <textarea id="baseText" rows="6" placeholder="Cole o conteúdo aqui…" class="mt-2 w-full"></textarea>
+                </label>
+                <div data-studio-dynamic-only hidden class="space-y-3">
+                  <button type="button" class="btn primary w-full sm:w-auto" id="btnAnalyzeBase">Carregar base</button>
+                  <p class="hint dynamic-base-status" id="dynamicBaseStatus" aria-live="polite">Cole a base do cliente e clique em «Carregar base».</p>
+                  <p class="hint dynamic-brand-summary" id="dynamicBrandSummary" hidden></p>
+                  <div id="dynamicPalettePicker" class="dynamic-palette-picker" hidden>
+                    <span class="text-label-sm text-tertiary uppercase tracking-wider block mb-3">Paleta sugerida (escolha uma)</span>
+                    <div id="dynamicPaletteGrid" class="dynamic-palette-grid"></div>
+                  </div>
+                </div>
               </div>
-            </div>
+            </details>
             <div class="row flex flex-wrap gap-4">
               <label class="field flex flex-1 min-w-[180px]"><span>Produto (tela)</span><input type="text" id="productName" placeholder="NOME DO PRODUTO" /></label>
               <label class="field flex flex-1 min-w-[180px]"><span>Tagline (cena 4)</span><input type="text" id="tagline" placeholder="Frase pt-BR" /></label>
@@ -317,27 +330,10 @@
           </div>
         </section>
 
-        <section class="space-y-4">
-          <div class="flex items-center gap-4">
-            <span class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold shrink-0">3</span>
-            <h2 class="text-headline-md font-headline-md">Script Flow</h2>
-          </div>
-          <div class="stitch-card">
-            <div class="flex flex-col sm:flex-row gap-3 mb-4">
-              <label class="chip flex-1 flex items-center justify-center gap-2 cursor-pointer"><input type="radio" name="vertente" value="omni" checked /> Omni (~10s)</label>
-              <label class="chip flex-1 flex items-center justify-center gap-2 cursor-pointer"><input type="radio" name="vertente" value="extend" /> Extend (8s+8s)</label>
-            </div>
-            <div class="row flex flex-wrap gap-2">
-              <button type="button" class="btn primary" id="btnExport" disabled>Gerar arquivos .txt</button>
-              <button type="button" class="btn secondary" id="btnGoVideos">Ver roteiros → Vídeos</button>
-            </div>
-          </div>
-        </section>
-
         <section class="space-y-4" id="keyframesApiSection">
           <div class="flex items-center justify-between flex-wrap gap-4">
             <div class="flex items-center gap-4">
-              <span class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold shrink-0">5</span>
+              <span class="w-10 h-10 rounded-full bg-primary-container text-on-primary-container flex items-center justify-center font-bold shrink-0">3</span>
               <h2 class="text-headline-md font-headline-md">Keyframes por API</h2>
             </div>
           </div>
@@ -409,6 +405,12 @@
             </div>
           </div>
         </section>
+
+        <footer class="flex justify-end pt-2 pb-8">
+          <button type="button" class="btn primary px-8 py-3 flex items-center gap-2" id="btnGoVideos">
+            Ir para Vídeos <span class="material-symbols-outlined">arrow_forward</span>
+          </button>
+        </footer>
       </div>
     </div>
   </main>
@@ -422,7 +424,7 @@
             <span class="inline-block w-3 h-3 rounded-full bg-primary-container animate-pulse"></span>
             <h1 class="text-headline-lg font-headline-lg text-on-surface" id="videosAvatarBanner">Avatar Cubo PH3A — CUBO-PH</h1>
           </div>
-          <p class="text-on-surface-variant max-w-2xl font-body-md">Roteiros para Google Flow. Gere os <code>.txt</code> na aba Keyframes (§3).</p>
+          <p class="text-on-surface-variant max-w-2xl font-body-md">Roteiros para Google Flow — escolha Omni ou Extend, gere os <code>.txt</code> e copie para o Flow.</p>
         </div>
         <div class="absolute -right-20 -top-20 w-64 h-64 bg-primary-container opacity-10 rounded-full blur-[100px]"></div>
       </div>
@@ -430,29 +432,36 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
         <section class="lg:col-span-8 flex flex-col gap-gutter">
           <h2 class="text-headline-md font-headline-md text-on-surface px-2">Modo de Vídeo</h2>
-          <div class="ph3a-video-modes grid grid-cols-1 md:grid-cols-2 gap-gutter" id="videoModeCards">
-            <div class="ph3a-mode-card stitch-card group cursor-default" data-mode="omni">
+          <div class="ph3a-video-modes grid grid-cols-1 md:grid-cols-2 gap-gutter" id="videoModeCards" role="radiogroup" aria-label="Modo de vídeo no Flow">
+            <label class="ph3a-mode-card stitch-card group cursor-pointer is-selected" data-mode="omni">
+              <input type="radio" name="vertente" value="omni" checked class="sr-only" />
               <h3 class="text-headline-md font-headline-md mb-2">Omni</h3>
               <p class="text-on-surface-variant text-body-md mb-2">~10s · clipe único</p>
               <div class="flex items-center gap-2 text-primary font-label-md">
                 <span class="material-symbols-outlined text-sm">bolt</span> roteiro-flow.txt · v2
               </div>
-            </div>
-            <div class="ph3a-mode-card stitch-card group cursor-default" data-mode="extend">
+            </label>
+            <label class="ph3a-mode-card stitch-card group cursor-pointer" data-mode="extend">
+              <input type="radio" name="vertente" value="extend" class="sr-only" />
               <h3 class="text-headline-md font-headline-md mb-2">Extend</h3>
               <p class="text-on-surface-variant text-body-md mb-2">8s + 8s · keyframes sequenciais</p>
               <div class="flex items-center gap-2 text-primary font-label-md">
                 <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1">check_circle</span> split-1 · split-2
               </div>
-            </div>
+            </label>
           </div>
+
+          <div class="flex flex-wrap gap-2 px-2">
+            <button type="button" class="btn primary" id="btnExport" disabled>Gerar arquivos .txt</button>
+          </div>
+          <p class="hint px-2" id="videoExportHint">Selecione uma narrativa na aba Keyframes (§2) para habilitar.</p>
 
           <div class="stitch-card output-section mt-2" id="outputSection">
             <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
               <h2 class="text-headline-md font-headline-md text-on-surface">Script do Flow</h2>
               <span class="text-label-md text-on-surface-variant bg-surface-container-highest px-3 py-1 rounded-full border border-outline-variant">Apenas leitura</span>
             </div>
-            <p class="hint mb-4" id="outputEmptyHint">Gere os .txt na aba Keyframes após escolher narrativa.</p>
+            <p class="hint mb-4" id="outputEmptyHint">Escolha Omni ou Extend acima e clique em «Gerar arquivos .txt».</p>
             <div id="outputReady" class="output-ready" hidden>
               <div class="tabs flex bg-surface-container-high border-b border-outline-variant rounded-t-lg overflow-x-auto" id="outputTabs"></div>
               <p class="output-filename text-label-sm text-on-surface-variant px-2 py-2" id="outputFileName"></p>
@@ -500,7 +509,7 @@
 
   <!-- Modal (layout/stitch/settings-modal.html) -->
   <div id="settingsModal" class="stitch-modal-overlay" hidden>
-    <div class="stitch-modal" role="dialog" aria-labelledby="settingsModalTitle">
+    <div class="stitch-modal stitch-settings-modal" role="dialog" aria-labelledby="settingsModalTitle">
       <div class="flex justify-between items-center px-6 py-4 border-b border-outline-variant bg-surface-container">
         <h2 id="settingsModalTitle" class="text-headline-md font-headline-md text-on-surface">Configurações · API narrativas</h2>
         <button type="button" class="p-1 hover:bg-surface-container-highest rounded-full transition-colors text-on-surface-variant" id="btnCloseSettings" aria-label="Fechar">
@@ -509,18 +518,21 @@
       </div>
       <div class="p-6 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
         <p class="hint">Padrão recomendado: <strong>ChatGPT</strong>. Templates locais funcionam offline.</p>
-        <div class="mode-options grid grid-cols-1 gap-3">
-          <label class="mode-option flex items-center justify-between p-4 bg-surface-container border border-outline-variant rounded-lg cursor-pointer" id="modeLocalLabel">
-            <div class="flex items-center gap-3"><span class="material-symbols-outlined">storage</span><strong>Templates locais</strong></div>
-            <input type="radio" name="textSource" value="local" class="w-5 h-5 text-primary-container" />
+        <div class="settings-source-grid mode-options" role="radiogroup" aria-label="Fonte das narrativas">
+          <label class="settings-source-option mode-option" id="modeLocalLabel">
+            <span class="material-symbols-outlined settings-source-icon" aria-hidden="true">storage</span>
+            <span class="settings-source-label">Templates locais</span>
+            <input type="radio" name="textSource" value="local" class="settings-source-radio" />
           </label>
-          <label class="mode-option selected flex items-center justify-between p-4 bg-primary-container/10 border-2 border-primary-container rounded-lg cursor-pointer" id="modeOpenAiLabel">
-            <div class="flex items-center gap-3"><span class="material-symbols-outlined text-primary-container" style="font-variation-settings:'FILL' 1">bolt</span><strong>ChatGPT (OpenAI)</strong></div>
-            <input type="radio" name="textSource" value="openai" checked class="w-5 h-5 text-primary-container" />
+          <label class="settings-source-option mode-option selected" id="modeOpenAiLabel">
+            <span class="material-symbols-outlined settings-source-icon is-filled" aria-hidden="true">bolt</span>
+            <span class="settings-source-label">ChatGPT (OpenAI)</span>
+            <input type="radio" name="textSource" value="openai" checked class="settings-source-radio" />
           </label>
-          <label class="mode-option flex items-center justify-between p-4 bg-surface-container border border-outline-variant rounded-lg cursor-pointer" id="modeGeminiLabel">
-            <div class="flex items-center gap-3"><span class="material-symbols-outlined">auto_awesome</span><strong>Gemini</strong></div>
-            <input type="radio" name="textSource" value="gemini" class="w-5 h-5 text-primary-container" />
+          <label class="settings-source-option mode-option" id="modeGeminiLabel">
+            <span class="material-symbols-outlined settings-source-icon" aria-hidden="true">auto_awesome</span>
+            <span class="settings-source-label">Gemini</span>
+            <input type="radio" name="textSource" value="gemini" class="settings-source-radio" />
           </label>
         </div>
 
