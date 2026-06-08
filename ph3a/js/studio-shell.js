@@ -13,7 +13,6 @@
     var btnCustom = $("btnAvatarModeCustom");
     var btnCubo = document.querySelector('[data-avatar-mode="cubo"]');
     var thumb = $("navbarAvatarThumb");
-    var previewBtn = $("btnNavbarAvatarPreview");
     var kfBanner = $("kfAvatarBanner");
     var videosBanner = $("videosAvatarBanner");
 
@@ -42,12 +41,6 @@
         thumb.removeAttribute("src");
       }
     }
-    if (previewBtn) {
-      var canPreview =
-        Ph3aAvatarState.getMode() === "custom" && Boolean(Ph3aAvatarState.getChosenImageDataUrl());
-      previewBtn.hidden = !canPreview;
-    }
-
     var bannerText =
       st.type === "custom"
         ? st.label + (st.detail ? " — " + st.detail : "")
@@ -137,17 +130,12 @@
     if (modal) modal.hidden = false;
   }
 
-  function openAvatarPreview() {
-    openAvatarImagePreview();
-  }
-
   function closeAvatarPreview() {
     var modal = $("avatarPreviewModal");
     if (modal) modal.hidden = true;
   }
 
   function initAvatarPreviewModal() {
-    $("btnNavbarAvatarPreview")?.addEventListener("click", openAvatarPreview);
     $("btnCloseAvatarPreview")?.addEventListener("click", closeAvatarPreview);
     $("avatarPreviewModal")?.addEventListener("click", function (e) {
       if (e.target.id === "avatarPreviewModal") closeAvatarPreview();

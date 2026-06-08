@@ -174,31 +174,6 @@ body.ph3a-stitch {
   gap: 0.25rem;
 }
 
-.ph3a-stitch .navbar-avatar-preview-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 1.75rem;
-  height: 1.75rem;
-  padding: 0;
-  border: none;
-  border-radius: 999px;
-  background: transparent;
-  color: #e3beb4;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background 0.15s, color 0.15s;
-}
-
-.ph3a-stitch .navbar-avatar-preview-btn:hover {
-  background: #2a2928;
-  color: #f5f1ea;
-}
-
-.ph3a-stitch .navbar-avatar-preview-btn .material-symbols-outlined {
-  font-size: 1.125rem;
-}
-
 .ph3a-stitch .avatar-preview-modal {
   max-width: min(92vw, 560px);
 }
