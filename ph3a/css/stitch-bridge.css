@@ -170,6 +170,55 @@ body.ph3a-stitch {
   max-width: 640px;
 }
 
+.ph3a-stitch .navbar-avatar-chip {
+  gap: 0.25rem;
+}
+
+.ph3a-stitch .navbar-avatar-preview-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.75rem;
+  height: 1.75rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #e3beb4;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ph3a-stitch .navbar-avatar-preview-btn:hover {
+  background: #2a2928;
+  color: #f5f1ea;
+}
+
+.ph3a-stitch .navbar-avatar-preview-btn .material-symbols-outlined {
+  font-size: 1.125rem;
+}
+
+.ph3a-stitch .avatar-preview-modal {
+  max-width: min(92vw, 560px);
+}
+
+.ph3a-stitch .avatar-preview-body {
+  min-height: 200px;
+}
+
+.ph3a-stitch .avatar-preview-image {
+  display: block;
+  max-width: 100%;
+  max-height: min(70vh, 520px);
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.5rem;
+  border: 1px solid #5b4139;
+  background: #131313;
+}
+
 /* Modal config — fonte narrativas (grid 3 colunas) */
 .ph3a-stitch .settings-source-grid {
   display: grid;
@@ -1261,11 +1310,49 @@ body.ph3a-stitch {
   background: #1a1a1a;
 }
 
+.ph3a-stitch .avatar-preset-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.2rem;
+  width: 100%;
+  min-width: 0;
+}
+
 .ph3a-stitch .avatar-preset-label {
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--stitch-on-surface, #f5f1ea);
   line-height: 1.2;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ph3a-stitch .avatar-preset-preview-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  color: #e3beb4;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s, color 0.15s;
+}
+
+.ph3a-stitch .avatar-preset-preview-btn:hover {
+  background: #2a2928;
+  color: #f5f1ea;
+}
+
+.ph3a-stitch .avatar-preset-preview-btn .material-symbols-outlined {
+  font-size: 1rem;
 }
 
 .ph3a-stitch .avatar-preset-sub {

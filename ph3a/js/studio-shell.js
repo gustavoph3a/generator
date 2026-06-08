@@ -13,6 +13,7 @@
     var btnCustom = $("btnAvatarModeCustom");
     var btnCubo = document.querySelector('[data-avatar-mode="cubo"]');
     var thumb = $("navbarAvatarThumb");
+    var previewBtn = $("btnNavbarAvatarPreview");
     var kfBanner = $("kfAvatarBanner");
     var videosBanner = $("videosAvatarBanner");
 
@@ -40,6 +41,11 @@
         thumb.hidden = true;
         thumb.removeAttribute("src");
       }
+    }
+    if (previewBtn) {
+      var canPreview =
+        Ph3aAvatarState.getMode() === "custom" && Boolean(Ph3aAvatarState.getChosenImageDataUrl());
+      previewBtn.hidden = !canPreview;
     }
 
     var bannerText =
@@ -102,6 +108,55 @@
   function closeSettings() {
     var modal = $("settingsModal");
     if (modal) modal.hidden = true;
+  }
+
+  function openAvatarImagePreview(opts) {
+    var url = opts && opts.url;
+    var titleText = opts && opts.title;
+    var subtitleText = opts && opts.subtitle;
+    if (!url && window.Ph3aAvatarState) {
+      url = Ph3aAvatarState.getChosenImageDataUrl();
+      if (Ph3aAvatarState.getMode() === "custom" && url) {
+        var st = Ph3aAvatarState.getStatusShort();
+        titleText = st.label;
+        subtitleText = st.detail || "Avatar em uso nos keyframes";
+      }
+    }
+    if (!url) return;
+    var modal = $("avatarPreviewModal");
+    var img = $("avatarPreviewImage");
+    var titleEl = $("avatarPreviewModalTitle");
+    var subtitleEl = $("avatarPreviewSubtitle");
+    if (img) {
+      img.src = url;
+      img.alt =
+        (titleText || "Avatar") + (subtitleText ? " — " + subtitleText : "");
+    }
+    if (titleEl) titleEl.textContent = titleText || "Avatar";
+    if (subtitleEl) subtitleEl.textContent = subtitleText || "";
+    if (modal) modal.hidden = false;
+  }
+
+  function openAvatarPreview() {
+    openAvatarImagePreview();
+  }
+
+  function closeAvatarPreview() {
+    var modal = $("avatarPreviewModal");
+    if (modal) modal.hidden = true;
+  }
+
+  function initAvatarPreviewModal() {
+    $("btnNavbarAvatarPreview")?.addEventListener("click", openAvatarPreview);
+    $("btnCloseAvatarPreview")?.addEventListener("click", closeAvatarPreview);
+    $("avatarPreviewModal")?.addEventListener("click", function (e) {
+      if (e.target.id === "avatarPreviewModal") closeAvatarPreview();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      var modal = $("avatarPreviewModal");
+      if (modal && !modal.hidden) closeAvatarPreview();
+    });
   }
 
   function setAvatarMode(mode) {
@@ -176,6 +231,7 @@
     initTabs();
     initAvatarModeToggle();
     initSettingsModal();
+    initAvatarPreviewModal();
     initNavigationShortcuts();
     updateNavbarAvatar();
     syncVideoModeCards();
@@ -184,6 +240,9 @@
     });
 
   }
+
+  window.Ph3aStudioShell = window.Ph3aStudioShell || {};
+  window.Ph3aStudioShell.openAvatarImagePreview = openAvatarImagePreview;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

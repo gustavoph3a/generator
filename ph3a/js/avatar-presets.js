@@ -492,13 +492,17 @@
 
     items.forEach(function (item) {
 
-      var card = document.createElement("button");
+      var imageUrl = dir + (item.image || item.id + ".png");
 
-      card.type = "button";
+      var card = document.createElement("div");
 
       card.className = "avatar-preset-card avatar-team-card";
 
       card.setAttribute(attr, item.id);
+
+      card.setAttribute("role", "button");
+
+      card.tabIndex = 0;
 
 
 
@@ -508,7 +512,7 @@
 
       img.alt = item.label;
 
-      img.src = dir + (item.image || item.id + ".png");
+      img.src = imageUrl;
 
       img.onerror = function () {
 
@@ -518,11 +522,59 @@
 
 
 
+      var titleRow = document.createElement("div");
+
+      titleRow.className = "avatar-preset-label-row";
+
+
+
       var title = document.createElement("span");
 
       title.className = "avatar-preset-label";
 
       title.textContent = item.label;
+
+
+
+      var eyeBtn = document.createElement("button");
+
+      eyeBtn.type = "button";
+
+      eyeBtn.className = "avatar-preset-preview-btn";
+
+      eyeBtn.setAttribute("aria-label", "Ver " + item.label);
+
+      eyeBtn.title = "Ver avatar";
+
+      eyeBtn.innerHTML =
+
+        '<span class="material-symbols-outlined" aria-hidden="true">visibility</span>';
+
+      eyeBtn.addEventListener("click", function (e) {
+
+        e.stopPropagation();
+
+        if (window.Ph3aStudioShell && Ph3aStudioShell.openAvatarImagePreview) {
+
+          Ph3aStudioShell.openAvatarImagePreview({
+
+            url: imageUrl,
+
+            title: item.label,
+
+            subtitle: item.subtitle || "preset local",
+
+          });
+
+        }
+
+      });
+
+
+
+      titleRow.appendChild(title);
+
+      titleRow.appendChild(eyeBtn);
 
 
 
@@ -536,13 +588,25 @@
 
       card.appendChild(img);
 
-      card.appendChild(title);
+      card.appendChild(titleRow);
 
       card.appendChild(sub);
 
       card.addEventListener("click", function () {
 
         onPick(item.id);
+
+      });
+
+      card.addEventListener("keydown", function (e) {
+
+        if (e.key === "Enter" || e.key === " ") {
+
+          e.preventDefault();
+
+          onPick(item.id);
+
+        }
 
       });
 

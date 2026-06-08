@@ -39,8 +39,13 @@
     </nav>
 
     <div class="flex items-center gap-2 md:gap-4 shrink-0">
-      <img id="navbarAvatarThumb" class="w-8 h-8 rounded-full object-cover border border-primary-container" alt="" hidden />
-      <span id="navbarAvatarBadge" class="hidden lg:inline text-label-sm px-2 py-1 rounded-full stitch-badge-cubo max-w-[140px] truncate" title="Avatar em uso nos keyframes">Avatar Cubo PH3A</span>
+      <div class="navbar-avatar-chip flex items-center gap-1 min-w-0">
+        <img id="navbarAvatarThumb" class="w-8 h-8 rounded-full object-cover border border-primary-container shrink-0" alt="" hidden />
+        <span id="navbarAvatarBadge" class="hidden lg:inline text-label-sm px-2 py-1 rounded-full stitch-badge-cubo max-w-[140px] truncate" title="Avatar em uso nos keyframes">Avatar Cubo PH3A</span>
+        <button type="button" id="btnNavbarAvatarPreview" class="navbar-avatar-preview-btn" hidden aria-label="Ver avatar em tamanho maior" title="Ver avatar">
+          <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+        </button>
+      </div>
       <div class="stitch-mode-toggle hidden xl:flex gap-1">
         <button type="button" class="is-active" data-avatar-mode="cubo">Cubo PH3A</button>
         <button type="button" data-avatar-mode="custom" id="btnAvatarModeCustom" disabled>Personalizado</button>
@@ -506,6 +511,24 @@
       </div>
     </div>
   </main>
+
+  <!-- Modal — preview avatar ativo (navbar) -->
+  <div id="avatarPreviewModal" class="stitch-modal-overlay" hidden>
+    <div class="stitch-modal avatar-preview-modal" role="dialog" aria-labelledby="avatarPreviewModalTitle">
+      <div class="flex justify-between items-center px-6 py-4 border-b border-outline-variant bg-surface-container">
+        <div class="min-w-0 pr-4">
+          <h2 id="avatarPreviewModalTitle" class="text-headline-md font-headline-md text-on-surface m-0">Avatar ativo</h2>
+          <p class="hint mt-1 mb-0 truncate" id="avatarPreviewSubtitle"></p>
+        </div>
+        <button type="button" class="p-1 hover:bg-surface-container-highest rounded-full transition-colors text-on-surface-variant shrink-0" id="btnCloseAvatarPreview" aria-label="Fechar">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+      <div class="avatar-preview-body p-6 flex justify-center items-center bg-surface-container-low">
+        <img id="avatarPreviewImage" class="avatar-preview-image" alt="" />
+      </div>
+    </div>
+  </div>
 
   <!-- Modal (layout/stitch/settings-modal.html) -->
   <div id="settingsModal" class="stitch-modal-overlay" hidden>
