@@ -470,8 +470,8 @@ function avatarMouthNegativeTerms() {
 }
 
 const DEFAULT_TAGLINES = {
-  datatag: "Você não precisa de mais leads. Precisa dos certos.",
-  datafraud: "Executa sua política de risco.",
+  datatag: "Você não precisa de mais leads. Precisa dos leads certos.",
+  datafraud: "O DataFraud não decide pelo cliente. Ele executa a política do cliente.",
   databusca: "Dados completos. Decisões certas.",
   datadossie: "Inteligência de risco, reputação e compliance.",
   datacob: "Cobrança e crédito com dados que recuperam receita.",
@@ -499,18 +499,27 @@ function detectProfile(text) {
   return "generic";
 }
 
+function normalizeTaglineText(raw) {
+  return String(raw || "")
+    .replace(/^["“]|["”]$/g, "")
+    .replace(/\s+/g, " ")
+    .replace(/([.!?])([A-ZÀ-Ú])/g, "$1 $2")
+    .trim();
+}
+
 function extractTagline(text) {
   const patterns = [
-    /SLOGAN[^:]*:\s*["“]([^"”]+)["”]/i,
-    /tagline[^:]*:\s*["“]([^"”]+)["”]/i,
-    /["“]([^"”]{12,90})["”]\s*(?:VALORES|SEÇÃO|$)/i,
+    /MENSAGEM CENTRAL[^:]*:\s*["“]([\s\S]+?)["”]/i,
+    /SLOGAN[^:]*:\s*["“]([\s\S]+?)["”]/i,
+    /tagline[^:]*:\s*["“]([\s\S]+?)["”]/i,
+    /["“]([^"”]{12,90})["”]\s*(?:VALORES|SEÇÃO|$)/im,
     /Precisa dos leads certos/i,
   ];
   for (const p of patterns) {
     const m = text.match(p);
     if (m) {
-      const s = (m[1] || m[0]).trim();
-      if (s.length > 10 && s.length < 120) return s.replace(/^["“]|["”]$/g, "");
+      const s = normalizeTaglineText(m[1] || m[0]);
+      if (s.length > 10 && s.length < 120) return s;
     }
   }
   if (/precisa dos certos/i.test(text)) return DEFAULT_TAGLINES.datatag;
@@ -2340,15 +2349,20 @@ function downloadFile(name, content) {
   URL.revokeObjectURL(a.href);
 }
 
-function loadBaseFromInputs() {
+function loadBaseFromInputs(opts) {
+  const resetFromText = Boolean(opts && opts.resetFromText);
   const text = $("baseText").value.trim();
   const profileSelect = $("productProfile").value;
   const profile =
     profileSelect === "auto" ? detectProfile(text) : profileSelect;
   const productDisplay = displayName(
-    $("productName").value.trim() || extractProductName(text, "")
+    resetFromText
+      ? extractProductName(text, "")
+      : $("productName").value.trim() || extractProductName(text, "")
   );
-  let tagline = $("tagline").value.trim() || extractTagline(text);
+  let tagline = resetFromText
+    ? extractTagline(text)
+    : $("tagline").value.trim() || extractTagline(text);
   if (!tagline) tagline = DEFAULT_TAGLINES[profile] || DEFAULT_TAGLINES.generic;
   $("productName").value = productDisplay;
   $("tagline").value = tagline;
@@ -2371,11 +2385,9 @@ $("fileBase")?.addEventListener("change", async (e) => {
   const text = await file.text();
   $("baseText").value = text;
   syncBaseManualDetails();
-  const { profile, productDisplay, tagline } = loadBaseFromInputs();
+  const { profile } = loadBaseFromInputs({ resetFromText: true });
   $("productProfile").value =
     $("productProfile").value === "auto" ? profile : $("productProfile").value;
-  if (!$("productName").value) $("productName").value = productDisplay;
-  if (!$("tagline").value) $("tagline").value = tagline;
 });
 
 $("baseText")?.addEventListener("input", syncBaseManualDetails);
@@ -2578,7 +2590,7 @@ async function loadPresetBase(id) {
     const text = await res.text();
     $("baseText").value = text;
     $("productProfile").value = item.profile;
-    loadBaseFromInputs();
+    loadBaseFromInputs({ resetFromText: true });
     if (hint) hint.textContent = "Base carregada: " + item.label + " — " + item.file;
   } catch (e) {
     if (hint) hint.textContent = e.message || String(e);

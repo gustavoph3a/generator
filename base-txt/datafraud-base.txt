@@ -48,8 +48,7 @@ estrutural: recebe evento, aplica modelo proprietário, devolve resultado.
 O DataFraud inverte o paradigma: não decide pelo cliente — executa a política de risco
 do cliente em antifraude, crédito e monitoramento.
 
-MENSAGEM CENTRAL: "O DataFraud não decide pelo cliente. Ele executa a política do
-cliente."
+MENSAGEM CENTRAL: "O DataFraud não decide pelo cliente. Ele executa a política do cliente."
 
 SEÇÃO 4 -- COMO FUNCIONA (WORKFLOW)
 Núcleo: workflow decisório (esteira de etapas), não decisão única por score.

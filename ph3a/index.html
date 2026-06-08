@@ -17,7 +17,8 @@
 <body class="ph3a-stitch bg-background text-on-background font-body-md min-h-screen pb-16">
 
   <!-- TopNavBar (layout/stitch) -->
-  <header class="fixed top-0 w-full h-nav_height z-50 bg-background border-b border-outline-variant flex justify-between items-center px-4 md:px-margin_desktop gap-2">
+  <header class="fixed top-0 w-full h-nav_height z-50 bg-background border-b border-outline-variant">
+    <div class="studio-header-inner">
     <a href="index.html" id="studioBrandLink" class="studio-brand shrink-0 no-underline" aria-label="PH3A Studio — início">
       <img
         id="studioBrandLogo"
@@ -47,6 +48,7 @@
       <button type="button" id="btnOpenSettings" class="p-2 rounded-full text-on-surface-variant hover:bg-surface-container-high transition-colors" title="API narrativas">
         <span class="material-symbols-outlined">settings</span>
       </button>
+    </div>
     </div>
   </header>
 
@@ -340,7 +342,7 @@
           <div class="stitch-card space-y-4">
             <p class="hint" id="kfApiNarrativeHint">Selecione narrativa no §2.</p>
             <div class="mascot-drop border-2 border-dashed border-outline-variant rounded-xl p-6 bg-surface-container-low" id="mascotDropZone">
-              <p class="mascot-drop-label text-center text-on-surface-variant mb-3">Referência visual do avatar (auto se personalizado; ou arraste fotos do cubo)</p>
+              <p class="mascot-drop-label text-center text-on-surface-variant mb-3">Referência visual do avatar (opcional — arraste ou escolha arquivos)</p>
               <input type="file" id="mascotFileInput" accept="image/png,image/jpeg,image/webp" multiple hidden />
               <div class="flex justify-center"><button type="button" class="btn secondary mascot-pick-btn" id="btnMascotPick">Escolher arquivos</button></div>
               <div class="mascot-thumbs mt-4" id="mascotThumbs"></div>

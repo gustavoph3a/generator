@@ -21,20 +21,6 @@
     return ($("openaiApiKey") && $("openaiApiKey").value.trim()) || "";
   }
 
-  function syncMascotFromAvatarState() {
-    if (!window.Ph3aAvatarState) return;
-    if (Ph3aAvatarState.getMode() === "custom" && Ph3aAvatarState.hasCustomAvatar()) {
-      const url = Ph3aAvatarState.getChosenImageDataUrl();
-      mascotFiles.length = 0;
-      if (url) {
-        mascotFiles.push({ name: "avatar-sheet.png", dataUrl: url });
-      }
-      renderMascotThumbs();
-      return;
-    }
-    if (!mascotFiles.length) loadDefaultMascots();
-  }
-
   function avatarHintSuffix() {
     if (!window.Ph3aAvatarState) return "";
     const s = Ph3aAvatarState.getStatusShort();
@@ -42,7 +28,6 @@
   }
 
   function refresh() {
-    syncMascotFromAvatarState();
     const n = window.Ph3aApp && Ph3aApp.getSelectedNarrative();
     const hint = $("kfApiNarrativeHint");
     const section = $("keyframesApiSection");
@@ -211,32 +196,6 @@
     return getPrompt(num);
   }
 
-  function assetPath(p) {
-    return (window.PH3A_ASSET_BASE || "") + p;
-  }
-
-  async function loadDefaultMascots() {
-    if (mascotFiles.length) return;
-    const names = ["mascot_1.jpeg", "mascot_2.jpeg", "mascot_3.jpeg", "mascot_4.jpeg"];
-    for (const name of names) {
-      try {
-        const res = await fetch(assetPath("mascot-base/" + name));
-        if (!res.ok) continue;
-        const blob = await res.blob();
-        const dataUrl = await readFileAsDataUrl(
-          new File([blob], name, { type: blob.type || "image/jpeg" })
-        );
-        mascotFiles.push({ name: name, dataUrl: dataUrl });
-      } catch {
-        /* file:// ou pasta ausente */
-      }
-    }
-    if (mascotFiles.length) {
-      renderMascotThumbs();
-      setKfStatus(mascotFiles.length + " referência(s) carregadas de mascot-base/.");
-    }
-  }
-
   async function generateOne(num) {
     const apiKey = getKey();
     if (!apiKey) {
@@ -268,7 +227,7 @@
       setKfStatus(
         "KEYFRAME " +
           num +
-          " — sem fotos: só texto (generations). Arraste mascot-base ou as 4 JPEGs.",
+          " — sem fotos: só texto (generations). Adicione referências na zona acima, se quiser.",
         false
       );
     } else {
