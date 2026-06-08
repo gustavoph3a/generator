@@ -42,9 +42,13 @@
     var btnCustom = $("btnAvatarModeCustom");
     var btnCubo = document.querySelector('[data-avatar-mode="cubo"]');
     var thumb = $("navbarAvatarThumb");
+    var chip = document.querySelector(".navbar-avatar-chip");
     var kfBanner = $("kfAvatarBanner");
     var videosBanner = $("videosAvatarBanner");
 
+    if (chip) {
+      chip.hidden = st.type === "unset";
+    }
     if (badge) {
       badge.textContent = st.label;
       badge.title = st.detail;
@@ -54,9 +58,7 @@
       badge.classList.toggle("stitch-badge-custom", st.type === "custom");
       badge.classList.toggle("stitch-badge-cubo", st.type === "cubo");
       badge.classList.toggle("stitch-badge-unset", st.type === "unset");
-      if (st.type === "unset") {
-        badge.classList.remove("hidden", "lg:inline");
-      } else {
+      if (st.type !== "unset") {
         badge.classList.add("hidden", "lg:inline");
       }
     }
@@ -78,11 +80,9 @@
       }
     }
     var bannerText =
-      st.type === "custom"
+      st.type === "unset"
         ? st.label + (st.detail ? " — " + st.detail : "")
-        : st.type === "cubo"
-          ? "Avatar Cubo PH3A — CUBO-PH"
-          : st.label + (st.detail ? " — " + st.detail : "");
+        : st.label;
     if (kfBanner) {
       kfBanner.textContent = bannerText;
       kfBanner.classList.toggle("is-custom", st.type === "custom");
@@ -90,8 +90,7 @@
       kfBanner.classList.toggle("is-unset", st.type === "unset");
     }
     if (videosBanner) {
-      videosBanner.textContent =
-        st.type === "custom" ? st.label : st.type === "cubo" ? "Avatar Cubo PH3A" : st.label;
+      videosBanner.textContent = st.label;
     }
   }
 

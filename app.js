@@ -2950,7 +2950,10 @@ window.Ph3aApp = {
     if (typeof window.PH3A_OPENAI_KEY_DEFAULT === "string") return window.PH3A_OPENAI_KEY_DEFAULT;
     return "";
   },
-  getAvatarStatus: () => (window.Ph3aAvatarState ? Ph3aAvatarState.getStatusShort() : { type: "cubo", label: "Avatar Cubo PH3A", detail: "CUBO-PH" }),
+  getAvatarStatus: () =>
+    window.Ph3aAvatarState
+      ? Ph3aAvatarState.getStatusShort()
+      : { type: "cubo", label: "Avatar: Cubo", detail: "CUBO-PH" },
   syncBaseManualDetails,
   refreshOutputs: () => {
     if (selectedIndex >= 0) buildOutputs();

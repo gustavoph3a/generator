@@ -104,6 +104,21 @@
     }
   }
 
+  function shortAvatarName(ctx) {
+    if (!ctx) return "";
+    var raw = ctx.presetLabel || ctx.presetId || "";
+    var short = String(raw).split("·")[0].trim();
+    if (short) return short;
+    if (ctx.profile && ctx.profile.name) {
+      return String(ctx.profile.name).replace(/-PH$/i, "");
+    }
+    return raw;
+  }
+
+  function avatarNavLabel(name) {
+    return "Avatar: " + name;
+  }
+
   function getStatusShort() {
     if (getMode() === "unset") {
       return {
@@ -114,15 +129,14 @@
     }
     var ctx = getProfileCtx();
     if (ctx && ctx.presetId && getChosenImageDataUrl()) {
-      var presetPrefix = ctx.presetSource === "team" ? "PH3A Team" : "Preset";
       return {
         type: "custom",
-        label: presetPrefix + ": " + (ctx.presetLabel || ctx.presetId),
+        label: avatarNavLabel(shortAvatarName(ctx)),
         detail: (ctx.profile && ctx.profile.name) || "avatar local",
       };
     }
     if (getMode() === "cubo") {
-      return { type: "cubo", label: "Avatar Cubo PH3A", detail: "Padrão PH3A · CUBO-PH" };
+      return { type: "cubo", label: avatarNavLabel("Cubo"), detail: "Padrão PH3A · CUBO-PH" };
     }
     if (!hasCustomAvatar()) {
       return {
@@ -131,12 +145,12 @@
         detail: "PH3A Team, Mascotes ou Cubo PH3A",
       };
     }
-    var name = getCharacterName();
+    var name = getCharacterName().replace(/-PH$/i, "");
     var v = getChosenVariant();
     return {
       type: "custom",
-      label: "Avatar personalizado definido",
-      detail: name + (v ? " · Variante " + v : ""),
+      label: avatarNavLabel(name),
+      detail: getCharacterName() + (v ? " · Variante " + v : ""),
     };
   }
 
