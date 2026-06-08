@@ -61,7 +61,7 @@
         <section class="stitch-card avatar-picker-v2 p-0 overflow-hidden" id="avatarPickerV2">
           <div class="avatar-picker-v2-header flex items-center justify-between px-6 py-4 bg-surface-container border-b border-outline-variant">
             <h2 class="text-label-md font-headline-md text-on-surface m-0">Escolha um Avatar</h2>
-            <button type="button" class="btn secondary avatar-preset-reset shrink-0" id="btnResetAvatarV2" title="Restaura o preset padrão (Dalvani) nos Keyframes">
+            <button type="button" class="btn secondary avatar-preset-reset shrink-0" id="btnResetAvatarV2" title="Remove a seleção de avatar">
               Reset avatar
             </button>
           </div>
@@ -683,5 +683,10 @@
   <script src="js/studio-mode.js"></script>
   <script src="js/narrative-preview.js"></script>
   <script src="js/studio-shell.js"></script>
+
+  <div id="studioToast" class="studio-toast" hidden role="status" aria-live="polite">
+    <span class="material-symbols-outlined studio-toast-icon" aria-hidden="true">warning</span>
+    <span class="studio-toast-text" id="studioToastText"></span>
+  </div>
 </body>
 </html>

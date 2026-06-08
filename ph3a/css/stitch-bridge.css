@@ -102,6 +102,64 @@ body.ph3a-stitch {
   padding: 1.5rem;
 }
 
+.stitch-badge-unset {
+  background: #2a2928;
+  color: #c9c6c5;
+  border: 1px dashed #5b4139;
+}
+
+.studio-toast {
+  position: fixed;
+  top: calc(56px + 0.75rem);
+  right: 1rem;
+  left: auto;
+  z-index: 300;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  max-width: min(92vw, 360px);
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  background: linear-gradient(135deg, #fb5b28 0%, #e94e1b 100%);
+  border: 1px solid #ff8a5c;
+  color: #fff8f5;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.4;
+  text-align: left;
+  box-shadow:
+    0 8px 24px rgba(233, 78, 27, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset;
+  transform: translateY(-10px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.studio-toast-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  color: #fff8f5;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+
+.studio-toast-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.studio-toast.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
+  .studio-toast {
+    right: max(1rem, calc((100vw - 1300px) / 2 + 1rem));
+  }
+}
+
 .stitch-badge-cubo {
   background: #2a2a2a;
   color: #e5e2e1;
@@ -112,6 +170,10 @@ body.ph3a-stitch {
   background: #3a2010;
   color: #ffd4c0;
   border: 1px solid #fb5b28;
+}
+
+.ph3a-stitch .stitch-mode-toggle {
+  display: none !important;
 }
 
 .stitch-mode-toggle button {

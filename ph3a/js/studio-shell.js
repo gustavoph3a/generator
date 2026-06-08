@@ -6,6 +6,35 @@
     return document.getElementById(id);
   };
 
+  var toastTimer = null;
+
+  function showStudioToast(message) {
+    var el = $("studioToast");
+    var textEl = $("studioToastText");
+    if (!el) return;
+    if (textEl) textEl.textContent = message || "";
+    else el.textContent = message || "";
+    el.hidden = false;
+    el.classList.add("is-visible");
+    if (toastTimer) clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () {
+      el.classList.remove("is-visible");
+      el.hidden = true;
+    }, 4200);
+  }
+
+  function tabRequiresAvatar(tabId) {
+    return tabId === "keyframes" || tabId === "videos";
+  }
+
+  function canOpenTab(tabId) {
+    if (!tabRequiresAvatar(tabId)) return true;
+    if (!window.Ph3aAvatarState || !Ph3aAvatarState.hasActiveAvatar) return true;
+    if (Ph3aAvatarState.hasActiveAvatar()) return true;
+    showStudioToast("Selecione um avatar na aba Avatar.");
+    return false;
+  }
+
   function updateNavbarAvatar() {
     if (!window.Ph3aAvatarState) return;
     var st = Ph3aAvatarState.getStatusShort();
@@ -21,8 +50,15 @@
       badge.title = st.detail;
       badge.classList.toggle("is-custom", st.type === "custom");
       badge.classList.toggle("is-cubo", st.type === "cubo");
+      badge.classList.toggle("is-unset", st.type === "unset");
       badge.classList.toggle("stitch-badge-custom", st.type === "custom");
       badge.classList.toggle("stitch-badge-cubo", st.type === "cubo");
+      badge.classList.toggle("stitch-badge-unset", st.type === "unset");
+      if (st.type === "unset") {
+        badge.classList.remove("hidden", "lg:inline");
+      } else {
+        badge.classList.add("hidden", "lg:inline");
+      }
     }
     if (btnCustom) {
       btnCustom.disabled = !Ph3aAvatarState.hasCustomAvatar();
@@ -44,14 +80,18 @@
     var bannerText =
       st.type === "custom"
         ? st.label + (st.detail ? " — " + st.detail : "")
-        : "Avatar Cubo PH3A — CUBO-PH";
+        : st.type === "cubo"
+          ? "Avatar Cubo PH3A — CUBO-PH"
+          : st.label + (st.detail ? " — " + st.detail : "");
     if (kfBanner) {
       kfBanner.textContent = bannerText;
       kfBanner.classList.toggle("is-custom", st.type === "custom");
       kfBanner.classList.toggle("is-cubo", st.type === "cubo");
+      kfBanner.classList.toggle("is-unset", st.type === "unset");
     }
     if (videosBanner) {
-      videosBanner.textContent = st.type === "custom" ? st.label : "Avatar Cubo PH3A";
+      videosBanner.textContent =
+        st.type === "custom" ? st.label : st.type === "cubo" ? "Avatar Cubo PH3A" : st.label;
     }
   }
 
@@ -75,6 +115,7 @@
   }
 
   function setActiveTab(tabId) {
+    if (!canOpenTab(tabId)) return;
     updateStitchTabStyles(tabId);
     document.querySelectorAll(".v2-panel, .stitch-panel").forEach(function (panel) {
       var isActive = panel.getAttribute("data-panel") === tabId;
@@ -173,6 +214,14 @@
     } catch {
       /* ignore */
     }
+    if (
+      tabRequiresAvatar(saved) &&
+      window.Ph3aAvatarState &&
+      Ph3aAvatarState.hasActiveAvatar &&
+      !Ph3aAvatarState.hasActiveAvatar()
+    ) {
+      saved = "avatar";
+    }
     setActiveTab(saved);
   }
 
@@ -231,6 +280,7 @@
 
   window.Ph3aStudioShell = window.Ph3aStudioShell || {};
   window.Ph3aStudioShell.openAvatarImagePreview = openAvatarImagePreview;
+  window.Ph3aStudioShell.showToast = showStudioToast;
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", init);

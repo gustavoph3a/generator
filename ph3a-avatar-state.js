@@ -18,9 +18,9 @@
 
   function getMode() {
     try {
-      return global.localStorage.getItem(MODE_KEY) || "cubo";
+      return global.localStorage.getItem(MODE_KEY) || "unset";
     } catch {
-      return "cubo";
+      return "unset";
     }
   }
 
@@ -53,6 +53,13 @@
 
   function hasCustomAvatar() {
     return Boolean(getProfileCtx() && getProfileCtx().profile && getChosenImageDataUrl());
+  }
+
+  function hasActiveAvatar() {
+    var mode = getMode();
+    if (mode === "cubo") return true;
+    if (mode === "custom") return hasCustomAvatar();
+    return false;
   }
 
   function saveCustomAvatar(ctx, variant, imageDataUrl, outputText) {
@@ -98,6 +105,13 @@
   }
 
   function getStatusShort() {
+    if (getMode() === "unset") {
+      return {
+        type: "unset",
+        label: "Selecione um avatar",
+        detail: "PH3A Team, Mascotes ou Cubo PH3A",
+      };
+    }
     var ctx = getProfileCtx();
     if (ctx && ctx.presetId && getChosenImageDataUrl()) {
       var presetPrefix = ctx.presetSource === "team" ? "PH3A Team" : "Preset";
@@ -107,8 +121,15 @@
         detail: (ctx.profile && ctx.profile.name) || "avatar local",
       };
     }
-    if (getMode() === "cubo" || !hasCustomAvatar()) {
+    if (getMode() === "cubo") {
       return { type: "cubo", label: "Avatar Cubo PH3A", detail: "Padrão PH3A · CUBO-PH" };
+    }
+    if (!hasCustomAvatar()) {
+      return {
+        type: "unset",
+        label: "Selecione um avatar",
+        detail: "PH3A Team, Mascotes ou Cubo PH3A",
+      };
     }
     var name = getCharacterName();
     var v = getChosenVariant();
@@ -127,17 +148,21 @@
     }
   }
 
-  function clearCustomAvatar() {
+  function clearAvatarSelection() {
     try {
       global.localStorage.removeItem(PROFILE_KEY);
       global.localStorage.removeItem(CHOSEN_KEY);
       global.localStorage.removeItem(IMAGE_KEY);
       global.localStorage.removeItem(OUTPUT_KEY);
-      global.localStorage.setItem(MODE_KEY, "cubo");
+      global.localStorage.setItem(MODE_KEY, "unset");
     } catch {
       /* ignore */
     }
     dispatchChange();
+  }
+
+  function clearCustomAvatar() {
+    clearAvatarSelection();
   }
 
   global.Ph3aAvatarState = {
@@ -146,6 +171,7 @@
     getProfileCtx: getProfileCtx,
     getChosenImageDataUrl: getChosenImageDataUrl,
     hasCustomAvatar: hasCustomAvatar,
+    hasActiveAvatar: hasActiveAvatar,
     saveCustomAvatar: saveCustomAvatar,
     getIdentityBlock: getIdentityBlock,
     getCharacterName: getCharacterName,
@@ -154,5 +180,6 @@
     getStatusShort: getStatusShort,
     getOutputText: getOutputText,
     clearCustomAvatar: clearCustomAvatar,
+    clearAvatarSelection: clearAvatarSelection,
   };
 })(typeof window !== "undefined" ? window : globalThis);
