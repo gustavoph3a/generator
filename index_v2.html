@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PH3A Studio — Avatar + Keyframes</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body class="v2-body">
+  <nav class="v2-topbar">
+    <a class="v2-logo" href="index_v2.html">PH3A Studio</a>
+
+    <div class="v2-tabnav" role="tablist">
+      <button type="button" class="v2-tab-btn is-active" data-tab="avatar" role="tab">Avatar</button>
+      <button type="button" class="v2-tab-btn" data-tab="keyframes" role="tab">Keyframes</button>
+    </div>
+
+    <div class="v2-topbar-center">
+      <img id="navbarAvatarThumb" class="v2-navbar-thumb" alt="" hidden />
+      <span id="navbarAvatarBadge" class="v2-avatar-badge is-cubo" title="Avatar em uso nos keyframes">
+        Avatar Cubo PH3A
+      </span>
+      <div class="v2-avatar-toggle">
+        <button type="button" class="v2-mode-btn is-active" data-avatar-mode="cubo">Cubo PH3A</button>
+        <button type="button" class="v2-mode-btn" data-avatar-mode="custom" id="btnAvatarModeCustom" disabled>
+          Personalizado
+        </button>
+      </div>
+    </div>
+
+    <button type="button" class="v2-gear-btn" id="btnOpenSettings" title="API (Templates / ChatGPT / Gemini)">⚙</button>
+  </nav>
+
+  <!-- —— Aba Avatar —— -->
+  <main id="panelAvatar" class="v2-panel layout layout-narrow is-active" data-panel="avatar">
+    <section class="card">
+      <h2>Criar avatar</h2>
+      <p class="hint">
+        Referências (arraste, arquivos ou Ctrl+V). Paleta PH3A ou custom. Escolha 2D ou 3D.
+        Só envia à API ao clicar <strong>Gerar avatar</strong>.
+      </p>
+    </section>
+
+    <section class="card">
+      <h2>Referências</h2>
+      <div class="mascot-drop avatar-ref-zone" id="avatarRefZone" tabindex="0">
+        <p class="mascot-drop-label">Solte aqui ou cole (Ctrl+V) · PNG/JPEG/WebP</p>
+        <input type="file" id="avatarFileInput" accept="image/png,image/jpeg,image/webp" multiple hidden />
+        <div class="row">
+          <button type="button" class="btn secondary" id="btnPickRefs">Escolher arquivos</button>
+          <button type="button" class="btn secondary" id="btnClearRefs">Limpar refs</button>
+        </div>
+        <div class="mascot-thumbs" id="avatarRefThumbs"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>Paleta e estilo</h2>
+      <fieldset class="avatar-fieldset">
+        <legend class="avatar-legend">Paleta</legend>
+        <label class="mode-option avatar-radio">
+          <input type="radio" name="paletteMode" value="ph3a" checked />
+          <strong>Paleta PH3A</strong>
+          <span>Charcoal · Laranja #E94E1B · Cream #F5F1EA</span>
+        </label>
+        <label class="mode-option avatar-radio">
+          <input type="radio" name="paletteMode" value="custom" />
+          <strong>Customizada</strong>
+        </label>
+        <div id="paletteCustomFields" class="avatar-palette-custom" hidden>
+          <div class="row avatar-color-row">
+            <label class="field field-inline">
+              <span>Primária</span>
+              <input type="color" id="colorPrimary" value="#1a1a1a" />
+            </label>
+            <label class="field field-inline">
+              <span>Acento</span>
+              <input type="color" id="colorAccent" value="#E94E1B" />
+            </label>
+            <label class="field field-inline">
+              <span>Claros</span>
+              <input type="color" id="colorText" value="#F5F1EA" />
+            </label>
+          </div>
+          <label class="field">
+            <span>Notas (opcional)</span>
+            <input type="text" id="paletteNotes" placeholder="ex.: acento só em bordas" />
+          </label>
+        </div>
+      </fieldset>
+      <fieldset class="avatar-fieldset">
+        <legend class="avatar-legend">Render</legend>
+        <div class="row avatar-render-row">
+          <label class="mode-option avatar-radio">
+            <input type="radio" name="renderMode" value="2d" checked />
+            <strong>2D flat PH3A</strong>
+          </label>
+          <label class="mode-option avatar-radio">
+            <input type="radio" name="renderMode" value="3d" />
+            <strong>3D estilizado</strong>
+          </label>
+        </div>
+      </fieldset>
+      <div class="row avatar-generate-row">
+        <button type="button" class="btn primary" id="btnGenerateAvatar" disabled>Gerar avatar (A / B)</button>
+      </div>
+      <p class="hint avatar-status" id="avatarStatus" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>Variantes A / B</h2>
+      <div class="avatar-variants-grid">
+        <div class="avatar-variant-slot is-idle" data-variant="A">
+          <h3 class="avatar-variant-title">Variante A</h3>
+          <div class="avatar-variant-frame">
+            <div class="avatar-variant-placeholder">Aguardando</div>
+            <img class="avatar-variant-img" alt="Variante A" />
+          </div>
+          <div class="row avatar-variant-actions">
+            <button type="button" class="btn secondary avatar-variant-pick" data-pick="A" disabled>Usar esta</button>
+            <button type="button" class="btn secondary avatar-variant-download" hidden>Baixar</button>
+          </div>
+        </div>
+        <div class="avatar-variant-slot is-idle" data-variant="B">
+          <h3 class="avatar-variant-title">Variante B</h3>
+          <div class="avatar-variant-frame">
+            <div class="avatar-variant-placeholder">Aguardando</div>
+            <img class="avatar-variant-img" alt="Variante B" />
+          </div>
+          <div class="row avatar-variant-actions">
+            <button type="button" class="btn secondary avatar-variant-pick" data-pick="B" disabled>Usar esta</button>
+            <button type="button" class="btn secondary avatar-variant-download" hidden>Baixar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card full" id="avatarOutputSection" hidden>
+      <h2>Profile para keyframes</h2>
+      <p class="hint">Substitui CUBO_PH nos prompts quando «Personalizado» estiver ativo na barra.</p>
+      <div class="row">
+        <button type="button" class="btn primary" id="btnCopyAvatarOutput">Copiar profile</button>
+        <button type="button" class="btn secondary" id="btnGoKeyframes">Ir para Keyframes →</button>
+      </div>
+      <textarea id="avatarOutputText" class="output-text avatar-output-text" readonly spellcheck="false"></textarea>
+    </section>
+  </main>
+
+  <!-- —— Aba Keyframes —— -->
+  <main id="panelKeyframes" class="v2-panel layout" data-panel="keyframes" hidden>
+    <section class="card v2-avatar-active-banner">
+      <p id="kfAvatarBanner" class="v2-kf-avatar-banner is-cubo">Avatar Cubo PH3A — CUBO-PH</p>
+      <p class="hint">Prompts e §5 usam o avatar selecionado na barra superior.</p>
+    </section>
+
+    <section class="card">
+      <h2>1. Base do produto</h2>
+      <label class="field">
+        <span>Carregar base pronta (<code>base-txt/</code>)</span>
+        <div class="row align-end">
+          <select id="basePreset" class="base-select">
+            <option value="">— escolha o produto —</option>
+          </select>
+          <button type="button" class="btn primary" id="btnLoadPreset" disabled>Carregar base</button>
+        </div>
+      </label>
+      <p class="hint" id="basePresetHint">Requer <code>http://localhost:8080</code></p>
+      <label class="field">
+        <span>Arquivo .txt (upload)</span>
+        <input type="file" id="fileBase" accept=".txt,text/plain" />
+      </label>
+      <label class="field">
+        <span>Ou cole a base</span>
+        <textarea id="baseText" rows="6" placeholder="datafraud-base.txt…"></textarea>
+      </label>
+      <div class="row">
+        <label class="field flex">
+          <span>Produto (tela)</span>
+          <input type="text" id="productName" placeholder="DATAFRAUD" />
+        </label>
+        <label class="field flex">
+          <span>Tagline (cena 4)</span>
+          <input type="text" id="tagline" placeholder="Frase pt-BR" />
+        </label>
+      </div>
+      <label class="field">
+        <span>Perfil</span>
+        <select id="productProfile">
+          <option value="auto">Automático</option>
+          <option value="databusca">DataBusca</option>
+          <option value="datatag">DataTag</option>
+          <option value="datafraud">DataFraud</option>
+          <option value="datadossie">DataDossiê</option>
+          <option value="datacob">DataCob</option>
+          <option value="datarc6">DataRC6</option>
+          <option value="generic">Genérico</option>
+        </select>
+      </label>
+      <button type="button" class="btn primary" id="btnNarratives">Gerar 5 narrativas</button>
+      <p class="hint" id="narrativeSourceHint"></p>
+    </section>
+
+    <section class="card">
+      <h2>2. Narrativa</h2>
+      <p class="hint" id="narrativeHint">Carregue a base e gere narrativas.</p>
+      <div id="narrativeList" class="narrative-list"></div>
+    </section>
+
+    <section class="card">
+      <h2>3. Roteiro Flow</h2>
+      <div class="row">
+        <label class="chip"><input type="radio" name="vertente" value="omni" checked /> Omni (~10s)</label>
+        <label class="chip"><input type="radio" name="vertente" value="extend" /> Extend (8s+8s)</label>
+      </div>
+      <button type="button" class="btn primary" id="btnExport" disabled>Gerar arquivos .txt</button>
+    </section>
+
+    <section class="card full" id="keyframesApiSection">
+      <h2>5. Keyframes por API</h2>
+      <p class="hint" id="kfApiNarrativeHint">Selecione narrativa no §2.</p>
+      <div class="mascot-drop" id="mascotDropZone">
+        <p class="mascot-drop-label">Referência visual do avatar (auto se personalizado; ou arraste fotos do cubo)</p>
+        <input type="file" id="mascotFileInput" accept="image/png,image/jpeg,image/webp" multiple hidden />
+        <button type="button" class="btn secondary mascot-pick-btn" id="btnMascotPick">Escolher arquivos</button>
+        <div class="mascot-thumbs" id="mascotThumbs"></div>
+      </div>
+      <div class="kf-gen-toolbar">
+        <div class="row kf-gen-buttons">
+          <button type="button" class="btn" data-kf-gen="1" disabled>KF 1</button>
+          <button type="button" class="btn" data-kf-gen="2" disabled>KF 2</button>
+          <button type="button" class="btn" data-kf-gen="3" disabled>KF 3</button>
+          <button type="button" class="btn" data-kf-gen="4" disabled>KF 4</button>
+          <span class="kf-gen-sep">|</span>
+          <button type="button" class="btn primary" data-kf-gen="1-2" disabled>1–2</button>
+          <button type="button" class="btn primary" data-kf-gen="3-4" disabled>3–4</button>
+        </div>
+        <div class="row">
+          <button type="button" class="btn secondary" id="btnKfDownloadAll">Baixar 4</button>
+          <button type="button" class="btn secondary" id="btnKfClear">Limpar</button>
+        </div>
+      </div>
+      <p class="gemini-status" id="kfApiStatus" aria-live="polite"></p>
+      <div class="kf-preview-grid" id="kfPreviewGrid">
+        <div class="kf-slot is-idle" data-kf="1">
+          <p class="kf-slot-title">keyframe_1.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle"><span class="kf-slot-idle-icon">16:9</span><span class="kf-slot-idle-text">Aguardando</span></div>
+            <div class="kf-slot-loading"><div class="kf-spinner"></div><span class="kf-slot-loading-text">Gerando…</span></div>
+            <div class="kf-slot-error"><span class="kf-slot-error-text">Falhou</span></div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+        <div class="kf-slot is-idle" data-kf="2">
+          <p class="kf-slot-title">keyframe_2.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle"><span class="kf-slot-idle-icon">16:9</span><span class="kf-slot-idle-text">Aguardando</span></div>
+            <div class="kf-slot-loading"><div class="kf-spinner"></div><span class="kf-slot-loading-text">Gerando…</span></div>
+            <div class="kf-slot-error"><span class="kf-slot-error-text">Falhou</span></div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+        <div class="kf-slot is-idle" data-kf="3">
+          <p class="kf-slot-title">keyframe_3.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle"><span class="kf-slot-idle-icon">16:9</span><span class="kf-slot-idle-text">Aguardando</span></div>
+            <div class="kf-slot-loading"><div class="kf-spinner"></div><span class="kf-slot-loading-text">Gerando…</span></div>
+            <div class="kf-slot-error"><span class="kf-slot-error-text">Falhou</span></div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+        <div class="kf-slot is-idle" data-kf="4">
+          <p class="kf-slot-title">keyframe_4.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle"><span class="kf-slot-idle-icon">16:9</span><span class="kf-slot-idle-text">Aguardando</span></div>
+            <div class="kf-slot-loading"><div class="kf-spinner"></div><span class="kf-slot-loading-text">Gerando…</span></div>
+            <div class="kf-slot-error"><span class="kf-slot-error-text">Falhou</span></div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card full output-section" id="outputSection">
+      <h2>4. Texto gerado</h2>
+      <p class="hint" id="outputEmptyHint">Gere os .txt após escolher narrativa.</p>
+      <div id="outputReady" class="output-ready" hidden>
+        <div class="tabs" id="outputTabs"></div>
+        <p class="output-filename" id="outputFileName"></p>
+        <div class="output-actions">
+          <button type="button" class="btn primary" id="btnCopyActive">Copiar aba</button>
+          <button type="button" class="btn secondary" id="btnDownloadActive">Baixar</button>
+          <button type="button" class="btn secondary" id="btnOpenV2" hidden>roteiro-flow-v2</button>
+          <span class="copy-status" id="copyStatus"></span>
+        </div>
+        <textarea id="outputText" class="output-text" readonly spellcheck="false"></textarea>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal API -->
+  <div id="settingsModal" class="v2-modal-overlay" hidden>
+    <div class="v2-modal" role="dialog" aria-labelledby="settingsModalTitle">
+      <header class="v2-modal-header">
+        <h2 id="settingsModalTitle">Configurações · API narrativas</h2>
+        <button type="button" class="v2-modal-close" id="btnCloseSettings" aria-label="Fechar">×</button>
+      </header>
+      <div class="v2-modal-body">
+        <p class="hint">Padrão recomendado: <strong>ChatGPT</strong>. Templates locais funcionam offline.</p>
+        <div class="mode-options">
+          <label class="mode-option" id="modeLocalLabel">
+            <input type="radio" name="textSource" value="local" />
+            <strong>Templates locais</strong>
+            <span>Offline, sem cota.</span>
+          </label>
+          <label class="mode-option selected" id="modeOpenAiLabel">
+            <input type="radio" name="textSource" value="openai" checked />
+            <strong>ChatGPT (OpenAI)</strong>
+            <span>GPT-4o-mini · narrativas.</span>
+          </label>
+          <label class="mode-option" id="modeGeminiLabel">
+            <input type="radio" name="textSource" value="gemini" />
+            <strong>Gemini</strong>
+            <span>Chave AIza…</span>
+          </label>
+        </div>
+
+        <details class="gemini-details" id="openaiDetails" open>
+          <summary>OpenAI / ChatGPT</summary>
+          <div class="gemini-inner">
+            <label class="field">
+              <span>Chave sk-…</span>
+              <input type="password" id="openaiApiKey" autocomplete="off" placeholder="sk-…" />
+            </label>
+            <div class="row">
+              <button type="button" class="btn" id="btnSaveOpenAiKey">Salvar</button>
+              <button type="button" class="btn" id="btnTestOpenAiKey">Testar</button>
+              <button type="button" class="btn secondary" id="btnClearOpenAiStatus">Limpar</button>
+            </div>
+            <p class="gemini-status" id="openaiStatus"></p>
+          </div>
+        </details>
+
+        <details class="gemini-details" id="geminiDetails">
+          <summary>Gemini</summary>
+          <div class="gemini-inner">
+            <label class="field">
+              <span>Chave AIza…</span>
+              <input type="password" id="geminiApiKey" autocomplete="off" placeholder="AIza…" />
+            </label>
+            <div class="row">
+              <button type="button" class="btn" id="btnSaveKey">Salvar</button>
+              <button type="button" class="btn" id="btnTestKey">Testar</button>
+              <button type="button" class="btn secondary" id="btnClearGeminiStatus">Limpar</button>
+            </div>
+            <p class="gemini-status" id="geminiStatus"></p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer v2-footer">
+    <p>
+      <a href="index.html">Versão clássica (index)</a> ·
+      <code>python proxy-server.py</code> → localhost:8080
+    </p>
+  </footer>
+
+  <script src="config.local.js"></script>
+  <script src="ph3a-avatar-state.js"></script>
+  <script src="openai.js"></script>
+  <script src="gemini.js"></script>
+  <script src="avatar-api.js"></script>
+  <script src="keyframes-api.js"></script>
+  <script src="app.js"></script>
+  <script src="keyframes-ui.js"></script>
+  <script src="avatar-ui.js"></script>
+  <script src="index-v2.js"></script>
+</body>
+</html>

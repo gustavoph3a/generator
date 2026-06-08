@@ -1,0 +1,28 @@
+{
+  "id": "robson",
+  "label": "Robson · PH3A Team",
+  "image": "robson.png",
+  "chosenVariant": "A",
+  "renderMode": "3d",
+  "avatarKind": "human",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "ref_subject_type": "human_photo",
+    "name": "ROBSON-PH",
+    "morphology": "corpo humano estilizado com proporções amigáveis, postura relaxada, roupa casual na paleta PH3A",
+    "style_render": "3d",
+    "likeness_notes": "manter formato do rosto, cabelo curto e escuro, barba bem aparada, expressão amigável",
+    "palette_applied": "roupa em Charcoal #1a1a1a, acentos em laranja PH3A #E94E1B, fundo em charcoal",
+    "facial_traits": "olhos grandes e expressivos, nariz pequeno, boca com sorriso leve, expressão base amigável neutra",
+    "distinctive_details": "relógio no pulso, tênis brancos com detalhes em laranja, camiseta cream simples",
+    "do_not_copy": "cenários, logos, marcas, textos ou quaisquer elementos de terceiros",
+    "avatar_block": "O personagem HUMANO estilizado, ROBSON-PH, é um apresentador amigável e acessível da série PH3A. Visual moderno e casual na paleta PH3A (Charcoal, acentos laranja, camiseta cream). Cabelo curto e barba bem aparada em estilo simplificado. Relógio no pulso e tênis brancos com detalhe laranja. Expressão base amigável no PNG de referência; feições por cena vêm nos keyframes."
+  }
+}

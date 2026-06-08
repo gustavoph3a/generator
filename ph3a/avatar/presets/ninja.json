@@ -1,0 +1,25 @@
+{
+  "id": "ninja",
+  "label": "Ninja PH3A",
+  "image": "ninja.png",
+  "chosenVariant": "A",
+  "renderMode": "3d",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "name": "NINJA-PH",
+    "morphology": "silhueta estilizada de um ninja, corpo pequeno e ágil, proporções infantis com cabeça grande e corpo pequeno",
+    "style_render": "3d",
+    "palette_applied": "corpo em Charcoal #1a1a1a, detalhes como faixas e lâminas em laranja PH3A #E94E1B, elementos claros como olhos e nuvens em cream #F5F1EA",
+    "facial_traits": "olhos grandes e expressivos em cream #F5F1EA, boca pequena com um leve sorriso, expressão de determinação",
+    "distinctive_details": "máscara cobrindo a parte inferior do rosto, faixa na cabeça em laranja PH3A #E94E1B, lâminas curtas em cada mão, detalhes de nuvens em cream #F5F1EA ao redor",
+    "do_not_copy": "cenários, logos, marcas, textos, outros personagens das referências",
+    "avatar_block": "NINJA-PH é um personagem carismático e estilizado, representando um ninja ágil e destemido. Com um corpo em Charcoal #1a1a1a, ele possui detalhes vibrantes em laranja PH3A #E94E1B que destacam sua presença. Os olhos grandes em cream #F5F1EA transmitem emoção e determinação, enquanto sua máscara e lâminas adicionam um toque de aventura. Este personagem é perfeito para engajar o público da série de vídeos PH3A, trazendo uma identidade única e memorável."
+  }
+}

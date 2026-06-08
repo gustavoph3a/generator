@@ -1,0 +1,25 @@
+{
+  "id": "cubo",
+  "label": "Cubo PH3A",
+  "image": "cubo.png",
+  "chosenVariant": "B",
+  "renderMode": "3d",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "name": "CUBO-PH",
+    "morphology": "silhueta cúbica, robô, proporções compactas e amigáveis",
+    "style_render": "3d",
+    "palette_applied": "corpo em Charcoal #1a1a1a, detalhes e acentos em laranja PH3A #E94E1B, elementos claros em cream #F5F1EA",
+    "facial_traits": "olhos grandes e expressivos, boca sorridente, expressão amigável",
+    "distinctive_details": "antena com luz no topo, braços curtos e arredondados, pernas pequenas e robustas, nuvens de cream ao redor",
+    "do_not_copy": "cenários, logos, marcas, textos, personagens secundários",
+    "avatar_block": "CUBO-PH é um robô cúbico e amigável, com um corpo escuro em Charcoal #1a1a1a. Seus olhos grandes e expressivos transmitem simpatia, enquanto sua boca sorridente convida à interação. A antena no topo brilha em laranja PH3A #E94E1B, destacando-se como um símbolo de conexão. Os braços e pernas curtos e arredondados adicionam um toque de fofura, e nuvens em cream #F5F1EA flutuam ao seu redor, criando uma atmosfera leve e acessível. CUBO-PH é o mascote ideal para a série de vídeos PH3A, representando inovação e acolhimento."
+  }
+}

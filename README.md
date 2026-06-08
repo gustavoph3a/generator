@@ -2,6 +2,10 @@
 
 Gera **5 narrativas**, **prompts-chatgpt-keyframes.txt** e **roteiros Flow** no navegador. Imagens continuam no **ChatGPT**.
 
+**Como o texto do keyframe é montado (mascote vs conteúdo do produto):** ver [`COMO-MONTA-PROMPTS-KEYFRAMES.md`](COMO-MONTA-PROMPTS-KEYFRAMES.md).
+
+**Criar avatar antes dos keyframes (refs + paleta + 2 variantes):** [`avatar.html`](avatar.html) · **Studio v2 (abas Avatar + Keyframes):** [`index_v2.html`](index_v2.html).
+
 ## Pasta `base-txt/` (bases prontas)
 
 Bases de conhecimento **por produto**, já extraídas do PDF PH3A, para carregar na ferramenta sem procurar arquivo:
@@ -79,13 +83,40 @@ A pasta **`ferramenta-textos/base-txt/`** é a cópia **oficial para upload na f
 
 ---
 
+## OpenAI / ChatGPT API (opcional — narrativas)
+
+1. Chave em [platform.openai.com/api-keys](https://platform.openai.com/api-keys) (formato `sk-…`).
+2. Cole em `config.local.js` como `PH3A_OPENAI_KEY_DEFAULT` ou use o painel na página → **Salvar** → **Testar**.
+3. Marque **ChatGPT (OpenAI API)** → **Gerar 5 narrativas**.
+
+Usa `gpt-4o-mini` (fallback `gpt-4o`). **Não gera imagens** — keyframes continuam no site ChatGPT.
+
+**Servidor com proxy** (recomendado para OpenAI — o navegador não chama api.openai.com direto):
+
+```bash
+python proxy-server.py
+```
+
+Abra `http://localhost:8080`. O `python -m http.server 8080` sozinho não repassa a API OpenAI.
+
+## §5 Keyframes por API (opcional)
+
+Gera `keyframe_1.png` … `keyframe_4.png` com **OpenAI Images** — padrão **`gpt-image-2`** (melhor qualidade; substitui o DALL·E 3 na API). Se falhar, tenta `gpt-image-1.5`, `gpt-image-1`, `gpt-image-1-mini`.
+
+1. `python proxy-server.py` + chave OpenAI configurada.
+2. §2 — escolha a narrativa.
+3. §5 — arraste fotos do mascote; clique **KF 1** … **KF 4** ou **Gerar 1–2** / **Gerar 3–4** (um par por vez, controla custo).
+4. Baixe cada imagem ou **Baixar os 4**.
+
+Os passos 1–4 (textos/roteiros) continuam iguais; o `prompts-chatgpt-keyframes.txt` do §4 segue disponível para quem preferir o ChatGPT manual.
+
 ## Gemini (opcional)
 
 1. Chave em [Google AI Studio](https://aistudio.google.com/app/apikey) (grátis).
 2. Cole → **Salvar chave** → **Testar conexão**.
 3. Marque **Gemini** → **Gerar 5 narrativas**.
 
-Chave padrão (só no seu PC): edite `config.local.js` (não vai para o Git).
+Chaves padrão (só no seu PC): edite `config.local.js` (não vai para o Git).
 
 ### Erro 429 / `limit: 0` (você não “gastou” — a chave não tem cota)
 

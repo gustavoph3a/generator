@@ -1,0 +1,29 @@
+{
+  "id": "paulo",
+  "label": "Paulo · PH3A Team",
+  "image": "paulo.png",
+  "imageB": "paulo_b.png",
+  "chosenVariant": "A",
+  "renderMode": "3d",
+  "avatarKind": "human",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "ref_subject_type": "human_photo",
+    "name": "PAULO-PH",
+    "morphology": "corpo humano estilizado com proporções equilibradas, postura amigável, camisa estilizada na paleta PH3A",
+    "style_render": "3d",
+    "likeness_notes": "manter formato do rosto, cabelo grisalho, barba bem aparada, óculos, tom de pele simplificado, expressão neutra",
+    "palette_applied": "camisa em Charcoal #1a1a1a, acentos em laranja PH3A #E94E1B, fundo em cream #F5F1EA",
+    "facial_traits": "olhos grandes e expressivos, nariz reto, boca com leve sorriso, expressão base amigável e neutra",
+    "distinctive_details": "óculos modernos, relógio no pulso, camisa com detalhes em laranja na paleta",
+    "do_not_copy": "cenário, logotipo, marcas, textos",
+    "avatar_block": "O personagem HUMANO estilizado, PAULO-PH, é um apresentador amigável e acessível. Corpo humano estilizado com proporções equilibradas e sorriso acolhedor. Cabelo grisalho e barba bem aparada, óculos; camisa na paleta PH3A (Charcoal com acentos laranja, fundo cream). Expressão base amigável no PNG de referência; feições por cena vêm nos keyframes."
+  }
+}

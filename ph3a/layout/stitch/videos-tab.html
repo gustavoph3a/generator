@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>PH3A Studio - Vídeos</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-container": "#484742",
+                        "surface-container-lowest": "#0e0e0e",
+                        "tertiary": "#c7c6c6",
+                        "on-error-container": "#ffdad6",
+                        "inverse-primary": "#af3000",
+                        "error": "#ffb4ab",
+                        "on-primary": "#5f1600",
+                        "tertiary-fixed-dim": "#c7c6c6",
+                        "inverse-surface": "#e5e2e1",
+                        "surface-dim": "#131313",
+                        "on-surface": "#e5e2e1",
+                        "tertiary-container": "#909191",
+                        "secondary-fixed-dim": "#c9c6c0",
+                        "on-background": "#e5e2e1",
+                        "tertiary-fixed": "#e3e2e2",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "on-error": "#690005",
+                        "error-container": "#93000a",
+                        "primary": "#ffb59f",
+                        "surface-tint": "#ffb59f",
+                        "on-secondary-container": "#b8b5ae",
+                        "surface": "#131313",
+                        "on-primary-container": "#531200",
+                        "outline-variant": "#5b4139",
+                        "surface-container-low": "#1c1b1b",
+                        "surface-container-high": "#2a2a2a",
+                        "secondary": "#c9c6c0",
+                        "surface-container-highest": "#353535",
+                        "on-surface-variant": "#e3beb4",
+                        "secondary-fixed": "#e6e2db",
+                        "primary-container": "#fb5b28",
+                        "on-primary-fixed": "#3a0a00",
+                        "primary-fixed": "#ffdbd1",
+                        "on-secondary-fixed-variant": "#484742",
+                        "on-tertiary-container": "#292a2a",
+                        "surface-variant": "#353535",
+                        "on-primary-fixed-variant": "#862200",
+                        "background": "#131313",
+                        "primary-fixed-dim": "#ffb59f",
+                        "outline": "#aa8980",
+                        "surface-container": "#20201f",
+                        "surface-bright": "#393939",
+                        "on-tertiary": "#2f3131",
+                        "on-secondary-fixed": "#1c1c18",
+                        "on-tertiary-fixed-variant": "#464747",
+                        "on-secondary": "#31302c",
+                        "inverse-on-surface": "#313030"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin_mobile": "16px",
+                        "margin_desktop": "40px",
+                        "container_max_width": "1440px",
+                        "base": "8px",
+                        "nav_height": "56px",
+                        "gutter": "24px"
+                    },
+                    "fontFamily": {
+                        "headline-md": ["Plus Jakarta Sans"],
+                        "label-sm": ["Inter"],
+                        "label-md": ["Inter"],
+                        "headline-xl": ["Plus Jakarta Sans"],
+                        "body-lg": ["Inter"],
+                        "headline-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Inter"],
+                        "headline-lg-mobile": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                        "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                        "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                        "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #131313;
+            color: #e5e2e1;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #1c1b1b;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #484742;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-container selection:text-white">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full h-nav_height z-50 bg-background border-b border-outline-variant flex justify-between items-center px-margin_desktop">
+<div class="flex items-center gap-base">
+<span class="text-headline-md font-headline-md font-bold text-on-surface">PH3A Studio</span>
+</div>
+<div class="hidden md:flex items-center gap-4">
+<a class="bg-surface-container text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md hover:border-secondary transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">Avatar</a>
+<a class="bg-surface-container text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md hover:border-secondary transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">Keyframes</a>
+<a class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-md text-label-md hover:border-secondary transition-colors duration-200 active:scale-95 transition-transform duration-150" href="#">Vídeos</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+<img alt="Cubo PH3A Status Badge" class="w-full h-full object-cover" data-alt="A high-quality 3D digital rendering of a sleek corporate profile avatar with a tech-cute aesthetic. The character is a friendly, stylized humanoid in a dark charcoal turtleneck, lit from the side by a soft orange glow. The background is a clean, dark gray with a subtle geometric pattern. Professional and energetic lighting ensures the face is clear and approachable." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-AZIXhGE8U8vXHaiHS-dXgj7ZWRZsKmsY7fFdyreAz_2VcLYGGPFv_C91I6tpT6yCctkcy2lPhaBMpFNj-RxwElXUZCF6TLf3KAS6ZKuNfxTTFlVR5fouZPXYjn-WITFJklHqxkrNSqhMdwn0ZUYgJqRfL5nlKTZ6jyMYUtdpXrOw8znjCx0dPV48juOjB5q0uN3pSkYS8nZnQqEwntK_820CBgGL6rOA8P7a0J_tMehAPth9SC4jijis9gi1DbX5WTxFmM2sj0U"/>
+</div>
+</div>
+</nav>
+<main class="pt-24 pb-12 px-margin_mobile md:px-margin_desktop max-w-container_max_width mx-auto">
+<!-- Banner -->
+<div class="mb-12 relative overflow-hidden rounded-xl bg-surface-container-low border border-outline-variant p-8">
+<div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+<div>
+<div class="flex items-center gap-2 mb-2">
+<span class="inline-block w-3 h-3 rounded-full bg-primary-container animate-pulse"></span>
+<h1 class="text-headline-lg font-headline-lg text-on-surface">Avatar Cubo PH3A</h1>
+</div>
+<p class="text-on-surface-variant max-w-2xl font-body-md text-body-md">
+                        Status: Ativo e pronto para processamento. <br/>
+<span class="text-primary font-medium">Nota:</span> Certifique-se de que os arquivos PNG de keyframes sigam a ordem sequencial correta para garantir a fluidez da animação no modo Extend.
+                    </p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-8 py-3 rounded-full font-label-md text-label-md font-bold hover:brightness-110 active:scale-95 transition-all">
+                    Iniciar Produção
+                </button>
+</div>
+<!-- Atmospheric glow -->
+<div class="absolute -right-20 -top-20 w-64 h-64 bg-primary-container opacity-10 rounded-full blur-[100px]"></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Section A: Video Mode -->
+<section class="lg:col-span-8 flex flex-col gap-gutter">
+<h2 class="text-headline-md font-headline-md text-on-surface px-2">Modo de Vídeo</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Omni Card -->
+<div class="group relative bg-surface-container rounded-xl border border-outline-variant p-6 hover:border-primary transition-all cursor-pointer">
+<div class="aspect-video mb-6 rounded-lg overflow-hidden bg-surface-container-highest">
+<img alt="Omni Mode" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A futuristic digital visualization of a seamless 360-degree data network in a tech-cute style. Central glowing orange nodes connect through thin white lines against a deep charcoal 2D background. The composition is clean, professional, and suggests high-speed interconnectedness. Soft tonal layers create a sense of depth without using heavy shadows." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBuRrd51q_hCkWs_yiZ-TEix9ha7hvwEKpgHhRoKAPQUPM5aF0g58ZWATlEMco43m86ZlBUHgNWBnk5OvWQri8N3SM1Jvq0AgFPVrB1ulnKwsZtQwLoTKdLBtE8rL9kicb0ssQY4hxwKmcrZT50-wFimrfzVe-JUy_UQ_CCvpez-YKpGvK-ZTuTN6K7vo6Qy04V_wEEStI3kFxTfF0sXy7beqFXXSC3gLenHdujuoSahpksLG0hUmNbdqfF827_wbRNR_RBhTNyTqc"/>
+</div>
+<h3 class="text-headline-md font-headline-md mb-2">Omni</h3>
+<p class="text-on-surface-variant text-body-md mb-4">Geração completa baseada em IA com movimentação fluida de câmera em 360º.</p>
+<div class="flex items-center gap-2 text-primary font-label-md">
+<span class="material-symbols-outlined text-sm" data-icon="bolt">bolt</span>
+                            Recomendado para apresentações
+                        </div>
+</div>
+<!-- Extend Card -->
+<div class="group relative bg-surface-container border-2 border-primary rounded-xl p-6 transition-all cursor-pointer">
+<div class="aspect-video mb-6 rounded-lg overflow-hidden bg-surface-container-highest">
+<img alt="Extend Mode" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="A modern office workstation with multiple monitors displaying video editing software and creative flowcharts. The lighting is low-key with vibrant orange neon accents highlighting the gear. The aesthetic is tech-cute and professional, focusing on productivity and storytelling. High contrast between the dark environment and the bright screens creates a focused mood." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3Pg_hEnH35BiDYk1a-KT0jC1qS__6CPxcZqOMnz3ZCpPVUhQ2LBKGdh6efMVon0vcNQKXhJrAxPkFgruVqrkA_IOedzW57AhQUWyWVyTqjdzMHMQS0UTx7AB6pnHqdVHMDRh7Syn3xoM5RnjE_m_sWep4jdXVltXGl7m-hztK08TIBlzsVejpS8i3UJVxQfbTVnJwhII9kjVN-743nccFxTA3tan5IaS6tzcCvbr0aSkmOmDf909-VgpOUi8fuXk3Luwe3vbfPWo"/>
+</div>
+<h3 class="text-headline-md font-headline-md mb-2">Extend</h3>
+<p class="text-on-surface-variant text-body-md mb-4">Aumente a duração do seu vídeo utilizando keyframes PNG manuais.</p>
+<div class="flex items-center gap-2 text-primary font-label-md">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                            Selecionado
+                        </div>
+</div>
+</div>
+<!-- Section B: Selected Script -->
+<div class="bg-surface-container rounded-xl border border-outline-variant p-6 mt-4">
+<div class="flex items-center justify-between mb-4">
+<h2 class="text-headline-md font-headline-md text-on-surface">Script do Flow</h2>
+<span class="text-label-md text-on-surface-variant bg-surface-container-highest px-3 py-1 rounded-full border border-outline-variant">Apenas leitura</span>
+</div>
+<div class="bg-surface-container-lowest p-6 rounded-lg border border-outline-variant font-mono text-sm text-on-surface-variant leading-relaxed custom-scrollbar max-h-48 overflow-y-auto">
+<p>[SCENE_01] <br/>
+                        "O Cubo PH3A emerge da névoa de dados. As partículas de informação orbitam o núcleo central com velocidade constante. A iluminação transita do azul profundo para o laranja vibrante conforme o processamento atinge 100%." <br/><br/>
+                        [MOTION_PARAMETER] <br/>
+                        Camera_Orbit: 45deg <br/>
+                        Zoom_Speed: 0.8 <br/>
+                        Keyframe_Transition: Elastic_Ease_Out</p>
+</div>
+</div>
+</section>
+<!-- Sidebar -->
+<aside class="lg:col-span-4 flex flex-col gap-gutter">
+<!-- Section C: Flow Instructions -->
+<div class="bg-surface-container rounded-xl border border-outline-variant p-6">
+<h2 class="text-headline-md font-headline-md text-on-surface mb-6">Instruções do Flow</h2>
+<div class="space-y-6">
+<div class="flex items-start gap-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant group hover:border-primary transition-colors cursor-pointer">
+<div class="w-6 h-6 rounded border-2 border-primary flex-shrink-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl scale-0 group-data-[active=true]:scale-100 transition-transform" data-icon="check">check</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1">Anexar PNGs</h4>
+<p class="text-label-md text-on-surface-variant">Carregue a sequência de imagens do seu avatar.</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-lg bg-surface-container-low border border-outline-variant group hover:border-primary transition-colors cursor-pointer" data-active="true">
+<div class="w-6 h-6 rounded border-2 border-primary flex-shrink-0 flex items-center justify-center bg-primary">
+<span class="material-symbols-outlined text-on-primary-container text-xl" data-icon="check">check</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface mb-1">Duração do Vídeo</h4>
+<p class="text-label-md text-on-surface-variant">Ajuste o tempo total para 15 segundos.</p>
+<input class="w-full mt-4 accent-primary-container" max="60" min="5" type="range" value="15"/>
+<div class="flex justify-between mt-2 text-label-sm text-primary">
+<span>5s</span>
+<span>15s</span>
+<span>60s</span>
+</div>
+</div>
+</div>
+<div class="dashed-drop-zone border-2 border-dashed border-outline-variant rounded-xl p-8 flex flex-col items-center justify-center text-center hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-primary text-4xl mb-2" data-icon="upload_file">upload_file</span>
+<span class="text-label-md font-bold">Solte seus arquivos aqui</span>
+<span class="text-label-sm text-on-surface-variant mt-1">PNG, JPG até 50MB</span>
+</div>
+</div>
+</div>
+<!-- Section D: Advanced -->
+<div class="bg-surface-container rounded-xl border border-outline-variant overflow-hidden">
+<button class="w-full flex items-center justify-between p-6 hover:bg-surface-container-high transition-colors" id="toggle-advanced">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="tune">tune</span>
+<h2 class="text-headline-md font-headline-md text-on-surface">Configurações Avançadas</h2>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant transition-transform duration-300" data-icon="expand_more" id="advanced-chevron">expand_more</span>
+</button>
+<div class="px-6 pb-6 hidden animate-in fade-in slide-in-from-top-4" id="advanced-content">
+<div class="pt-2">
+<label class="block text-label-md font-bold text-on-surface mb-2">Negative Prompt</label>
+<textarea class="w-full h-32 bg-surface-container-lowest border border-outline-variant rounded-lg p-4 text-on-surface-variant focus:border-primary-container focus:ring-0 resize-none transition-colors" placeholder="Ex: low quality, blurry, text, watermark, distorted hands..."></textarea>
+<p class="text-label-sm text-on-surface-variant mt-2 italic">Descreva o que você NÃO deseja que apareça no vídeo final.</p>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<script>
+        // Micro-interactions and effects
+        const toggleBtn = document.getElementById('toggle-advanced');
+        const advancedContent = document.getElementById('advanced-content');
+        const chevron = document.getElementById('advanced-chevron');
+
+        toggleBtn.addEventListener('click', () => {
+            const isHidden = advancedContent.classList.contains('hidden');
+            if (isHidden) {
+                advancedContent.classList.remove('hidden');
+                chevron.style.transform = 'rotate(180deg)';
+            } else {
+                advancedContent.classList.add('hidden');
+                chevron.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // Toggle checkboxes
+        document.querySelectorAll('[data-active]').forEach(card => {
+            card.addEventListener('click', () => {
+                const isActive = card.getAttribute('data-active') === 'true';
+                card.setAttribute('data-active', !isActive);
+                const checkbox = card.querySelector('.w-6');
+                if (!isActive) {
+                    checkbox.classList.add('bg-primary');
+                } else {
+                    checkbox.classList.remove('bg-primary');
+                }
+            });
+        });
+    </script>
+</body></html>

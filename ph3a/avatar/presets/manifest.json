@@ -1,0 +1,20 @@
+[
+  {
+    "id": "cubo",
+    "label": "Cubo PH3A",
+    "subtitle": "3D estilizado · preset local",
+    "image": "cubo.png"
+  },
+  {
+    "id": "dino",
+    "label": "Dino PH3A",
+    "subtitle": "3D estilizado · preset local",
+    "image": "dino.png"
+  },
+  {
+    "id": "ninja",
+    "label": "Ninja PH3A",
+    "subtitle": "3D estilizado · preset local",
+    "image": "ninja.png"
+  }
+]

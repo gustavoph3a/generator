@@ -1,0 +1,50 @@
+[
+  {
+    "id": "paulo",
+    "label": "Paulo",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "paulo.png"
+  },
+  {
+    "id": "heloisa",
+    "label": "Heloísa",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "heloisa.png"
+  },
+  {
+    "id": "eduardo",
+    "label": "Eduardo",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "eduardo.png"
+  },
+  {
+    "id": "robson",
+    "label": "Robson",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "robson.png"
+  },
+  {
+    "id": "erika",
+    "label": "Erika",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "erika.png"
+  },
+  {
+    "id": "dalvani",
+    "label": "Dalvani",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "dalvani.png"
+  },
+  {
+    "id": "gustavo",
+    "label": "Gustavo",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "gustavo.png"
+  },
+  {
+    "id": "adriano",
+    "label": "Adriano",
+    "subtitle": "Humano 3D · PH3A Team",
+    "image": "adriano.png"
+  }
+]

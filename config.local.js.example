@@ -1,2 +1,8 @@
-/** Copie para config.local.js e cole sua chave do AI Studio. */
-window.PH3A_GEMINI_KEY_DEFAULT = "AIzaSUA_CHAVE_AQUI";
+/** Copie para config.local.js e cole suas chaves. Não commitar config.local.js */
+window.PH3A_GEMINI_KEY_DEFAULT = "AIzaSUA_CHAVE_GEMINI";
+window.PH3A_OPENAI_KEY_DEFAULT = "sk-SUA_CHAVE_OPENAI";
+/** Opcional: forçar modelo de imagem (§5). Padrão da ferramenta: gpt-image-2 (melhor). Mini = mais barato. */
+// window.PH3A_IMAGE_MODEL = "gpt-image-2";
+// window.PH3A_IMAGE_MODEL = "gpt-image-1-mini";
+/** Só se o navegador bloquear CORS: proxy local */
+// window.PH3A_USE_PROXY = true;

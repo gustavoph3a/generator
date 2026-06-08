@@ -1,0 +1,42 @@
+================================================================================
+UBER — BASE DE CONHECIMENTO (exemplo para modo Dinâmico)
+Uso: copiar e colar em «Base do Produto» para testar white label.
+Fictício / demonstração — não material oficial da Uber.
+================================================================================
+
+UBER
+Uber
+BASE DE CONHECIMENTO - UBER PASSAGEIRO 1.0
+Mobilidade sob demanda · app de viagens
+
+LINHA DE PRODUTO: Conectar passageiros a motoristas parceiros em minutos, com preço transparente e rastreamento em tempo real.
+
+SEÇÃO 1 — VISÃO GERAL
+O app Uber permite solicitar viagens urbanas pelo celular: o passageiro vê ETA, valor estimado, rota no mapa e avalia a experiência. Reduz fricção vs. táxi tradicional (sem dinheiro em mãos, sem ligação, sem incerteza de chegada).
+
+SEÇÃO 2 — PROBLEMAS DO PASSAGEIRO
+• Espera longa ou incerta por transporte, principalmente em horários de pico.
+• Falta de transparência de preço antes da corrida.
+• Dificuldade de pagamento (caixa, troco, cartão recusado).
+• Insegurança ou desconforto com veículos/motoristas desconhecidos.
+• Ausência de histórico, recibo ou suporte quando algo dá errado.
+
+SEÇÃO 3 — O QUE O APP ENTREGA
+• Solicitação em poucos toques com origem/destino no mapa.
+• Preço estimado antes de confirmar.
+• Rastreamento ao vivo do motorista e compartilhamento de viagem.
+• Pagamento digital integrado (cartão, PIX, carteira).
+• Avaliações mútuas e central de ajuda 24h.
+• Opções de categoria (UberX, Comfort, etc.) conforme necessidade.
+
+SEÇÃO 4 — FLUXO TÍPICO
+Passageiro abre app → define destino → vê preço e ETA → confirma → motorista aceita → acompanha chegada → viagem → pagamento automático → avalia.
+
+SEÇÃO 5 — DIFERENCIAIS
+• Rede grande de motoristas parceiros = menor tempo de espera.
+• Experiência padronizada em dezenas de cidades.
+• Tecnologia de matching e rotas otimizadas.
+• Segurança: foto do motorista, placa, rota compartilhável.
+
+SLOGAN SUGERIDO: "Sua viagem, do jeito certo."
+TAGLINE CENA 4: "Mobilidade confiável, na palma da mão."

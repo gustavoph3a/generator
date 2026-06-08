@@ -3,17 +3,471 @@
  * Gemini: abra via http://localhost:8080 se file:// bloquear API.
  */
 
+function ph3aAsset(path) {
+  const base = typeof window !== "undefined" && window.PH3A_ASSET_BASE ? window.PH3A_ASSET_BASE : "";
+  return base + path;
+}
+
+function isStudioDynamic() {
+  return typeof window !== "undefined" && window.Ph3aStudioMode && Ph3aStudioMode.getMode() === "dynamic";
+}
+
 const CUBO_PH = `CUBO-PH é um cubo robô fofo ~1:1:1, cantos arredondados. Corpo charcoal/preto fosco com bordas e detalhes laranja PH3A #E94E1B (glow suave). Face = tela no cubo com dois olhos grandes kawaii/Pixar 2D, boca simples. Antena preta + esfera laranja no topo. Braços e pernas curtos flutuantes com anéis laranja nas juntas. Flutua sobre nuvem cream #F5F1EA ou sombra suave.
 
 Estilo: ilustração 2D flat editorial tech-cute (NÃO 3D metálico).
 Fundo: charcoal #1a1a1a + blobs orgânicos laranja nos cantos.
 Textos: cream #F5F1EA, destaques laranja. Sans bold arredondada. 16:9.`;
 
+/** KF4 — nome do produto + PH3A (mesmo padrão em todos os produtos do portfólio). */
+function kf4SignatureTypographyBlock(productDisplay, tagline) {
+  return `Tipografia assinatura (KEYFRAME 4 — padrão PH3A, todos os produtos):
+- Nome do produto "${productDisplay}": MAIÚSCULAS, sans geométrica bold (estilo Montserrat Bold / Gotham Bold — pesada, limpa, tech). COR ÚNICA em TODAS as letras: cream #F5F1EA sólida. PROIBIDO misturar cores entre letras (ex. DATA branco + TAG laranja, ou letras alternadas). Pode ter glow/sombra/contorno laranja #E94E1B sutil no bloco inteiro, mas o preenchimento de cada letra é a mesma cor.
+- Marca "PH3A" (sempre esta grafia, MAIÚSCULAS, linha abaixo do produto): mesma família sans geométrica bold display (coerente com o nome do produto). COR ÚNICA em todas as letras: laranja PH3A #E94E1B — sem PH branco e 3A laranja, sem gradiente no PH3A.
+- Linha horizontal fina laranja #E94E1B entre PH3A e tagline.
+- Tagline "${tagline}": sans regular/medium cream #F5F1EA; destaque opcional só na tagline (palavras-chave em laranja #E94E1B), nunca no nome do produto nem em PH3A.
+
+Texto centralizado inferior (ortografia EXATA):
+"${productDisplay}"
+"PH3A"
+linha laranja fina
+"${tagline}"`;
+}
+
 const RULES = `Regras:
 • Poder do cubo: pulso/onda circular SUAVE laranja. SEM raio, lightning, arco elétrico.
 • IDIOMA: português do Brasil (pt-BR). Proibido inglês (nunca "by PH3A").
 • ORTOGRAFIA: renderizar textos EXATAMENTE entre aspas, sem typos.
 • SEM CPF, CNPJ, nomes, e-mails, telefones reais. SEM pessoas fotorealistas.`;
+
+function isCustomAvatarActive() {
+  return (
+    typeof window !== "undefined" &&
+    window.Ph3aAvatarState &&
+    Ph3aAvatarState.getMode() === "custom" &&
+    Ph3aAvatarState.hasCustomAvatar()
+  );
+}
+
+function isHumanAvatarActive() {
+  if (!isCustomAvatarActive()) return false;
+  const ctx =
+    typeof window !== "undefined" && window.Ph3aAvatarState
+      ? Ph3aAvatarState.getProfileCtx()
+      : null;
+  return ctx && ctx.avatarKind === "human";
+}
+
+function getAvatarIdentityBlock() {
+  if (isCustomAvatarActive()) {
+    const block = Ph3aAvatarState.getIdentityBlock();
+    if (block) return block;
+  }
+  return CUBO_PH;
+}
+
+function getAvatarName() {
+  if (isCustomAvatarActive()) return Ph3aAvatarState.getCharacterName();
+  return "CUBO-PH";
+}
+
+function getAvatarStyleHint() {
+  if (isCustomAvatarActive()) return Ph3aAvatarState.getStyleHint();
+  return "ilustração 2D flat PH3A";
+}
+
+function getAvatarAttachHint() {
+  if (isCustomAvatarActive()) {
+    const v = Ph3aAvatarState.getChosenVariant() || "A";
+    return (
+      "ANEXAR EM TODOS OS PEDIDOS: avatar sheet personalizado (aba Avatar · Variante " +
+      v +
+      " · " +
+      Ph3aAvatarState.getCharacterName() +
+      ")"
+    );
+  }
+  return "ANEXAR EM TODOS OS PEDIDOS: ../mascot/WhatsApp Image 2026-05-27 at 09.51.45.jpeg (ou mascot-base/)";
+}
+
+/** Catálogo de feições — preview + prompts de keyframe/vídeo. */
+const KF_EXPRESSION_CATALOG = {
+  alerta: {
+    label: "Alerta / preocupada (leve)",
+    prompt: "expressão de alerta ou preocupação leve nos olhos, SEM tristeza nem choro",
+  },
+  pensativa: {
+    label: "Pensativa / séria",
+    prompt: "expressão pensativa e séria, atenção ao problema, SEM tristeza",
+  },
+  confusa: {
+    label: "Confusa / indecisa (leve)",
+    prompt: "expressão confusa ou indecisa leve, sobrancelha questionadora",
+  },
+  frustrada: {
+    label: "Frustrada / inquieta (leve)",
+    prompt: "expressão de leve frustração ou impaciência contida, SEM raiva exagerada",
+  },
+  neutra: {
+    label: "Neutra atenta",
+    prompt: "expressão neutra e atenta, olhos focados, tensão mínima",
+  },
+  focada: {
+    label: "Focada / engajada",
+    prompt: "expressão focada e engajada, olhar direcionado ao fluxo",
+  },
+  feliz: {
+    label: "Feliz / positiva",
+    prompt: "expressão feliz e positiva, leve sorriso discreto",
+  },
+  confiante: {
+    label: "Confiante / acolhedora",
+    prompt: "expressão confiante e acolhedora, postura de fechamento de marca",
+  },
+};
+
+const KF_EXPRESSION_DEFAULT_ID = { 1: "pensativa", 2: "focada", 3: "feliz", 4: "confiante" };
+
+function defaultKfExpressions() {
+  return { 1: "pensativa", 2: "focada", 3: "feliz", 4: "confiante" };
+}
+
+function ensureNarrativeKfExpressions(n) {
+  if (!n) return defaultKfExpressions();
+  if (!n.kfExpressions) n.kfExpressions = defaultKfExpressions();
+  else {
+    for (let k = 1; k <= 4; k++) {
+      const key = n.kfExpressions[k] ?? n.kfExpressions[String(k)];
+      if (!key || !KF_EXPRESSION_CATALOG[key]) n.kfExpressions[k] = KF_EXPRESSION_DEFAULT_ID[k];
+      else n.kfExpressions[k] = key;
+    }
+  }
+  return n.kfExpressions;
+}
+
+function applyNarrativeDefaults(n) {
+  ensureNarrativeKfExpressions(n);
+  return n;
+}
+
+function getKfExpressionId(n, num) {
+  ensureNarrativeKfExpressions(n);
+  return n.kfExpressions[num] || KF_EXPRESSION_DEFAULT_ID[num];
+}
+
+function getKfExpressionPrompt(n, num) {
+  const id = getKfExpressionId(n, num);
+  return (
+    KF_EXPRESSION_CATALOG[id]?.prompt ||
+    KF_EXPRESSION_CATALOG[KF_EXPRESSION_DEFAULT_ID[num]].prompt
+  );
+}
+
+/** Reforço na API — qualquer avatar personalizado (humano ou abstrato) via sheet. */
+function getKfExpressionDirective(n, num) {
+  const label = getKfExpressionLabel(getKfExpressionId(n, num));
+  const prompt = getKfExpressionPrompt(n, num);
+  let note = "";
+  if (isCustomAvatarActive()) {
+    note = isHumanAvatarActive()
+      ? " Rosto humano: DEVE refletir esta feição — não copiar sorriso fixo do sheet se for diferente."
+      : " Mascote: olhos/rosto (ou tela do rosto) DEVEM refletir esta emoção — não repetir expressão do sheet se o pedido for outra.";
+  }
+  return `Feição deste keyframe (${label}): ${prompt}.${note}`;
+}
+
+function getKfExpressionLabel(id) {
+  return KF_EXPRESSION_CATALOG[id]?.label || id;
+}
+
+function listKfExpressionOptions() {
+  return Object.keys(KF_EXPRESSION_CATALOG).map((id) => ({
+    id,
+    label: KF_EXPRESSION_CATALOG[id].label,
+  }));
+}
+
+function avatarKfLead(num, n) {
+  const name = getAvatarName();
+  const style = getAvatarStyleHint();
+  const exprLine = getKfExpressionDirective(n, num);
+  const solo = isCustomAvatarActive()
+    ? ` Somente ${name} — sem CUBO-PH nem segundo mascote.`
+    : "";
+
+  if (num === 1) {
+    const styleLead = isCustomAvatarActive() ? style : "ilustração 2D flat PH3A";
+    const attach = isCustomAvatarActive() ? "avatar sheet anexado" : "mascote anexado";
+    const pos = isCustomAvatarActive()
+      ? `à esquerda. ${exprLine}`
+      : `à esquerda, nuvem cream. ${exprLine}`;
+    return `16:9 ${styleLead}. ${name} idêntico ao ${attach} (identidade/cores/proporções): ${pos}`;
+  }
+  if (num === 2) {
+    const styleLead = isCustomAvatarActive() ? style : "ilustração 2D flat";
+    return `16:9 ${styleLead}. Mesmo ${name} (identidade do keyframe 1). ${exprLine} Braço aponta para fluxo horizontal com 4 nós:${solo}`;
+  }
+  if (num === 3) {
+    const styleLead = isCustomAvatarActive() ? style : "ilustração 2D flat";
+    return `16:9 ${styleLead}. Mesmo ${name}. ${exprLine} Hover-bounce leve.${solo}`;
+  }
+  if (num === 4) {
+    if (isCustomAvatarActive()) {
+      return `16:9 ${style}. ${name} centralizado. ${exprLine} Detalhes com glow laranja PH3A.${solo}`;
+    }
+    return `16:9 ilustração 2D flat. ${name} centralizado. ${exprLine} Antena com glow laranja.`;
+  }
+  return "";
+}
+
+function buildAvatarExecLine(num) {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    const exprNote =
+      " Sheet = identidade (personagem, paleta, proporções), NÃO trava expressão — aplicar a feição indicada no bloco KEYFRAME.";
+    if (num === 1) {
+      return (
+        "Gere agora UMA única imagem estática 16:9 (1920×1080). " +
+        getAvatarStyleHint() +
+        " — não roteiro. " +
+        name +
+        " com a mesma identidade do avatar sheet anexado (personagem, paleta, proporções)." +
+        exprNote +
+        " " +
+        avatarKeyframeMouthLine()
+      );
+    }
+    return (
+      "Gere agora UMA única imagem estática 16:9 (1920×1080). Mesmo " +
+      name +
+      " e mesmo estilo visual; feição facial conforme este KEYFRAME (pode diferir do anterior)." +
+      exprNote
+    );
+  }
+  if (num === 1) {
+    return "Gere agora UMA única imagem estática 16:9 (1920×1080). Ilustração 2D flat PH3A — não roteiro. CUBO-PH idêntico ao mascote anexado: corpo charcoal/preto fosco (NÃO cream no cubo), bordas laranja #E94E1B, antena com esfera laranja, olhos kawaii na tela, nuvem cream #F5F1EA.";
+  }
+  return "Gere agora UMA única imagem estática 16:9 (1920×1080). Mesmo CUBO-PH e mesmo estilo visual do keyframe 1 desta série (charcoal + laranja PH3A, 2D flat).";
+}
+
+/** Roteiros Flow/Veo — mesmo mascote da aba Avatar / keyframes gerados. */
+function avatarVideoMainInstruction() {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    return (
+      `O personagem ${name} deve ser o MESMO em todo o vídeo: idêntico ao desenho dos keyframes anexados (proporções, cores charcoal/laranja PH3A, expressões). ` +
+      `NÃO substituir por CUBO-PH, cubo robô nem outro mascote genérico. Estilo ${getAvatarStyleHint()} — não redesenhar o personagem no meio do vídeo.`
+    );
+  }
+  return CUBO_PH_VIDEO;
+}
+
+function avatarVideoShortInstruction() {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    return `${name} (idêntico nos keyframes):\nMesmo personagem e estilo visual dos PNGs anexados — não trocar por CUBO-PH nem cubo robô.`;
+  }
+  return CUBO_PH_VIDEO_SHORT;
+}
+
+function avatarOmniSceneMascotLine(num, n) {
+  const name = getAvatarName();
+  const label = getKfExpressionLabel(getKfExpressionId(n, num));
+  if (num === 1) {
+    if (isCustomAvatarActive()) {
+      return `- ${name} à esquerda, ${label} — mesma pose e desenho do keyframe_1.png.`;
+    }
+    return `- ${name} à esquerda na nuvem cream, ${label} (olhos coerentes com a emoção).`;
+  }
+  if (num === 2) {
+    return `- ${name} ${label}; braço aponta para`;
+  }
+  if (num === 3) {
+    return `- ${name} ${label}, hover-bounce leve.`;
+  }
+  if (num === 4) {
+    if (isCustomAvatarActive()) {
+      return `- ${name} centralizado, ${label} — mesmo desenho do keyframe_4.png; glow laranja PH3A nos detalhes.`;
+    }
+    return `- ${name} centralizado, ${label}; antena com esfera laranja em um pulso suave de glow.`;
+  }
+  return `- ${name}.`;
+}
+
+function avatarOmniScene3Motion() {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    return `Movimento: resultado/badges aparecem no fim do fluxo; ${name} faz bounce suave.`;
+  }
+  return "Movimento: resultado/badges aparecem no fim do fluxo; cubo faz bounce suave.";
+}
+
+function avatarOmniScene1Motion() {
+  return `Movimento: elementos do problema animam levemente (flutuar/pulsar discreto); ${getAvatarName()} olha para o lado direito.`;
+}
+
+function avatarComplianceMascotRule() {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    return `- ${name} idêntico aos keyframes anexos — não substituir por CUBO-PH nem outro mascote.`;
+  }
+  return "- CUBO-PH idêntico aos keyframes anexos.";
+}
+
+function avatarV2PngTruthBlock(meta) {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    return (
+      `- desenho do ${name} exatamente como nos PNGs (forma, cores, pose, posição)\n` +
+      "- posição e tamanho de cada elemento na tela\n" +
+      "- textos on-screen (ortografia exata)\n" +
+      `- ícones, cards, ${meta.flow}, cores e composição`
+    );
+  }
+  return (
+    "- desenho do CUBO-PH (formato do cubo, antena, olhos na tela, braços/pernas, nuvem cream)\n" +
+    "- posição e tamanho de cada elemento na tela\n" +
+    "- textos on-screen (ortografia exata)\n" +
+    `- ícones, cards, ${meta.flow}, cores e composição`
+  );
+}
+
+function avatarV2NoReinventRules() {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    return (
+      `1. NÃO crie um personagem "melhor" ou diferente do ${name} que está nos keyframes.\n` +
+      "2. NÃO substitua o layout dos PNGs por um layout genérico de “vídeo tech”.\n" +
+      `3. NÃO troque ${name} por CUBO-PH, cubo robô ou mascote genérico.\n` +
+      "4. O vídeo deve parecer os 4 keyframes em sequência, com transição suave — não uma nova ilustração inspirada no briefing.\n" +
+      "5. Se houver conflito entre este texto e o PNG, OBEDEÇA O PNG."
+    );
+  }
+  return (
+    '1. NÃO crie um robô/cubo “melhor” ou diferente do que está nos keyframes.\n' +
+    "2. NÃO substitua o layout dos PNGs por um layout genérico de “vídeo tech”.\n" +
+    "3. O vídeo deve parecer os 4 keyframes em sequência, com transição suave — não uma nova ilustração inspirada no briefing.\n" +
+    "4. Se houver conflito entre este texto e o PNG, OBEDEÇA O PNG."
+  );
+}
+
+function avatarV2NegativeExtra() {
+  if (isCustomAvatarActive()) {
+    return (
+      ", new mascot design, CUBO-PH, cube robot, cubo robô, different cube robot, different proportions, " +
+      "generic tech mascot, invented UI layout not in keyframes, replace PNG composition, " +
+      "creative reinterpretation, 3D metallic cube, realistic robot, chibi redesign, alternate character"
+    );
+  }
+  return (
+    ", new mascot design, redesigned CUBO-PH, different cube robot, different proportions, " +
+    "generic tech mascot, invented UI layout not in keyframes, replace PNG composition, " +
+    "creative reinterpretation, 3D metallic cube, realistic robot, chibi redesign, alternate character"
+  );
+}
+
+function avatarOmniMovementLine(meta) {
+  const name = getAvatarName();
+  if (isCustomAvatarActive()) {
+    return (
+      `Animate 10s 16:9 through keyframe_1.png → keyframe_2.png → keyframe_3.png → keyframe_4.png in order. ` +
+      `Match each PNG composition and on-screen text exactly. Same ${name} throughout — do not replace with CUBO-PH or another mascot. ` +
+      `Subtle mouth only as in PNGs — no lip sync, no talking animation. Smooth transitions. Orange soft pulse travels through ${meta.flow} in scene 2. No lightning.`
+    );
+  }
+  return (
+    `Animate 10s 16:9 through keyframe_1.png → keyframe_2.png → keyframe_3.png → keyframe_4.png in order. ` +
+    `Match each PNG composition and on-screen text exactly. Same 2D flat CUBO-PH throughout. ` +
+    `Discrete mouth as in PNGs — minimal motion, no lip sync. Smooth transitions. Orange soft pulse travels through ${meta.flow} in scene 2. No lightning.`
+  );
+}
+
+function productMetaForVideo(profile, productDisplay) {
+  const meta = productMeta(profile, productDisplay);
+  if (!isCustomAvatarActive()) return meta;
+  const name = getAvatarName();
+  const repl = (s) => (typeof s === "string" ? s.replace(/CUBO-PH/g, name) : s);
+  return { ...meta, split1End: repl(meta.split1End), split2Start: repl(meta.split2Start) };
+}
+
+/** Boca mascote mascarada/minimal (ninja) vs discreta na tela (cubo). */
+function avatarMouthKind() {
+  if (!isCustomAvatarActive()) return "screen";
+  const ctx =
+    typeof window !== "undefined" && window.Ph3aAvatarState
+      ? Ph3aAvatarState.getProfileCtx()
+      : null;
+  const p = ctx && ctx.profile;
+  if (!p) return "discrete";
+  const t = [p.facial_traits, p.distinctive_details, p.morphology, p.avatar_block]
+    .filter(Boolean)
+    .join(" ")
+    .toLowerCase();
+  if (/máscara|mascara|mask|boca coberta|rosto coberto|parte inferior do rosto/.test(t)) {
+    return "masked";
+  }
+  return "discrete";
+}
+
+/** Texto compartilhado: como desenhar/tratar a boca (keyframes + vídeo). */
+function avatarMouthDrawHint(forVideo) {
+  const kind = avatarMouthKind();
+  if (kind === "masked") {
+    return forVideo
+      ? "máscara ou elemento que disfarça a boca (como nos keyframes) — não revelar lábios; não animar fala por baixo"
+      : "máscara/boca disfarçada como no avatar sheet — sem lábios exagerados nem boca aberta";
+  }
+  if (kind === "screen") {
+    return forVideo
+      ? "boca minimalista na tela (traço simples/cream) — manter discreta como no PNG; no máximo micro-variação"
+      : "boca minimalista na tela do cubo (traço simples/cream) — sorriso fechado leve ou linha discreta";
+  }
+  if (isCustomAvatarActive()) {
+    return forVideo
+      ? "boca pequena/discreta do personagem — igual ao PNG; movimento leve só se já existir no desenho"
+      : "boca pequena e discreta — sem wide open; emoção principal nos olhos e na pose";
+  }
+  return forVideo
+    ? "boca discreta como no desenho — sem exagerar abertura"
+    : "boca discreta — sem pose de fala nem boca aberta exagerada";
+}
+
+/** Briefing / PARTE 1 — prepara PNGs para animação com VO depois. */
+function avatarKeyframeMouthHint() {
+  const name = getAvatarName();
+  return `Boca (keyframes → vídeo com VO):
+- ${avatarMouthDrawHint(false)}.
+- ${name}: expressão nos OLHOS + corpo; imagem pronta para narração off-screen (sem pose de “falando”).
+- Evitar: boca wide open, dentes à mostra, mandíbula exagerada, expressão de diálogo sincronizado.`;
+}
+
+/** Uma linha por KEYFRAME — reforço ao gerar cada PNG. */
+function avatarKeyframeMouthLine() {
+  return `Boca discreta, sem pose de fala (${avatarMouthDrawHint(false)}).`;
+}
+
+/** Instruções anti lip-sync exagerado — Flow tende a animar boca e gerar atraso visível. */
+function avatarVideoMouthBlock() {
+  const name = getAvatarName();
+  const mouthDetail = avatarMouthDrawHint(true);
+
+  return `BOCA / EXPRESSÃO (suavizar — evitar lip-sync exagerado):
+- Narração = VO off-screen. ${name} não precisa "falar" para câmera nem sincronizar boca com a voz.
+- ${mouthDetail}.
+- Evitar: lip-sync, fonemas, boca abrindo/fechando em loop, mandíbula marcante, "talking head".
+- Se a boca for visível: movimento MÍNIMO e natural (ex.: sorriso leve estável) — nunca animação de fala.
+- Expressão principal: OLHOS + pose + corpo (bounce, apontar, hover). Blink leve nos olhos é ok; não competir com a boca.`;
+}
+
+function avatarMouthComplianceLine() {
+  return "- Boca discreta como nos keyframes — movimento mínimo; sem lip-sync com a narração.";
+}
+
+function avatarMouthNegativeTerms() {
+  return (
+    "lip sync, lip-sync, exaggerated mouth movement, talking mouth, open mouth talking, jaw flapping, " +
+    "phoneme mouth, dialogue sync, speaking character, animated lips, lip flap, mouth wide open"
+  );
+}
 
 const DEFAULT_TAGLINES = {
   datatag: "Você não precisa de mais leads. Precisa dos certos.",
@@ -836,15 +1290,17 @@ function buildNarratives(profile, productDisplay, tagline) {
   const pool = banks[profile] || banks.generic;
   const shuffled = shuffleArray(pool);
   const picked = shuffled.slice(0, Math.min(5, shuffled.length));
-  return picked.map((item, i) => ({
-    id: `local-${Date.now()}-${i}`,
-    label: item.label,
-    scenes: item.scenes,
-    narration: item.narration,
-    productDisplay,
-    tagline,
-    profile,
-  }));
+  return picked.map((item, i) =>
+    applyNarrativeDefaults({
+      id: `local-${Date.now()}-${i}`,
+      label: item.label,
+      scenes: item.scenes,
+      narration: item.narration,
+      productDisplay,
+      tagline,
+      profile,
+    })
+  );
 }
 
 function shuffleArray(arr) {
@@ -931,7 +1387,7 @@ function buildBriefingBlock(n) {
 Entrega: KEYFRAMES estáticos 16:9 (1920×1080) para vídeo PH3A.
 Narrativa escolhida: ${n.label}
 
-${CUBO_PH}
+${getAvatarIdentityBlock()}
 
 Arco (4 cenas):
 • Cena 1 — Problema: "${scenes.c1t}" — ${scenes.c1s}
@@ -940,6 +1396,13 @@ Arco (4 cenas):
 • Cena 4 — Marca: ${productDisplay} + PH3A + "${tagline}"
 
 ${RULES}
+
+${avatarKeyframeMouthHint()}
+${
+  isCustomAvatarActive()
+    ? "\nAvatar personalizado (humano ou mascote): cada KEYFRAME pede feição diferente — variar conforme o pedido, mantendo identidade do sheet (não copiar a mesma expressão do PNG em todas as cenas).\n"
+    : ""
+}
 
 Aguarde meus pedidos KEYFRAME 1, 2, 3 e 4. Gere UMA imagem por vez.`;
 }
@@ -951,7 +1414,7 @@ function buildKeyframeBlock(n, num) {
   if (num === 1) {
     return `KEYFRAME 1 — ${productDisplay} · ${n.label}
 
-16:9 ilustração 2D flat PH3A. CUBO-PH idêntico ao mascote anexado: à esquerda, nuvem cream, expressão PREOCUPADA/Triste.
+${avatarKfLead(1, n)}
 ${v.k1}
 
 Fundo charcoal + blobs laranja nos cantos.
@@ -959,43 +1422,59 @@ Textos on-screen (ortografia EXATA, pt-BR):
 Título grande cream bold: "${scenes.c1t}"
 Subtítulo menor: "${scenes.c1s}"
 
+${avatarKeyframeMouthLine()}
 Sem lightning. Sem inglês. 1920×1080.`;
   }
   if (num === 2) {
     return `KEYFRAME 2 — ${productDisplay}
 
-16:9 ilustração 2D flat. Mesmo CUBO-PH idêntico ao keyframe 1. Expressão FOCADA. Braço aponta para fluxo horizontal com 4 nós:
+${avatarKfLead(2, n)}
 ${scenes.c2f.map((s, i) => `${i + 1}. "${s}"`).join("\n")}
 Pulso circular SUAVE laranja #E94E1B (NÃO lightning).
 ${v.k2}
 
 Texto topo bold: "${scenes.c2t}"
+${avatarKeyframeMouthLine()}
 1920×1080.`;
   }
   if (num === 3) {
     return `KEYFRAME 3 — ${productDisplay}
 
-16:9 ilustração 2D flat. Mesmo CUBO-PH, expressão FELIZ, hover-bounce leve.
+${avatarKfLead(3, n)}
 ${v.k3}
 
 Textos topo esquerdo (duas linhas cream bold):
 "${scenes.c3a}"
 "${scenes.c3b}"
 
+${avatarKeyframeMouthLine()}
 1920×1080.`;
   }
   return `KEYFRAME 4 — ${productDisplay} · Assinatura PH3A
 
-16:9 ilustração 2D flat. CUBO-PH centralizado, feliz, antena com glow laranja.
+${avatarKfLead(4, n)}
 ${v.k4}
 
-Texto centralizado inferior (EXATOS):
-"${productDisplay}"
-"PH3A"
-linha laranja fina
-"${n.tagline}"
+${kf4SignatureTypographyBlock(productDisplay, n.tagline)}
 
+${avatarKeyframeMouthLine()}
 1920×1080.`;
+}
+
+/** §5 API: mesma 1ª mensagem do ChatGPT — briefing mestre + KEYFRAME N + pedido de imagem. */
+function buildKeyframePromptForApi(n, num) {
+  const briefing = buildBriefingBlock(n);
+  const kf = buildKeyframeBlock(n, num);
+  const exec = buildAvatarExecLine(num);
+  return (
+    "── BRIEFING MESTRE (PARTE 1 — cole primeiro no ChatGPT) ──\n\n" +
+    briefing +
+    "\n\n── KEYFRAME A GERAR AGORA ──\n\n" +
+    kf +
+    "\n\n── EXECUÇÃO ──\n\n" +
+    exec +
+    " Sem lightning. Sem inglês."
+  );
 }
 
 function buildPromptsFile(n) {
@@ -1013,7 +1492,7 @@ Salvar: keyframe_1.png … keyframe_4.png na pasta do produto.
 ================================================================================
 
 FERRAMENTA: ChatGPT (geração de imagem)
-ANEXAR EM TODOS OS PEDIDOS: ../mascot/WhatsApp Image 2026-05-27 at 09.51.45.jpeg
+${getAvatarAttachHint()}
 A partir do KEYFRAME 2: anexar também o keyframe anterior gerado.
 
 ────────────────────────────────────────
@@ -1198,15 +1677,15 @@ SEGUNDO 0,0 – 2,5 → REPRODUZIR keyframe_1.png
 Composição igual ao arquivo keyframe_1.png:
 - Texto superior cream bold: "${scenes.c1t}" (manter legível).
 - Subtítulo cream menor: "${scenes.c1s}"
-- CUBO-PH à esquerda na nuvem cream, expressão PREOCUPADA/alerta (olhos tensos).
+${avatarOmniSceneMascotLine(1, n)}
 ${right}
 
-Movimento: elementos do problema animam levemente (flutuar/pulsar discreto); CUBO-PH olha para o lado direito.`;
+${avatarOmniScene1Motion()}`;
 }
 
 function buildOmniScene2(n) {
   const { scenes, profile } = n;
-  const meta = productMeta(profile, n.productDisplay);
+  const meta = productMetaForVideo(profile, n.productDisplay);
   const nodes = flowArrow(scenes.c2f);
   const numbered = flowNumbered(scenes.c2f);
 
@@ -1215,7 +1694,7 @@ SEGUNDO 2,5 – 5,0 → REPRODUZIR keyframe_2.png
 
 Transição suave a partir do keyframe_1. Composição igual ao keyframe_2.png:
 - Texto topo bold: "${scenes.c2t}"
-- CUBO-PH focado; braço aponta para ${meta.flow} horizontal de 4 nós conectados por setas:
+${avatarOmniSceneMascotLine(2, n)} ${meta.flow} horizontal de 4 nós conectados por setas:
   ${numbered}
 - ${meta.scene2Extra}
 - Pulso circular SUAVE laranja #E94E1B percorrendo os nós da esquerda para direita (onda, NÃO lightning, NÃO raio elétrico).
@@ -1225,7 +1704,7 @@ Movimento: pulso avança etapa por etapa; nós acendem em sequência (${nodes}).
 
 function buildOmniScene3(n) {
   const { scenes, profile } = n;
-  const meta = productMeta(profile, n.productDisplay);
+  const meta = productMetaForVideo(profile, n.productDisplay);
 
   return `────────────────────────────────────────
 SEGUNDO 5,0 – 8,0 → REPRODUZIR keyframe_3.png
@@ -1234,29 +1713,25 @@ Transição suave a partir do keyframe_2. Composição igual ao keyframe_3.png:
 - Texto canto superior esquerdo, duas linhas cream bold:
   "${scenes.c3a}"
   "${scenes.c3b}"
-- CUBO-PH feliz, hover-bounce leve.
+${avatarOmniSceneMascotLine(3, n)}
 - ${meta.flow} completo com glow laranja suave.
 - ${meta.scene3Extra}
 
-Movimento: resultado/badges aparecem no fim do fluxo; cubo faz bounce suave.`;
+${avatarOmniScene3Motion()}`;
 }
 
 function buildOmniScene4(n) {
   const { productDisplay, tagline, profile } = n;
-  const meta = productMeta(profile, productDisplay);
+  const meta = productMetaForVideo(profile, productDisplay);
 
   return `────────────────────────────────────────
 SEGUNDO 8,0 – 10,0 → REPRODUZIR keyframe_4.png
 
 Transição suave para fechamento. Composição igual ao keyframe_4.png:
 - Fundo escurece levemente.
-- CUBO-PH centralizado, confiante; antena com esfera laranja em um pulso suave de glow.
+${avatarOmniSceneMascotLine(4, n)}
 - ${meta.scene4Mini}
-- Texto centralizado inferior cream:
-  "${productDisplay}"
-  "PH3A" (somente PH3A — sem "by")
-  linha laranja fina
-  "${tagline}"
+- ${kf4SignatureTypographyBlock(productDisplay, tagline)}
 - Fade-in suave do bloco de texto (scale ~0,95 → 1).
 
 Últimos 0,3s: quase estático no layout do keyframe_4.`;
@@ -1264,7 +1739,8 @@ Transição suave para fechamento. Composição igual ao keyframe_4.png:
 
 function buildNegativePrompt(profile) {
   const common =
-    "vertical video, English text, \"by PH3A\", misspelled Portuguese, lightning bolt, electric arc, energy beam on face, real human faces, real personal data, distorted logo, watermark, 3D metallic mascot redesign, fast chaotic cuts, shaky camera";
+    "vertical video, English text, \"by PH3A\", misspelled Portuguese, lightning bolt, electric arc, energy beam on face, real human faces, real personal data, distorted logo, watermark, 3D metallic mascot redesign, fast chaotic cuts, shaky camera, " +
+    "product name with mixed letter colors, two-tone product logo, half white half orange letters in product title, PH white 3A orange split, gradient per letter in DATATAG DATABUSCA, lowercase ph3a";
   const byProfile = {
     datatag:
       "website visitor silhouettes misused for DataBusca, incomplete registration fichas DataBusca, DataFraud workflow antifraude, fragmented legacy systems diagram",
@@ -1282,7 +1758,7 @@ function buildNegativePrompt(profile) {
 function buildRoteiroOmni(n) {
   const { productDisplay, tagline, scenes, narration, profile } = n;
   const folder = productFolder(profile);
-  const meta = productMeta(profile, productDisplay);
+  const meta = productMetaForVideo(profile, productDisplay);
   const trilha =
     profile === "datarc6"
       ? "Trilha institucional minimalista B2B. Whoosh leve no percurso da timeline (cena 2). Batida positiva na cena 3."
@@ -1307,7 +1783,7 @@ ARQUIVOS DE REFERÊNCIA ANEXADOS (ORDEM OBRIGATÓRIA):
 INSTRUÇÃO PRINCIPAL:
 Gere um vídeo que INTERPOLE suavemente entre os 4 keyframes anexados, nesta ordem exata. Cada trecho deve se aproximar fielmente do keyframe correspondente no momento indicado. Não redesenhe do zero: preserve composição, cores, textos on-screen, UI, ${meta.flow} e o mascote como nas imagens.
 
-${CUBO_PH_VIDEO}
+${avatarVideoMainInstruction()}
 
 PRODUTO: ${meta.desc} ${meta.not}
 
@@ -1315,6 +1791,8 @@ TOM: ${meta.tone}
 ${trilha}
 
 CÂMERA: estática ou push-in muito lento. Sem cortes rápidos. Transições suaves entre os 4 estados.
+
+${avatarVideoMouthBlock()}
 
 ${buildOmniScene1(n)}
 
@@ -1330,6 +1808,7 @@ NARRAÇÃO EM PORTUGUÊS BRASILEIRO (VOZ OFF, OPCIONAL — 10s):
 "${narration}"
 
 Pronunciar "${productDisplay}" de forma natural. Tom consultivo, humano. Música abaixo da voz.
+A narração é VO off-screen — não sincronizar a boca do mascote com a voz; evitar animação labial exagerada.
 
 ────────────────────────────────────────
 REGRAS DE CONFORMIDADE (OBRIGATÓRIO):
@@ -1337,24 +1816,26 @@ REGRAS DE CONFORMIDADE (OBRIGATÓRIO):
 - Textos on-screen somente em português. Zero inglês.
 - Zero CPF, CNPJ, nomes, e-mails ou telefones reais.
 - Zero pessoas fotorealistas.
-- CUBO-PH idêntico aos keyframes anexos.
+${avatarComplianceMascotRule()}
+${avatarMouthComplianceLine()}
 - Pulso = onda laranja SUAVE no fluxo (cena 2); proibido lightning/raio/arco elétrico.
 - ${meta.not}
 
 NEGATIVE PROMPT:
-${buildNegativePrompt(profile)}
+${buildNegativePrompt(profile)}, ${avatarMouthNegativeTerms()}
 
 ────────────────────────────────────────
 MOVIMENTO (campo curto separado, se o Flow pedir):
 
-Animate 10s 16:9 through keyframe_1.png → keyframe_2.png → keyframe_3.png → keyframe_4.png in order. Match each PNG composition and on-screen text exactly. Same 2D flat CUBO-PH throughout. Smooth transitions. Orange soft pulse travels through ${meta.flow} in scene 2. No lightning.`;
+${avatarOmniMovementLine(meta)}`;
 }
 
 /** Roteiro Omni v2 — prioriza copiar os PNGs; não reinventar mascote/layout. */
 function buildRoteiroOmniV2(n) {
   const { productDisplay, tagline, scenes, narration, profile } = n;
   const folder = productFolder(profile);
-  const meta = productMeta(profile, productDisplay);
+  const meta = productMetaForVideo(profile, productDisplay);
+  const name = getAvatarName();
   const nodes = flowArrow(scenes.c2f);
 
   return `================================================================================
@@ -1372,16 +1853,10 @@ PROJETO: Vídeo ${productDisplay} · PH3A · 10s · 16:9 · 30 fps.
 
 ARQUIVOS ANEXADOS (OBRIGATÓRIO — 4 IMAGENS):
 Anexe os 4 PNGs keyframe_1 … keyframe_4 nesta ordem. Eles são a ÚNICA fonte de verdade para:
-- desenho do CUBO-PH (formato do cubo, antena, olhos na tela, braços/pernas, nuvem cream)
-- posição e tamanho de cada elemento na tela
-- textos on-screen (ortografia exata)
-- ícones, cards, ${meta.flow}, cores e composição
+${avatarV2PngTruthBlock(meta)}
 
 PRIORIDADE MÁXIMA — NÃO REINVENTAR:
-1. NÃO crie um robô/cubo “melhor” ou diferente do que está nos keyframes.
-2. NÃO substitua o layout dos PNGs por um layout genérico de “vídeo tech”.
-3. O vídeo deve parecer os 4 keyframes em sequência, com transição suave — não uma nova ilustração inspirada no briefing.
-4. Se houver conflito entre este texto e o PNG, OBEDEÇA O PNG.
+${avatarV2NoReinventRules()}
 
 INSTRUÇÃO PRINCIPAL:
 Interpole suavemente entre keyframe_1 → keyframe_2 → keyframe_3 → keyframe_4.
@@ -1392,12 +1867,14 @@ PRODUTO (contexto apenas): ${meta.desc} ${meta.not}
 TOM: ${meta.tone}
 CÂMERA: estática ou push-in imperceptível. Sem cortes. Sem zoom dramático que mude enquadramento dos PNGs.
 
+${avatarVideoMouthBlock()}
+
 ────────────────────────────────────────
 SEGUNDO 0,0 – 2,5 → = keyframe_1.png (COPIAR COMPOSIÇÃO)
 
 Reproduzir o PNG keyframe_1.png o mais fielmente possível:
 - Título on-screen: "${scenes.c1t}" · subtítulo: "${scenes.c1s}" (se estiverem no PNG, letra por letra).
-- CUBO-PH: MESMO desenho do PNG (proporções, cantos, antena, expressão da tela, nuvem, posição à esquerda).
+- ${name}: MESMO desenho do PNG (proporções, pose, expressão, posição à esquerda).
 - Demais elementos: exatamente como no PNG (ícones, cards, diagramas à direita) — não trocar por outro metaphor layout.
 
 Movimento permitido APENAS: flutuar leve, pulsar alertas discretos — SEM redesenhar personagem ou UI.
@@ -1408,7 +1885,7 @@ SEGUNDO 2,5 – 5,0 → = keyframe_2.png (COPIAR COMPOSIÇÃO)
 Transição morph de keyframe_1 → keyframe_2. No pico deste trecho, igualar keyframe_2.png:
 - Título: "${scenes.c2t}"
 - ${meta.flow} com nós: ${nodes} — mesma disposição, cores e ícones do PNG.
-- CUBO-PH idêntico ao keyframe_2 (pose, apontar, expressão).
+- ${name} idêntico ao keyframe_2 (pose, apontar, expressão).
 - Pulso laranja SUAVE só se existir no PNG (onda, NÃO lightning).
 
 ────────────────────────────────────────
@@ -1416,18 +1893,15 @@ SEGUNDO 5,0 – 8,0 → = keyframe_3.png (COPIAR COMPOSIÇÃO)
 
 Transição morph de keyframe_2 → keyframe_3. No pico, igualar keyframe_3.png:
 - Linhas: "${scenes.c3a}" / "${scenes.c3b}"
-- CUBO-PH idêntico ao PNG (feliz, bounce leve no máximo).
+- ${name} idêntico ao PNG (feliz, bounce leve no máximo).
 - Badges/resultado/trilha: só o que estiver desenhado no keyframe_3.png.
 
 ────────────────────────────────────────
 SEGUNDO 8,0 – 10,0 → = keyframe_4.png (COPIAR COMPOSIÇÃO)
 
 Transição morph para assinatura. Frame final = keyframe_4.png:
-- CUBO-PH centralizado como no PNG.
-- Textos inferiores EXATOS:
-  "${productDisplay}"
-  "PH3A" (sem "by")
-  "${tagline}"
+- ${name} centralizado como no PNG.
+- ${kf4SignatureTypographyBlock(productDisplay, tagline)}
 - Mini-elementos de fundo só se estiverem no PNG.
 
 Últimos 0,3s: quase freeze no layout do keyframe_4.
@@ -1437,21 +1911,24 @@ NARRAÇÃO PT-BR OPCIONAL (10s):
 
 "${narration}"
 
+VO off-screen — boca discreta, movimento mínimo; sem lip-sync com a voz.
+
 ────────────────────────────────────────
 REGRAS (OBRIGATÓRIO):
 
 - Português nos textos on-screen. Zero inglês. Sem "by PH3A".
 - Zero PII real. Zero rostos fotorealistas.
-- CUBO-PH = o dos PNGs, não uma nova versão 3D/metálica/redesenhada.
+- ${name} = o dos PNGs, não uma nova versão redesenhada nem troca por CUBO-PH.
+${avatarMouthComplianceLine()}
 - ${meta.not}
 
 NEGATIVE PROMPT (V2 — reforço anti-reinvenção):
-${buildNegativePrompt(profile)}, new mascot design, redesigned CUBO-PH, different cube robot, different proportions, generic tech mascot, invented UI layout not in keyframes, replace PNG composition, creative reinterpretation, 3D metallic cube, realistic robot, chibi redesign, alternate character
+${buildNegativePrompt(profile)}${avatarV2NegativeExtra()}, ${avatarMouthNegativeTerms()}
 
 ────────────────────────────────────────
 MOVIMENTO (campo curto — cole se o Flow separar):
 
-10s 16:9 morph keyframe_1→2→3→4 in order. Match each attached PNG exactly — same mascot drawing and layout as images. Micro-motion only. Do not invent new character. Smooth transitions. No lightning.`;
+10s 16:9 morph keyframe_1→2→3→4 in order. Match each attached PNG exactly — same mascot drawing and layout as images. Micro-motion only. Discrete mouth — no lip sync. Do not invent new character. Smooth transitions. No lightning.`;
 }
 
 function findOutputTab(name) {
@@ -1482,15 +1959,15 @@ SEGUNDO 0,0 – 4,0 → REPRODUZIR keyframe_1.png
 Textos e elementos EXATOS como no PNG aprovado:
 - Título superior branco/cream bold: "${scenes.c1t}"
 - Subtítulo cinza/cream menor: "${scenes.c1s}"
-- CUBO-PH à esquerda na nuvem cream, expressão PREOCUPADA
+${avatarOmniSceneMascotLine(1, n)}
 - ${right}
 
-Movimento leve: elementos do problema pulsam/flutuam; CUBO-PH olha para a direita.`;
+Movimento leve: elementos do problema pulsam/flutuam; ${getAvatarName()} olha para a direita.`;
 }
 
 function buildSplit1Scene2(n) {
   const { scenes, profile } = n;
-  const meta = productMeta(profile, n.productDisplay);
+  const meta = productMetaForVideo(profile, n.productDisplay);
   const numbered = flowNumbered(scenes.c2f);
 
   let transition = "Os elementos da cena 1 recuam ou desvanecem;";
@@ -1506,14 +1983,14 @@ SEGUNDO 4,0 – 8,0 → TRANSITAR PARA keyframe_2.png
 ${transition}composição final DEVE COINCIDIR com keyframe_2.png:
 
 - Título topo: "${scenes.c2t}"
-- CUBO-PH feliz/focado, nuvem cream, dedo direito apontando; pulso/ondas concêntricas laranja SUAVES (NÃO lightning)
+- ${getAvatarName()} feliz/focado, pose igual ao keyframe_2.png, apontando para o fluxo; pulso/ondas concêntricas laranja SUAVES (NÃO lightning)
 - ${meta.flow} horizontal com 4 caixas numeradas e setas laranja brilhantes:
   ${numbered}
 - ${meta.scene2Extra}
 
 Movimento: ${meta.flow} aparece da esquerda para direita; pulso laranja percorre os primeiros nós (resultado completo da cena 3 fica no clip 2).
 
-ÚLTIMO FRAME (~8s): congelar visualmente alinhado ao keyframe_2.png — CUBO-PH apontando, ${meta.split1End}. Este frame será o ponto de continuidade para EXTEND.`;
+ÚLTIMO FRAME (~8s): congelar visualmente alinhado ao keyframe_2.png — ${getAvatarName()} apontando, ${meta.split1End}. Este frame será o ponto de continuidade para EXTEND.`;
 }
 
 function buildRoteiroSplit1(n) {
@@ -1537,7 +2014,7 @@ ARQUIVOS DE REFERÊNCIA ANEXADOS:
 
 O vídeo DEVE COMEÇAR igual ao keyframe_1.png e TERMINAR igual ao keyframe_2.png, com transição suave entre os dois estados. Não pular para cenas 3 ou 4 — isso fica no extend.
 
-${CUBO_PH_VIDEO_SHORT}
+${avatarVideoShortInstruction()}
 
 ${buildSplit1Scene1(n)}
 
@@ -1550,18 +2027,21 @@ NARRAÇÃO PT-BR OPCIONAL (clip 1, ~8s):
 
 CÂMERA: estática ou push-in muito lento. Sem cortes secos.
 
+${avatarVideoMouthBlock()}
+
 Manter textos on-screen idênticos aos keyframes, ortografia pt-BR correta, sem reescrever palavras.
 
-NEGATIVE: ${buildNegativePrompt(profile)}
+NEGATIVE: ${buildNegativePrompt(profile)}, ${avatarMouthNegativeTerms()}
 
 CAMPO MOVIMENTO (se separado):
-8s 16:9 from keyframe_1.png to keyframe_2.png. Match both PNGs. Same CUBO-PH. End on keyframe_2 composition for seamless extend. Soft orange pulse. No lightning.`;
+8s 16:9 from keyframe_1.png to keyframe_2.png. Match both PNGs. Same ${getAvatarName()} as keyframes — not CUBO-PH unless in PNGs. Minimal mouth motion — no lip sync. End on keyframe_2 composition for seamless extend. Soft orange pulse. No lightning.`;
 }
 
 function buildRoteiroSplit2(n) {
   const { productDisplay, tagline, scenes, profile } = n;
   const folder = productFolder(profile);
-  const meta = productMeta(profile, productDisplay);
+  const meta = productMetaForVideo(profile, productDisplay);
+  const name = getAvatarName();
   const numbered = flowNumbered(scenes.c2f);
   const narr2 = `${scenes.c3a}. ${scenes.c3b}. ${productDisplay} — ${tagline}`;
 
@@ -1596,7 +2076,9 @@ ARQUIVOS DE REFERÊNCIA ANEXADOS (além do clipe já gerado):
 
 NÃO voltar ao keyframe_1.png. NÃO reintroduzir cena de problema da abertura.
 
-CUBO-PH: mesmo personagem 2D flat do clip anterior — charcoal, laranja #E94E1B, olhos kawaii, antena. Não redesenhar mascote.
+${name}: mesmo personagem do clip anterior e dos keyframes — idêntico ao PNG. Não redesenhar nem trocar por CUBO-PH.
+
+${avatarVideoMouthBlock()}
 
 ────────────────────────────────────────
 INÍCIO DO EXTEND (frame 0 do clip 2) — CONTINUIDADE
@@ -1619,7 +2101,7 @@ ${meta.flow} horizontal (mesmos 4 passos numerados):
 
 ${split2Scene3Extra}
 
-CUBO-PH: expressão FELIZ, aponta para o fluxo; hover-bounce leve; faíscas laranja discretas na antena/mão.
+${name}: expressão FELIZ, aponta para o fluxo; hover-bounce leve; glow laranja PH3A discreto nos detalhes (como no PNG).
 
 Movimento: pulso percorre os nós finais; badges/resultado aparecem; elementos de benefício fazem fade-in.
 
@@ -1629,29 +2111,92 @@ SEGUNDO 4,0 – 8,0 (extend) → REPRODUZIR keyframe_4.png
 Transição suave para fechamento. Composição final = keyframe_4.png:
 
 - Fundo charcoal com blobs laranja; partículas laranja sutis
-- CUBO-PH centralizado, flutuando na nuvem cream, feliz, antena com glow
+${avatarOmniSceneMascotLine(4, n)}
 - ${meta.scene4Mini}
-- Texto inferior centralizado:
-  "${productDisplay}" (branco/cream, grande)
-  "PH3A" (laranja, somente "PH3A" — sem "by")
-  linha laranja fina
-  "${tagline}"
+- ${kf4SignatureTypographyBlock(productDisplay, tagline)}
 
-Movimento: elementos da cena 3 recuam ou simplificam; texto de marca faz fade-in; antena pulsa uma vez; últimos 0,5s quase estático.
+Movimento: elementos da cena 3 recuam ou simplificam; texto de marca faz fade-in; ${isCustomAvatarActive() ? `${name} com micro-movimento` : "antena pulsa uma vez"}; últimos 0,5s quase estático.
 
 ────────────────────────────────────────
 NARRAÇÃO PT-BR OPCIONAL (clip 2 / extend, ~8s):
 
 "${narr2}"
 
-Tom consultivo. Música contínua do clip 1.
+Tom consultivo. Música contínua do clip 1. VO off-screen — boca discreta, sem lip-sync exagerado.
 
 Manter textos on-screen idênticos aos keyframes aprovados, ortografia pt-BR correta, sem typos.
+${avatarMouthComplianceLine()}
 
-NEGATIVE: restart from scratch, keyframe_1 problem scene, hard cut discontinuity, ${buildNegativePrompt(profile)}
+NEGATIVE: restart from scratch, keyframe_1 problem scene, hard cut discontinuity, ${buildNegativePrompt(profile)}, ${avatarMouthNegativeTerms()}
 
 CAMPO MOVIMENTO (se separado):
-Extend +8s 16:9 continuing from previous clip end (keyframe_2 state). Animate toward keyframe_3.png then keyframe_4.png. Same CUBO-PH. Match PNG text exactly. End on ${productDisplay} signature. No lightning. Seamless continuity.`;
+Extend +8s 16:9 continuing from previous clip end (keyframe_2 state). Animate toward keyframe_3.png then keyframe_4.png. Same ${name} as keyframes. Minimal mouth — no lip sync. Match PNG text exactly. End on ${productDisplay} signature. No lightning. Seamless continuity.`;
+}
+
+function escapeHtml(text) {
+  return String(text ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Seções do modal de preview (textos on-screen dos 4 KFs). */
+function getNarrativeKfPreviewSections(n) {
+  const scenes = n.scenes || {};
+  const product = n.productDisplay || $("productName")?.value?.trim() || "PRODUTO";
+  const tagline = n.tagline || $("tagline")?.value?.trim() || "";
+  const dynamic = isStudioDynamic();
+  const hints =
+    n.profile && typeof sceneVisualHints === "function"
+      ? sceneVisualHints(n.profile, scenes)
+      : null;
+
+  const kf4Lines = [{ label: "Marca", value: product }];
+  if (!dynamic) kf4Lines.push({ label: "Assinatura", value: "PH3A" });
+  kf4Lines.push({ label: "Tagline", value: tagline });
+
+  return [
+    {
+      num: 1,
+      role: "Problema",
+      timing: "0 – 2,5 s",
+      fields: [
+        { label: "Título", value: scenes.c1t },
+        { label: "Subtítulo", value: scenes.c1s },
+      ],
+      visual: hints?.k1,
+      expressionId: getKfExpressionId(n, 1),
+    },
+    {
+      num: 2,
+      role: "Ação",
+      timing: "2,5 – 5 s",
+      fields: [{ label: "Título", value: scenes.c2t }],
+      list: (scenes.c2f || []).map((s, idx) => ({ label: String(idx + 1), value: s })),
+      visual: hints?.k2,
+      expressionId: getKfExpressionId(n, 2),
+    },
+    {
+      num: 3,
+      role: "Benefício",
+      timing: "5 – 8 s",
+      fields: [
+        { label: "Linha 1", value: scenes.c3a },
+        { label: "Linha 2", value: scenes.c3b },
+      ],
+      visual: hints?.k3,
+      expressionId: getKfExpressionId(n, 3),
+    },
+    {
+      num: 4,
+      role: "Assinatura",
+      timing: "8 – 10 s",
+      fields: kf4Lines,
+      visual: hints?.k4,
+      expressionId: getKfExpressionId(n, 4),
+    },
+  ];
 }
 
 function renderNarrativeList() {
@@ -1659,19 +2204,38 @@ function renderNarrativeList() {
   list.innerHTML = "";
   if (!narratives.length) return;
 
+  const hasPreview = Boolean($("narrativePreviewModal"));
+
   narratives.forEach((n, i) => {
     const el = document.createElement("div");
     el.className = "narrative-item" + (i === selectedIndex ? " selected" : "");
-    el.innerHTML = `<h3>${i + 1}. ${n.label}</h3>
-      <p><strong>1:</strong> ${n.scenes.c1t} · <strong>2:</strong> ${n.scenes.c2t} · <strong>4:</strong> ${n.tagline}</p>`;
+    const previewBtn = hasPreview
+      ? `<button type="button" class="narrative-preview-btn" data-narrative-index="${i}" aria-label="Preview dos 4 keyframes" title="Preview textos dos keyframes">
+          <span class="material-symbols-outlined" aria-hidden="true">visibility</span>
+        </button>`
+      : "";
+    el.innerHTML = `<div class="narrative-item-head">
+        <h3>${i + 1}. ${escapeHtml(n.label)}</h3>
+        ${previewBtn}
+      </div>
+      <p><strong>1:</strong> ${escapeHtml(n.scenes.c1t)} · <strong>2:</strong> ${escapeHtml(n.scenes.c2t)} · <strong>4:</strong> ${escapeHtml(n.tagline)}</p>`;
     el.addEventListener("click", () => {
       selectedIndex = i;
       renderNarrativeList();
       $("btnExport").disabled = false;
+      if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();
     });
+    const btn = el.querySelector(".narrative-preview-btn");
+    if (btn) {
+      btn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (window.Ph3aNarrativePreview) Ph3aNarrativePreview.open(i);
+      });
+    }
     list.appendChild(el);
   });
-  $("narrativeHint").textContent = `${narratives.length} opções — clique para selecionar.`;
+  const hint = `${narratives.length} opções — clique para selecionar.`;
+  $("narrativeHint").textContent = hasPreview ? `${hint} Ícone · preview dos textos dos 4 KFs.` : hint;
 }
 
 function getVertente() {
@@ -1712,7 +2276,8 @@ async function copyToClipboard(text) {
   ta.setAttribute("readonly", "");
 }
 
-function renderOutput() {
+function renderOutput(options) {
+  const noScroll = options && options.noScroll;
   const ready = $("outputReady");
   const emptyHint = $("outputEmptyHint");
   const tabs = $("outputTabs");
@@ -1750,7 +2315,7 @@ function renderOutput() {
   const btnV2 = $("btnOpenV2");
   if (btnV2) btnV2.hidden = findOutputTab("roteiro-flow-v2.txt") < 0;
 
-  $("outputSection").scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!noScroll) $("outputSection")?.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function fileAreaHint(current) {
@@ -1805,26 +2370,56 @@ function getTextSource() {
   return el ? el.value : "local";
 }
 
-function setGeminiStatus(msg, isError) {
-  const el = $("geminiStatus");
+function setApiStatus(elId, storageKey, msg, isError) {
+  const el = $(elId);
   if (!el) return;
   el.textContent = msg || "";
   el.classList.toggle("is-error", Boolean(isError && msg));
-  if (isError && msg) {
+  if (isError && msg && storageKey) {
     try {
-      sessionStorage.setItem("ph3a_gemini_quota_fail", "1");
+      sessionStorage.setItem(storageKey, "1");
     } catch {
       /* ignore */
     }
   }
 }
 
+function setGeminiStatus(msg, isError) {
+  setApiStatus("geminiStatus", "ph3a_gemini_quota_fail", msg, isError);
+}
+
+function setOpenAiStatus(msg, isError) {
+  setApiStatus("openaiStatus", "ph3a_openai_quota_fail", msg, isError);
+}
+
 function updateModeUi() {
-  const isLocal = getTextSource() === "local";
+  const src = getTextSource();
+  const isLocal = src === "local";
   $("modeLocalLabel")?.classList.toggle("selected", isLocal);
-  $("modeGeminiLabel")?.classList.toggle("selected", !isLocal);
-  const details = $("geminiDetails");
-  if (details && !isLocal) details.open = true;
+  $("modeOpenAiLabel")?.classList.toggle("selected", src === "openai");
+  $("modeGeminiLabel")?.classList.toggle("selected", src === "gemini");
+  if (src === "openai") $("openaiDetails")?.setAttribute("open", "");
+  if (src === "gemini") $("geminiDetails")?.setAttribute("open", "");
+}
+
+function initOpenAiUi() {
+  const keyInput = $("openaiApiKey");
+  if (!keyInput || !window.Ph3aOpenAI) return;
+  const saved = Ph3aOpenAI.loadOpenAiKey();
+  keyInput.value =
+    saved || (typeof window.PH3A_OPENAI_KEY_DEFAULT === "string" ? window.PH3A_OPENAI_KEY_DEFAULT : "");
+  if (keyInput.value && !saved) Ph3aOpenAI.saveOpenAiKey(keyInput.value);
+
+  try {
+    if (sessionStorage.getItem("ph3a_openai_quota_fail") === "1") {
+      setOpenAiStatus(
+        "OpenAI sem cota ou limite (429). Verifique billing em platform.openai.com — ou use «Templates locais».",
+        true
+      );
+    }
+  } catch {
+    /* ignore */
+  }
 }
 
 function initGeminiUi() {
@@ -1834,15 +2429,6 @@ function initGeminiUi() {
   keyInput.value =
     saved || (typeof window.PH3A_GEMINI_KEY_DEFAULT === "string" ? window.PH3A_GEMINI_KEY_DEFAULT : "");
   if (keyInput.value && !saved) Ph3aGemini.saveGeminiKey(keyInput.value);
-  updateSourceHint();
-  updateModeUi();
-  document.querySelectorAll('input[name="textSource"]').forEach((r) => {
-    r.addEventListener("change", () => {
-      updateSourceHint();
-      updateModeUi();
-      if (getTextSource() === "local") setGeminiStatus("");
-    });
-  });
 
   try {
     if (sessionStorage.getItem("ph3a_gemini_quota_fail") === "1") {
@@ -1856,12 +2442,67 @@ function initGeminiUi() {
   }
 }
 
+function initApiUi() {
+  initOpenAiUi();
+  initGeminiUi();
+  updateSourceHint();
+  updateModeUi();
+  document.querySelectorAll('input[name="textSource"]').forEach((r) => {
+    r.addEventListener("change", () => {
+      updateSourceHint();
+      updateModeUi();
+      if (getTextSource() === "local") {
+        setGeminiStatus("");
+        setOpenAiStatus("");
+      }
+    });
+  });
+}
+
 $("btnClearGeminiStatus")?.addEventListener("click", () => {
   setGeminiStatus("");
   try {
     sessionStorage.removeItem("ph3a_gemini_quota_fail");
   } catch {
     /* ignore */
+  }
+});
+
+$("btnClearOpenAiStatus")?.addEventListener("click", () => {
+  setOpenAiStatus("");
+  try {
+    sessionStorage.removeItem("ph3a_openai_quota_fail");
+  } catch {
+    /* ignore */
+  }
+});
+
+$("btnSaveOpenAiKey")?.addEventListener("click", () => {
+  const key = $("openaiApiKey").value.trim();
+  if (!key) {
+    setOpenAiStatus("Cole a chave antes de salvar.", true);
+    return;
+  }
+  Ph3aOpenAI.saveOpenAiKey(key);
+  setOpenAiStatus("Chave OpenAI salva neste navegador.");
+});
+
+$("btnTestOpenAiKey")?.addEventListener("click", async () => {
+  const key = $("openaiApiKey").value.trim();
+  if (!key) {
+    setOpenAiStatus("Informe a chave.", true);
+    return;
+  }
+  $("btnTestOpenAiKey").disabled = true;
+  setOpenAiStatus("Testando OpenAI…");
+  try {
+    const reply = await Ph3aOpenAI.testOpenAiKey(key);
+    Ph3aOpenAI.saveOpenAiKey(key);
+    setOpenAiStatus("OK — OpenAI respondeu: " + reply);
+  } catch (e) {
+    setOpenAiStatus(e.message || String(e), true);
+  } finally {
+    $("btnTestOpenAiKey").disabled = false;
   }
 });
 
@@ -1884,7 +2525,7 @@ async function initBaseCatalog() {
   ];
 
   try {
-    const res = await fetch("base-txt/bases-manifest.json");
+    const res = await fetch(ph3aAsset("base-txt/bases-manifest.json"));
     if (res.ok) {
       const data = await res.json();
       baseCatalog = (data.bases || []).filter((b) => b.status === "ready");
@@ -1917,7 +2558,7 @@ async function loadPresetBase(id) {
   if (!item) return;
   const hint = $("basePresetHint");
   try {
-    const res = await fetch("base-txt/" + item.file);
+    const res = await fetch(ph3aAsset("base-txt/" + item.file));
     if (!res.ok) throw new Error("Arquivo não encontrado: base-txt/" + item.file);
     const text = await res.text();
     $("baseText").value = text;
@@ -1941,10 +2582,17 @@ $("btnLoadPreset")?.addEventListener("click", () => {
 function updateSourceHint() {
   const hint = $("narrativeSourceHint");
   if (!hint) return;
-  hint.textContent =
-    getTextSource() === "gemini"
-      ? "Próximo passo: carregue a base (§1) e clique em Gerar 5 narrativas — usa a API Gemini."
-      : "Próximo passo: carregue a base (§1) e clique em Gerar 5 narrativas — usa templates prontos, sem API.";
+  const src = getTextSource();
+  if (src === "openai") {
+    hint.textContent =
+      "Próximo passo: carregue a base (§1) e clique em Gerar 5 narrativas — usa a API OpenAI (ChatGPT).";
+  } else if (src === "gemini") {
+    hint.textContent =
+      "Próximo passo: carregue a base (§1) e clique em Gerar 5 narrativas — usa a API Gemini.";
+  } else {
+    hint.textContent =
+      "Próximo passo: carregue a base (§1) e clique em Gerar 5 narrativas — usa templates prontos, sem API.";
+  }
 }
 
 $("btnSaveKey")?.addEventListener("click", () => {
@@ -1983,6 +2631,13 @@ $("btnNarratives").addEventListener("click", async () => {
     return;
   }
 
+  if (isStudioDynamic()) {
+    if (!window.Ph3aDynamicState || !Ph3aDynamicState.isReady()) {
+      alert("No modo Dinâmico, clique em «Carregar base» e aguarde a análise da IA antes de gerar narrativas.");
+      return;
+    }
+  }
+
   const btn = $("btnNarratives");
   const isReroll = narrativeBatchCount > 0;
   btn.disabled = true;
@@ -1992,7 +2647,48 @@ $("btnNarratives").addEventListener("click", async () => {
   renderOutput();
 
   try {
-    if (getTextSource() === "gemini") {
+    const src = getTextSource();
+    if (isStudioDynamic()) {
+      if (!window.Ph3aDynamicApi) throw new Error("ph3a-dynamic-api.js não carregou.");
+      const key = $("openaiApiKey").value.trim() || (window.Ph3aOpenAI && Ph3aOpenAI.loadOpenAiKey());
+      if (!key) {
+        alert("Modo Dinâmico usa OpenAI. Configure a chave sk-… em Configurações.");
+        return;
+      }
+      const dyn = Ph3aDynamicState.get();
+      const palette = Ph3aDynamicState.getSelectedPalette();
+      $("narrativeHint").textContent = isReroll
+        ? "Gerando outras 5 narrativas (white label)…"
+        : "Gerando 5 narrativas (white label)…";
+      narratives = await Ph3aDynamicApi.fetchDynamicNarratives(key, {
+        baseText: text,
+        productDisplay: productDisplay || dyn.productName,
+        tagline: tagline || dyn.tagline,
+        industry: dyn.industry,
+        tone: dyn.tone,
+        palette: palette,
+        variationId: narrativeBatchCount + 1,
+      });
+      Ph3aOpenAI.saveOpenAiKey(key);
+    } else if (src === "openai") {
+      if (!window.Ph3aOpenAI) throw new Error("openai.js não carregou.");
+      const key = $("openaiApiKey").value.trim() || Ph3aOpenAI.loadOpenAiKey();
+      if (!key) {
+        alert("Cole sua chave OpenAI (sk-…), clique em Salvar e tente de novo.");
+        return;
+      }
+      $("narrativeHint").textContent = isReroll
+        ? "Gerando outras 5 com ChatGPT (API)…"
+        : "Gerando 5 narrativas com OpenAI…";
+      narratives = await Ph3aOpenAI.fetchNarrativesFromOpenAi(key, {
+        baseText: text,
+        profile,
+        productDisplay,
+        tagline,
+        variationId: narrativeBatchCount + 1,
+      });
+      Ph3aOpenAI.saveOpenAiKey(key);
+    } else if (src === "gemini") {
       if (!window.Ph3aGemini) throw new Error("gemini.js não carregou.");
       const key = $("geminiApiKey").value.trim() || Ph3aGemini.loadGeminiKey();
       if (!key) {
@@ -2016,32 +2712,57 @@ $("btnNarratives").addEventListener("click", async () => {
         : "Montando 5 opções…";
       narratives = buildNarratives(profile, productDisplay, tagline);
     }
+    narratives.forEach((item) => {
+      applyNarrativeDefaults(item);
+      if (!item.profile && profile) item.profile = profile;
+    });
     narrativeBatchCount += 1;
     updateNarrativesButton();
-    const src = getTextSource() === "gemini" ? "Gemini" : "local";
+    const srcLabel = isStudioDynamic()
+      ? "Dynamic"
+      : getTextSource() === "openai"
+        ? "OpenAI"
+        : getTextSource() === "gemini"
+          ? "Gemini"
+          : "local";
     $("narrativeHint").textContent =
       "Lote " +
       narrativeBatchCount +
       " — " +
       narratives.length +
       " opções (" +
-      src +
+      srcLabel +
       "). Clique na que preferir. Não gostou? Clique em «Gerar outras 5 narrativas».";
     renderNarrativeList();
     $("narrativeList")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
   } catch (e) {
     const msg = e.message || String(e);
-    const quota = window.Ph3aGemini && Ph3aGemini.isQuotaErrorMessage(msg);
+    if (isStudioDynamic()) {
+      setOpenAiStatus(msg, true);
+      $("narrativeHint").textContent = "Erro ao gerar narrativas: " + msg;
+      narratives = [];
+    } else {
+    const failedSrc = getTextSource();
+    const quota =
+      (failedSrc === "openai" && window.Ph3aOpenAI && Ph3aOpenAI.isQuotaErrorMessage(msg)) ||
+      (failedSrc === "gemini" && window.Ph3aGemini && Ph3aGemini.isQuotaErrorMessage(msg));
     narratives = buildNarratives(profile, productDisplay, tagline);
     narrativeBatchCount += 1;
     if (quota) {
       document.querySelector('input[name="textSource"][value="local"]').checked = true;
       updateSourceHint();
       updateModeUi();
-      setGeminiStatus(
-        "Gemini sem cota — geramos com templates locais. Mantenha «Templates locais» selecionado.",
-        true
-      );
+      if (failedSrc === "openai") {
+        setOpenAiStatus(
+          "OpenAI sem cota — geramos com templates locais. Mantenha «Templates locais» selecionado.",
+          true
+        );
+      } else {
+        setGeminiStatus(
+          "Gemini sem cota — geramos com templates locais. Mantenha «Templates locais» selecionado.",
+          true
+        );
+      }
       $("narrativeHint").textContent =
         "Lote " +
         narrativeBatchCount +
@@ -2049,7 +2770,8 @@ $("btnNarratives").addEventListener("click", async () => {
         narratives.length +
         " opções (local). Clique de novo para outras 5.";
     } else {
-      setGeminiStatus(msg, true);
+      if (failedSrc === "openai") setOpenAiStatus(msg, true);
+      else if (failedSrc === "gemini") setGeminiStatus(msg, true);
       $("narrativeHint").textContent =
         "Lote " +
         narrativeBatchCount +
@@ -2059,8 +2781,13 @@ $("btnNarratives").addEventListener("click", async () => {
     }
     updateNarrativesButton();
     renderNarrativeList();
+    }
   } finally {
-    btn.disabled = false;
+    if (isStudioDynamic() && window.Ph3aStudioMode && Ph3aStudioMode.syncNarrativesButton) {
+      Ph3aStudioMode.syncNarrativesButton();
+    } else {
+      btn.disabled = false;
+    }
   }
 });
 
@@ -2100,7 +2827,110 @@ $("btnOpenV2")?.addEventListener("click", () => {
   $("outputText")?.focus();
 });
 
-initGeminiUi();
+window.Ph3aApp = {
+  getSelectedNarrative: () => narratives[selectedIndex] || null,
+  getNarrativeAt: (i) => {
+    const n = narratives[i];
+    if (n) applyNarrativeDefaults(n);
+    return n || null;
+  },
+  listKfExpressionOptions: () => listKfExpressionOptions(),
+  getKfExpressionLabel: (id) => getKfExpressionLabel(id),
+  updateNarrativeKfExpression: (i, kfNum, exprId) => {
+    if (i < 0 || i >= narratives.length || kfNum < 1 || kfNum > 4) return false;
+    if (!KF_EXPRESSION_CATALOG[exprId]) return false;
+    applyNarrativeDefaults(narratives[i]);
+    narratives[i].kfExpressions[kfNum] = exprId;
+    if (selectedIndex === i) {
+      if ($("btnExport") && !$("btnExport").disabled) buildOutputs();
+      renderOutput({ noScroll: true });
+      if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();
+    }
+    return true;
+  },
+  /** Salva narração + feições KF1–4 da narrativa em edição no preview (um clique). */
+  saveNarrativePreviewEdits: (i, edits) => {
+    if (i < 0 || i >= narratives.length) return false;
+    const n = narratives[i];
+    applyNarrativeDefaults(n);
+    if (edits && edits.narration !== undefined) {
+      n.narration = String(edits.narration ?? "").trim();
+    }
+    if (edits && edits.kfExpressions) {
+      for (let k = 1; k <= 4; k++) {
+        const id = edits.kfExpressions[k];
+        if (id && KF_EXPRESSION_CATALOG[id]) n.kfExpressions[k] = id;
+      }
+    }
+    if (selectedIndex === i) {
+      if ($("btnExport") && !$("btnExport").disabled) buildOutputs();
+      renderOutput({ noScroll: true });
+      if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();
+    }
+    return true;
+  },
+  selectNarrative: (i) => {
+    if (i < 0 || i >= narratives.length) return;
+    selectedIndex = i;
+    renderNarrativeList();
+    $("btnExport").disabled = false;
+    if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();
+  },
+  updateNarrativeNarration: (i, text) => {
+    if (i < 0 || i >= narratives.length) return false;
+    narratives[i].narration = String(text ?? "").trim();
+    if (selectedIndex === i) {
+      if ($("btnExport") && !$("btnExport").disabled) buildOutputs();
+      renderOutput({ noScroll: true });
+    }
+    return true;
+  },
+  /** Só o bloco KEYFRAME N (§4 / cópia manual). */
+  getKeyframePrompt: (num) => {
+    const n = narratives[selectedIndex];
+    if (!n || num < 1 || num > 4) return null;
+    if (isStudioDynamic() && window.Ph3aDynamicPrompts) {
+      return Ph3aDynamicPrompts.buildDynamicKeyframeBlock(n, num);
+    }
+    return buildKeyframeBlock(n, num);
+  },
+  /** Briefing + KEYFRAME N — igual à 1ª mensagem no ChatGPT com imagens anexadas (§5). */
+  getKeyframePromptForApi: (num) => {
+    const n = narratives[selectedIndex];
+    if (!n || num < 1 || num > 4) return null;
+    if (isStudioDynamic() && window.Ph3aDynamicPrompts) {
+      return Ph3aDynamicPrompts.buildDynamicKeyframePromptForApi(n, num);
+    }
+    return buildKeyframePromptForApi(n, num);
+  },
+  isStudioDynamic: isStudioDynamic,
+  resetNarratives: () => {
+    narratives = [];
+    selectedIndex = -1;
+    narrativeBatchCount = 0;
+    $("btnExport").disabled = true;
+    outputFiles = [];
+    renderNarrativeList();
+    renderOutput();
+    updateNarrativesButton();
+  },
+  getOpenAiKey: () => {
+    const fromInput = $("openaiApiKey")?.value.trim();
+    if (fromInput) return fromInput;
+    if (window.Ph3aOpenAI) return Ph3aOpenAI.loadOpenAiKey();
+    if (typeof window.PH3A_OPENAI_KEY_DEFAULT === "string") return window.PH3A_OPENAI_KEY_DEFAULT;
+    return "";
+  },
+  getAvatarStatus: () => (window.Ph3aAvatarState ? Ph3aAvatarState.getStatusShort() : { type: "cubo", label: "Avatar Cubo PH3A", detail: "CUBO-PH" }),
+  refreshOutputs: () => {
+    if (selectedIndex >= 0) buildOutputs();
+    renderOutput({ noScroll: true });
+    if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();
+  },
+};
+
+initApiUi();
 initBaseCatalog();
 updateNarrativesButton();
 renderOutput();
+if (window.Ph3aKeyframesUi) Ph3aKeyframesUi.refresh();

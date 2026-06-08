@@ -1,0 +1,29 @@
+{
+  "id": "dalvani",
+  "label": "Dalvani · PH3A Team",
+  "image": "dalvani.png",
+  "imageB": "dalvani_b.png",
+  "chosenVariant": "A",
+  "renderMode": "3d",
+  "avatarKind": "human",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "ref_subject_type": "human_photo",
+    "name": "DALVANI-PH",
+    "morphology": "corpo humano estilizado, proporções equilibradas, postura amigável, roupa casual na paleta",
+    "style_render": "3d",
+    "likeness_notes": "manter formato do rosto, cabelo curto e grisalho, barba bem definida, expressão amigável",
+    "palette_applied": "roupa em cream #F5F1EA, acentos em laranja PH3A #E94E1B, fundo em charcoal #1a1a1a",
+    "facial_traits": "olhos expressivos, nariz levemente arredondado, boca com sorriso amigável, expressão base neutra",
+    "distinctive_details": "acessórios sutis como óculos e uma camisa com detalhes em laranja",
+    "do_not_copy": "cenários, logos, marcas, textos, e outros elementos de referência",
+    "avatar_block": "O personagem HUMANO estilizado, DALVANI-PH, é um apresentador amigável com traços reconhecíveis (cabelo curto grisalho, barba). Corpo e roupa casual na paleta PH3A. Expressão base amigável no PNG de referência; feições por cena vêm nos keyframes."
+  }
+}

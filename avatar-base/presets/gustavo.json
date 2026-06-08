@@ -1,0 +1,29 @@
+{
+  "id": "gustavo",
+  "label": "Gustavo · PH3A Team",
+  "image": "gustavo.png",
+  "imageB": "gustavo_b.png",
+  "chosenVariant": "B",
+  "renderMode": "3d",
+  "avatarKind": "human",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "ref_subject_type": "human_photo",
+    "name": "GUSTAVO-PH",
+    "morphology": "corpo humano estilizado com proporções equilibradas, postura confiante, roupa casual na paleta",
+    "style_render": "3d",
+    "likeness_notes": "manter formato do rosto, cabelo bagunçado, barba curta, tom de pele simplificado, expressão neutra",
+    "palette_applied": "roupa em Charcoal #1a1a1a, acentos em laranja PH3A #E94E1B, fundo em cream #F5F1EA",
+    "facial_traits": "olhos grandes e expressivos, nariz reto, boca com leve sorriso, expressão base amigável neutra",
+    "distinctive_details": "camiseta preta, acessórios sutis na paleta, como pulseira laranja",
+    "do_not_copy": "cenário ao fundo, objetos na mesa, marcas ou textos visíveis",
+    "avatar_block": "O personagem HUMANO estilizado, GUSTAVO-PH, é um apresentador amigável e carismático. Corpo humano estilizado com proporções equilibradas e postura confiante. Cabelo bagunçado e barba curta em estilo simplificado na paleta PH3A: roupa Charcoal, acentos laranja, fundo cream. Expressão base amigável no PNG de referência; feições por cena vêm nos keyframes."
+  }
+}

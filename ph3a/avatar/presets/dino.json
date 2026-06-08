@@ -1,0 +1,25 @@
+{
+  "id": "dino",
+  "label": "Dino PH3A",
+  "image": "dino.png",
+  "chosenVariant": "B",
+  "renderMode": "3d",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "name": "DINO-PH",
+    "morphology": "silhueta amigável, dinossauro herbívoro, proporções grandes e arredondadas",
+    "style_render": "3d",
+    "palette_applied": "corpo em Charcoal #1a1a1a, acentos em laranja PH3A #E94E1B nas escamas e olhos, detalhes em cream #F5F1EA para expressões e nuvens ao redor",
+    "facial_traits": "olhos grandes e expressivos, boca sorridente, expressão amigável e curiosa",
+    "distinctive_details": "pescoço longo e flexível, cauda espessa, escamas com brilho laranja, nuvens de cream ao redor como elementos de fundo",
+    "do_not_copy": "cenários, logos, marcas, textos, personagens secundários",
+    "avatar_block": "DINO-PH é um dinossauro amigável e curioso, com um corpo arredondado em um tom escuro de Charcoal. Seu pescoço longo e flexível permite que ele interaja de forma divertida com o ambiente. Os olhos grandes e expressivos, junto com um sorriso acolhedor, transmitem uma sensação de alegria e curiosidade. A paleta é complementada por acentos em laranja PH3A nas escamas e detalhes, enquanto elementos em cream aparecem como nuvens ao redor, criando um ambiente leve e divertido. DINO-PH é um personagem que encanta e atrai a atenção, perfeito para a série de vídeos PH3A."
+  }
+}

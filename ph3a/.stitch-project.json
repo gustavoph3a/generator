@@ -1,0 +1,12 @@
+{
+  "name": "PH3A Studio v2",
+  "projectId": "6263495316126282888",
+  "mcpUrl": "https://stitch.googleapis.com/mcp",
+  "layoutDir": "layout/stitch",
+  "screens": [
+    { "slug": "avatar-tab", "screenId": "f55f53fc45b64c2ca4b3ed42089a8fd6" },
+    { "slug": "keyframes-tab", "screenId": "e5a256985c904299ab059939af70f50c" },
+    { "slug": "videos-tab", "screenId": "6310ca5e99ca42cf97829daa280c28b2" },
+    { "slug": "settings-modal", "screenId": "714c661b2cfb4ae980093676e937e041" }
+  ]
+}

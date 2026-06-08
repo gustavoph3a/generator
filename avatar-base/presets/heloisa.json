@@ -1,0 +1,29 @@
+{
+  "id": "heloisa",
+  "label": "Heloísa · PH3A Team",
+  "image": "heloisa.png",
+  "imageB": "heloisa_b.png",
+  "chosenVariant": "A",
+  "renderMode": "3d",
+  "avatarKind": "human",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "ref_subject_type": "human_photo",
+    "name": "HELOISA-PH",
+    "morphology": "corpo humano estilizado com proporções equilibradas, postura confiante, blazer e camiseta na paleta PH3A",
+    "style_render": "3d",
+    "likeness_notes": "manter formato do rosto, cabelo curto e escuro, expressão amigável",
+    "palette_applied": "roupa em charcoal #1a1a1a, acentos em laranja PH3A #E94E1B, fundo em cream #F5F1EA",
+    "facial_traits": "olhos grandes, nariz pequeno, boca com leve sorriso, expressão base amigável neutra",
+    "distinctive_details": "brinco discreto e anel na paleta PH3A",
+    "do_not_copy": "não copiar cadeira, pose exata da ref, nem elementos de fundo",
+    "avatar_block": "O personagem HUMANO estilizado, HELOISA-PH, é uma apresentadora amigável. Corpo estilizado com proporções equilibradas e postura confiante. Cabelo curto e escuro, leve sorriso; blazer e camiseta na paleta PH3A (Charcoal, acentos laranja, fundo cream). Expressão base amigável no PNG de referência; feições por cena vêm nos keyframes."
+  }
+}

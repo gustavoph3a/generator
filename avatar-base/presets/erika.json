@@ -1,0 +1,29 @@
+{
+  "id": "erika",
+  "label": "Erika · PH3A Team",
+  "image": "erika.png",
+  "imageB": "erika_b.png",
+  "chosenVariant": "A",
+  "renderMode": "3d",
+  "avatarKind": "human",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "ref_subject_type": "human_photo",
+    "name": "ERIKA-PH",
+    "morphology": "corpo humano estilizado com proporções equilibradas, postura confiante, vestindo blazer na paleta PH3A",
+    "style_render": "3d",
+    "likeness_notes": "manter formato do rosto, cabelo longo e liso, tom de pele simplificado, expressão amigável",
+    "palette_applied": "roupa em charcoal #1a1a1a, acentos em laranja PH3A #E94E1B, fundo em cream #F5F1EA",
+    "facial_traits": "olhos grandes, nariz delicado, boca com sorriso leve, expressão base amigável neutra",
+    "distinctive_details": "acessórios sutis, como um colar discreto, e blazer estilizado na paleta",
+    "do_not_copy": "não copiar cenário, logo, marcas ou textos da ref",
+    "avatar_block": "O personagem HUMANO estilizado, chamado ERIKA-PH, apresenta um corpo humano com proporções equilibradas e postura confiante. Rosto reconhecível (formato, cabelo longo e liso) na paleta PH3A. Blazer charcoal com acentos laranja. Expressão base amigável neutra no PNG de referência; feições por cena são definidas nos keyframes."
+  }
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PH3A Studio — Layout Stitch</title>
+  <link rel="stylesheet" href="../styles.css" />
+  <link rel="stylesheet" href="css/stitch-bridge.css" />
+  <style>
+    body { padding: 1.5rem; max-width: 960px; margin: 0 auto; }
+    .preview-grid { display: grid; gap: 1rem; margin-top: 1.5rem; }
+    .preview-card {
+      border: 1px solid #444;
+      border-radius: 10px;
+      padding: 1rem;
+      background: #242424;
+    }
+    .preview-card h2 { margin: 0 0 0.5rem; font-size: 1rem; }
+    .preview-card p { margin: 0 0 0.75rem; color: #aaa; font-size: 0.85rem; }
+    .preview-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  </style>
+</head>
+<body class="ph3a-studio">
+  <h1>Layout Stitch — PH3A Studio v2</h1>
+  <p class="hint">
+    Mockups exportados do projeto Google Stitch
+    <code>PH3A Studio v2</code> (referência visual). A app funcional está em
+    <a href="index.html">index.html</a>.
+  </p>
+
+  <div class="preview-grid" id="previewGrid"></div>
+
+  <footer class="footer v2-footer">
+    <p><a href="index.html">← Voltar ao Studio</a></p>
+  </footer>
+
+  <script>
+    var screens = [
+      { title: "Avatar", file: "layout/stitch/avatar-tab.html", note: "Refs, paleta, variantes A/B" },
+      { title: "Keyframes", file: "layout/stitch/keyframes-tab.html", note: "Base, narrativas, §5 API" },
+      { title: "Vídeos", file: "layout/stitch/videos-tab.html", note: "Omni / Extend, roteiros Flow" },
+      { title: "Configurações", file: "layout/stitch/settings-modal.html", note: "Modal API narrativas" }
+    ];
+    var grid = document.getElementById("previewGrid");
+    screens.forEach(function (s) {
+      var card = document.createElement("article");
+      card.className = "preview-card";
+      card.innerHTML =
+        "<h2>" + s.title + "</h2>" +
+        "<p>" + s.note + "</p>" +
+        '<div class="preview-actions">' +
+        '<a class="btn primary" href="' + s.file + '" target="_blank" rel="noopener">Abrir HTML</a>' +
+        "</div>";
+      grid.appendChild(card);
+    });
+  </script>
+</body>
+</html>

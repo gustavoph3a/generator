@@ -1,0 +1,28 @@
+{
+  "id": "adriano",
+  "label": "Adriano · PH3A Team",
+  "image": "adriano.png",
+  "chosenVariant": "A",
+  "renderMode": "3d",
+  "avatarKind": "human",
+  "palette": {
+    "id": "ph3a",
+    "label": "Paleta PH3A",
+    "primary": "#1a1a1a",
+    "accent": "#E94E1B",
+    "text": "#F5F1EA",
+    "description": "Charcoal #1a1a1a (fundos/corpo escuro), laranja PH3A #E94E1B (acentos/glow), cream #F5F1EA (textos/nuvens/claros)."
+  },
+  "profile": {
+    "ref_subject_type": "human_photo",
+    "name": "ADRIANO-PH",
+    "morphology": "corpo humano estilizado com proporções equilibradas, postura confiante, roupa casual na paleta PH3A",
+    "style_render": "3d",
+    "likeness_notes": "manter formato do rosto, cabelo curto e grisalho, barba bem aparada, expressão amigável",
+    "palette_applied": "roupa em Charcoal #1a1a1a, acentos em laranja PH3A #E94E1B, fundo suave em cream #F5F1EA",
+    "facial_traits": "olhos grandes e expressivos, nariz reto, boca com leve sorriso, expressão base amigável neutra",
+    "distinctive_details": "camiseta escura, óculos modernos, detalhes em laranja na roupa",
+    "do_not_copy": "cenários, logos, marcas, textos da referência",
+    "avatar_block": "O personagem HUMANO estilizado, ADRIANO-PH, é um apresentador amigável e confiante da série PH3A. Rosto arredondado, cabelo curto grisalho e barba bem aparada em estilo simplificado. Roupa casual Charcoal com acentos laranja; óculos modernos. Expressão base amigável no PNG de referência; feições por cena vêm nos keyframes."
+  }
+}

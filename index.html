@@ -9,7 +9,7 @@
 <body>
   <header class="header">
     <h1>PH3A · Textos para vídeo</h1>
-    <p class="sub">Templates locais (padrão) · imagens no ChatGPT · Gemini só se tiver cota API</p>
+    <p class="sub">Templates locais (padrão) · narrativas via OpenAI ou Gemini (opcional)</p>
   </header>
 
   <main class="layout">
@@ -21,6 +21,11 @@
           <strong>Templates locais</strong>
           <span>Recomendado — funciona sem Google, sem cota, offline após abrir a página.</span>
         </label>
+        <label class="mode-option" id="modeOpenAiLabel">
+          <input type="radio" name="textSource" value="openai" />
+          <strong>ChatGPT (OpenAI API)</strong>
+          <span>Gera as 5 narrativas com GPT-4o-mini. Chave sk-… em config.local.js ou abaixo.</span>
+        </label>
         <label class="mode-option" id="modeGeminiLabel">
           <input type="radio" name="textSource" value="gemini" />
           <strong>Gemini (API)</strong>
@@ -28,6 +33,22 @@
         </label>
       </div>
       <p class="hint" id="narrativeSourceHint"></p>
+
+      <details class="gemini-details" id="openaiDetails">
+        <summary>Configurar chave OpenAI / ChatGPT (opcional)</summary>
+        <div class="gemini-inner">
+          <label class="field">
+            <span>Chave de API — só neste navegador (<code>config.local.js</code> → PH3A_OPENAI_KEY_DEFAULT)</span>
+            <input type="password" id="openaiApiKey" autocomplete="off" placeholder="sk-…" />
+          </label>
+          <div class="row">
+            <button type="button" class="btn" id="btnSaveOpenAiKey">Salvar</button>
+            <button type="button" class="btn" id="btnTestOpenAiKey">Testar</button>
+            <button type="button" class="btn secondary" id="btnClearOpenAiStatus">Limpar aviso</button>
+          </div>
+          <p class="gemini-status" id="openaiStatus" aria-live="polite"></p>
+        </div>
+      </details>
 
       <details class="gemini-details" id="geminiDetails">
         <summary>Configurar chave Gemini (opcional)</summary>
@@ -108,6 +129,117 @@
       <p class="hint">Na seção 4: <code>roteiro-flow.txt</code> (v1) e <code>roteiro-flow-v2.txt</code> (força fidelidade aos PNGs no Omni).</p>
     </section>
 
+    <section class="card full" id="keyframesApiSection">
+      <h2>5. Keyframes por API <span class="badge-optional">opcional</span></h2>
+      <p class="hint">
+        Com as <strong>4 fotos do CUBO-PH</strong> (arraste ou use <code>mascot-base/</code> via
+        <code>localhost</code>), a ferramenta chama <code>images/edits</code> — o mesmo tipo de referência visual
+        que o ChatGPT no navegador. Sem fotos, cai em <code>images/generations</code> (só texto, mascote
+        inventado). Gere <strong>um keyframe por vez</strong> ou em pares.
+      </p>
+      <p class="hint" id="kfApiNarrativeHint">Selecione uma narrativa no §2.</p>
+
+      <div class="mascot-drop" id="mascotDropZone">
+        <p class="mascot-drop-label">Arraste imagens do CUBO-PH (PNG/JPEG) ou clique para escolher</p>
+        <input type="file" id="mascotFileInput" accept="image/png,image/jpeg,image/webp" multiple hidden />
+        <button type="button" class="btn secondary mascot-pick-btn" id="btnMascotPick">Escolher arquivos</button>
+        <div class="mascot-thumbs" id="mascotThumbs"></div>
+      </div>
+
+      <div class="kf-gen-toolbar">
+        <span class="kf-gen-label">Gerar (cada clique = 1 imagem · prompt igual ao §4):</span>
+        <div class="row kf-gen-buttons">
+          <button type="button" class="btn" data-kf-gen="1" disabled>KF 1</button>
+          <button type="button" class="btn" data-kf-gen="2" disabled>KF 2</button>
+          <button type="button" class="btn" data-kf-gen="3" disabled>KF 3</button>
+          <button type="button" class="btn" data-kf-gen="4" disabled>KF 4</button>
+          <span class="kf-gen-sep">|</span>
+          <button type="button" class="btn primary" data-kf-gen="1-2" disabled>Gerar 1–2</button>
+          <button type="button" class="btn primary" data-kf-gen="3-4" disabled>Gerar 3–4</button>
+        </div>
+        <div class="row">
+          <button type="button" class="btn secondary" id="btnKfDownloadAll">Baixar os 4 (se existirem)</button>
+          <button type="button" class="btn secondary" id="btnKfClear">Limpar prévia</button>
+        </div>
+      </div>
+      <p class="gemini-status" id="kfApiStatus" aria-live="polite"></p>
+
+      <div class="kf-preview-grid" id="kfPreviewGrid">
+        <div class="kf-slot is-idle" data-kf="1">
+          <p class="kf-slot-title">keyframe_1.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle">
+              <span class="kf-slot-idle-icon">16:9</span>
+              <span class="kf-slot-idle-text">Aguardando</span>
+            </div>
+            <div class="kf-slot-loading">
+              <div class="kf-spinner" aria-hidden="true"></div>
+              <span class="kf-slot-loading-text">Gerando…</span>
+            </div>
+            <div class="kf-slot-error">
+              <span class="kf-slot-error-text">Falhou</span>
+            </div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+        <div class="kf-slot is-idle" data-kf="2">
+          <p class="kf-slot-title">keyframe_2.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle">
+              <span class="kf-slot-idle-icon">16:9</span>
+              <span class="kf-slot-idle-text">Aguardando</span>
+            </div>
+            <div class="kf-slot-loading">
+              <div class="kf-spinner" aria-hidden="true"></div>
+              <span class="kf-slot-loading-text">Gerando…</span>
+            </div>
+            <div class="kf-slot-error">
+              <span class="kf-slot-error-text">Falhou</span>
+            </div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+        <div class="kf-slot is-idle" data-kf="3">
+          <p class="kf-slot-title">keyframe_3.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle">
+              <span class="kf-slot-idle-icon">16:9</span>
+              <span class="kf-slot-idle-text">Aguardando</span>
+            </div>
+            <div class="kf-slot-loading">
+              <div class="kf-spinner" aria-hidden="true"></div>
+              <span class="kf-slot-loading-text">Gerando…</span>
+            </div>
+            <div class="kf-slot-error">
+              <span class="kf-slot-error-text">Falhou</span>
+            </div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+        <div class="kf-slot is-idle" data-kf="4">
+          <p class="kf-slot-title">keyframe_4.png</p>
+          <div class="kf-slot-frame">
+            <div class="kf-slot-idle">
+              <span class="kf-slot-idle-icon">16:9</span>
+              <span class="kf-slot-idle-text">Aguardando</span>
+            </div>
+            <div class="kf-slot-loading">
+              <div class="kf-spinner" aria-hidden="true"></div>
+              <span class="kf-slot-loading-text">Gerando…</span>
+            </div>
+            <div class="kf-slot-error">
+              <span class="kf-slot-error-text">Falhou</span>
+            </div>
+            <img class="kf-slot-img" alt="" />
+          </div>
+          <button type="button" class="btn secondary kf-slot-download" hidden>Baixar</button>
+        </div>
+      </div>
+    </section>
+
     <section class="card full output-section" id="outputSection">
       <h2>4. Texto gerado</h2>
       <p class="hint" id="outputEmptyHint">Após escolher a narrativa, clique em «Gerar arquivos .txt» para ver o conteúdo aqui.</p>
@@ -133,11 +265,14 @@
       <strong>Gemini:</strong> chave em <a href="https://aistudio.google.com/app/apikey" target="_blank" rel="noopener">aistudio.google.com/app/apikey</a> — salva só no seu PC.
       <strong>Local:</strong> templates sem internet.
     </p>
-    <p>Processo completo: <code>../PROCESSO-VIDEOS-PH3A.md</code></p>
+    <p>Processo completo: <code>../PROCESSO-VIDEOS-PH3A.md</code> · <a href="avatar.html">Criar avatar</a></p>
   </footer>
 
   <script src="config.local.js"></script>
+  <script src="openai.js"></script>
   <script src="gemini.js"></script>
+  <script src="keyframes-api.js"></script>
   <script src="app.js"></script>
+  <script src="keyframes-ui.js"></script>
 </body>
 </html>

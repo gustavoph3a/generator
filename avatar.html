@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PH3A — Criar avatar</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <h1>PH3A · Criar avatar</h1>
+    <p class="sub">
+      Defina o mascote antes dos keyframes ·
+      <a href="index.html">← voltar ao gerador de textos</a>
+    </p>
+  </header>
+
+  <main class="layout layout-narrow">
+    <section class="card">
+      <h2>Chave OpenAI</h2>
+      <p class="hint">Mesma chave do gerador principal. Salva só neste navegador.</p>
+      <label class="field">
+        <span>API key (<code>config.local.js</code> ou abaixo)</span>
+        <input type="password" id="openaiApiKey" autocomplete="off" placeholder="sk-…" />
+      </label>
+      <div class="row">
+        <button type="button" class="btn" id="btnSaveOpenAiKey">Salvar</button>
+        <button type="button" class="btn secondary" id="btnTestOpenAiKey">Testar</button>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>1. Referências do personagem</h2>
+      <p class="hint">
+        Arraste imagens, clique para escolher ou <strong>Ctrl+V</strong> (cole do clipboard).
+        Nada é enviado à API até você clicar em <strong>Gerar avatar</strong> (máx. 6 refs).
+      </p>
+      <div class="mascot-drop avatar-ref-zone" id="avatarRefZone" tabindex="0">
+        <p class="mascot-drop-label">Solte aqui ou cole (Ctrl+V) · PNG/JPEG/WebP</p>
+        <input type="file" id="avatarFileInput" accept="image/png,image/jpeg,image/webp" multiple hidden />
+        <div class="row">
+          <button type="button" class="btn secondary" id="btnPickRefs">Escolher arquivos</button>
+          <button type="button" class="btn secondary" id="btnClearRefs">Limpar refs</button>
+        </div>
+        <div class="mascot-thumbs" id="avatarRefThumbs"></div>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>2. Paleta e estilo</h2>
+      <fieldset class="avatar-fieldset">
+        <legend class="avatar-legend">Paleta de cores</legend>
+        <label class="mode-option avatar-radio">
+          <input type="radio" name="paletteMode" value="ph3a" checked />
+          <strong>Paleta PH3A</strong>
+          <span>Charcoal #1a1a1a · Laranja #E94E1B · Cream #F5F1EA</span>
+        </label>
+        <label class="mode-option avatar-radio">
+          <input type="radio" name="paletteMode" value="custom" />
+          <strong>Paleta customizada</strong>
+          <span>Defina 3 cores + notas opcionais</span>
+        </label>
+        <div id="paletteCustomFields" class="avatar-palette-custom" hidden>
+          <div class="row avatar-color-row">
+            <label class="field field-inline">
+              <span>Primária (fundos/escuro)</span>
+              <input type="color" id="colorPrimary" value="#1a1a1a" />
+            </label>
+            <label class="field field-inline">
+              <span>Acento</span>
+              <input type="color" id="colorAccent" value="#E94E1B" />
+            </label>
+            <label class="field field-inline">
+              <span>Claros / texto</span>
+              <input type="color" id="colorText" value="#F5F1EA" />
+            </label>
+          </div>
+          <label class="field">
+            <span>Notas (opcional)</span>
+            <input type="text" id="paletteNotes" placeholder="ex.: acento só em bordas e ícones" />
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="avatar-fieldset">
+        <legend class="avatar-legend">Render</legend>
+        <div class="row avatar-render-row">
+          <label class="mode-option avatar-radio">
+            <input type="radio" name="renderMode" value="2d" checked />
+            <strong>2D flat PH3A</strong>
+            <span>Ilustração editorial tech-cute (padrão cubo)</span>
+          </label>
+          <label class="mode-option avatar-radio">
+            <input type="radio" name="renderMode" value="3d" />
+            <strong>3D estilizado</strong>
+            <span>Render suave, não fotorealista</span>
+          </label>
+        </div>
+      </fieldset>
+
+      <fieldset class="avatar-fieldset">
+        <legend class="avatar-legend">Tipo</legend>
+        <div class="row avatar-kind-row">
+          <label class="mode-option avatar-radio avatar-kind-option">
+            <input type="radio" name="avatarKind" value="abstract" checked />
+            <strong>Abstrato (mascote)</strong>
+            <span>Criatura / animal estilizado — padrão atual</span>
+          </label>
+          <label class="mode-option avatar-radio avatar-kind-option">
+            <input type="radio" name="avatarKind" value="human" />
+            <strong>Realista (mascote humano)</strong>
+            <span>Humano estilizado com feições da foto (2D ou 3D Pixar)</span>
+          </label>
+        </div>
+        <p class="hint" id="avatarKindHint" aria-live="polite">
+          Abstrato: cria um mascote PH3A (criatura, animal ou personagem estilizado) a partir da ref — pode reinterpretar a ideia, não precisa ser humano.
+        </p>
+      </fieldset>
+
+      <div class="row avatar-generate-row">
+        <button type="button" class="btn primary" id="btnGenerateAvatar" disabled>Gerar avatar (2 variantes A/B)</button>
+      </div>
+      <p class="hint avatar-status" id="avatarStatus" aria-live="polite"></p>
+    </section>
+
+    <section class="card">
+      <h2>3. Escolha a variante</h2>
+      <p class="hint">Duas interpretações do mesmo profile. Clique em «Usar esta» e baixe o PNG.</p>
+      <div class="avatar-variants-grid">
+        <div class="avatar-variant-slot is-idle" data-variant="A">
+          <h3 class="avatar-variant-title">Variante A</h3>
+          <div class="avatar-variant-frame">
+            <div class="avatar-variant-placeholder">Aguardando geração</div>
+            <img class="avatar-variant-img" alt="Avatar variante A" />
+          </div>
+          <div class="row avatar-variant-actions">
+            <button type="button" class="btn secondary avatar-variant-pick" data-pick="A" disabled>Usar esta</button>
+            <button type="button" class="btn secondary avatar-variant-download" hidden>Baixar PNG</button>
+          </div>
+        </div>
+        <div class="avatar-variant-slot is-idle" data-variant="B">
+          <h3 class="avatar-variant-title">Variante B</h3>
+          <div class="avatar-variant-frame">
+            <div class="avatar-variant-placeholder">Aguardando geração</div>
+            <img class="avatar-variant-img" alt="Avatar variante B" />
+          </div>
+          <div class="row avatar-variant-actions">
+            <button type="button" class="btn secondary avatar-variant-pick" data-pick="B" disabled>Usar esta</button>
+            <button type="button" class="btn secondary avatar-variant-download" hidden>Baixar PNG</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="card full" id="avatarOutputSection" hidden>
+      <h2>4. Saída — profile para keyframes</h2>
+      <p class="hint">
+        Texto que substitui <code>CUBO_PH</code> no briefing e exemplo de como entra no KEYFRAME 1.
+        Copie e guarde junto com o PNG escolhido.
+      </p>
+      <div class="row">
+        <button type="button" class="btn primary" id="btnCopyAvatarOutput">Copiar profile</button>
+      </div>
+      <label class="field output-view-label">
+        <span>Avatar profile + instruções de uso nos prompts futuros</span>
+        <textarea id="avatarOutputText" class="output-text avatar-output-text" readonly spellcheck="false"></textarea>
+      </label>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>OpenAI: visão (análise) + gpt-image-2 (2 PNGs). Abra via <code>http://localhost:8080</code> se CORS bloquear.</p>
+    <p>Doc: <code>COMO-MONTA-PROMPTS-KEYFRAMES.md</code></p>
+  </footer>
+
+  <script src="config.local.js"></script>
+  <script src="openai.js"></script>
+  <script src="avatar-api.js"></script>
+  <script src="avatar-ui.js"></script>
+  <script>Ph3aAvatarUi.init();</script>
+</body>
+</html>

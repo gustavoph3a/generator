@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-container": "#484742",
+                    "surface-container-lowest": "#0e0e0e",
+                    "tertiary": "#c7c6c6",
+                    "on-error-container": "#ffdad6",
+                    "inverse-primary": "#af3000",
+                    "error": "#ffb4ab",
+                    "on-primary": "#5f1600",
+                    "tertiary-fixed-dim": "#c7c6c6",
+                    "inverse-surface": "#e5e2e1",
+                    "surface-dim": "#131313",
+                    "on-surface": "#e5e2e1",
+                    "tertiary-container": "#909191",
+                    "secondary-fixed-dim": "#c9c6c0",
+                    "on-background": "#e5e2e1",
+                    "tertiary-fixed": "#e3e2e2",
+                    "on-tertiary-fixed": "#1a1c1c",
+                    "on-error": "#690005",
+                    "error-container": "#93000a",
+                    "primary": "#ffb59f",
+                    "surface-tint": "#ffb59f",
+                    "on-secondary-container": "#b8b5ae",
+                    "surface": "#131313",
+                    "on-primary-container": "#531200",
+                    "outline-variant": "#5b4139",
+                    "surface-container-low": "#1c1b1b",
+                    "surface-container-high": "#2a2a2a",
+                    "secondary": "#c9c6c0",
+                    "surface-container-highest": "#353535",
+                    "on-surface-variant": "#e3beb4",
+                    "secondary-fixed": "#e6e2db",
+                    "primary-container": "#fb5b28",
+                    "on-primary-fixed": "#3a0a00",
+                    "primary-fixed": "#ffdbd1",
+                    "on-secondary-fixed-variant": "#484742",
+                    "on-tertiary-container": "#292a2a",
+                    "surface-variant": "#353535",
+                    "on-primary-fixed-variant": "#862200",
+                    "background": "#131313",
+                    "primary-fixed-dim": "#ffb59f",
+                    "outline": "#aa8980",
+                    "surface-container": "#20201f",
+                    "surface-bright": "#393939",
+                    "on-tertiary": "#2f3131",
+                    "on-secondary-fixed": "#1c1c18",
+                    "on-tertiary-fixed-variant": "#464747",
+                    "on-secondary": "#31302c",
+                    "inverse-on-surface": "#313030"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "margin_mobile": "16px",
+                    "margin_desktop": "40px",
+                    "container_max_width": "1440px",
+                    "base": "8px",
+                    "nav_height": "56px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Plus Jakarta Sans"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "headline-xl": ["Plus Jakarta Sans"],
+                    "body-lg": ["Inter"],
+                    "headline-lg": ["Plus Jakarta Sans"],
+                    "body-md": ["Inter"],
+                    "headline-lg-mobile": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "32px", "fontWeight": "600"}],
+                    "label-sm": ["12px", {"lineHeight": "16px", "letterSpacing": "0.03em", "fontWeight": "600"}],
+                    "label-md": ["14px", {"lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "500"}],
+                    "headline-xl": ["40px", {"lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "40px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+                    "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "36px", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { background-color: #131313; color: #e5e2e1; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="font-body-md text-body-md overflow-hidden">
+<!-- TopNavBar (Shared Component) -->
+<header class="fixed top-0 w-full h-nav_height z-40 bg-background border-b border-outline-variant flex justify-between items-center px-margin_desktop">
+<div class="flex items-center gap-8">
+<span class="text-headline-md font-headline-md font-bold text-on-surface">PH3A Studio</span>
+<nav class="hidden md:flex items-center gap-2">
+<a class="bg-surface-container text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md hover:border-secondary transition-colors duration-200" href="#">Avatar</a>
+<a class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-md text-label-md hover:border-secondary transition-colors duration-200" href="#">Keyframes</a>
+<a class="bg-surface-container text-on-surface-variant px-6 py-2 rounded-full font-label-md text-label-md hover:border-secondary transition-colors duration-200" href="#">Vídeos</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary p-2 hover:bg-surface-container-high rounded-full transition-colors">settings</button>
+<div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center overflow-hidden border border-outline">
+<img alt="Cubo PH3A Status Badge" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUvuvoNzHqGbAucaz1cYltm3HXos0dAgtbCa3jFciiXk28FBw7zqXyEP0chOXdVu1DQs4WOVcLFSbOTiukhruro0kqHa3okqHeiD6PHC3EUyLW5aDbd6j_BBa3Olmm3i6sLKJOeurF3JzIWzsxJKtnKRJlK8KA1dUt3HmZTB6M2kXdyWzfwq3bKu1n6bsP--EFqJ3CzgoozzyGS5V6JVCpwi-Zp0HIsZvNahjQLNSS8Cf0NV0osNNMnql2kr0NkR4LxU8JpfyUYVo"/>
+</div>
+</div>
+</header>
+<!-- Background Content (Keyframes Tab) - Blurred/Dimmed -->
+<main class="pt-nav_height p-margin_desktop min-h-screen filter blur-sm pointer-events-none">
+<div class="max-w-container_max_width mx-auto">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h1 class="text-headline-xl font-headline-xl text-on-surface mb-2">Keyframes Editor</h1>
+<p class="text-on-surface-variant">Configure os pontos focais e transições da sua narrativa visual.</p>
+</div>
+<button class="bg-primary-container text-on-primary-container px-8 py-3 rounded-full font-label-md text-label-md flex items-center gap-2">
+<span class="material-symbols-outlined">add</span>
+                    Novo Keyframe
+                </button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<!-- Timeline Preview Card -->
+<div class="md:col-span-8 bg-surface-container p-6 rounded-xl border border-outline-variant">
+<div class="aspect-video bg-surface-container-highest rounded-lg mb-4 flex items-center justify-center overflow-hidden relative">
+<img class="w-full h-full object-cover opacity-50" data-alt="A cinematic 16:9 3D abstract rendering of flowing silk-like fabrics in deep orange and charcoal gray, illuminated by soft studio lighting with a clean tech-cute aesthetic. The composition is professional and minimal, emphasizing smooth gradients and high-end digital art textures within a professional studio environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDSIs6fokpFY_JM-t1jpSAdMdKSW4Cclnrtorm6U4GLHL4CQUw1qm5s9z682ooZeFeO67iK_euOI8m3zeRbCKtoM8G0e1rofY8LfVtmW2h8uz1IkMcOI7NYwzCTikdtA4mvkX2svVkoNcoFqOaYErHGFOleGlwefozal6osCf7DMs_cC9nhRqQYM1Gm-SRkdUnV0gouA8iIQMcGgJ_J5Bfx76-4J9QWd2ZzORWLEDLe9YVIG3I4fYzKX582PHdbO7mXhoIoBtwVTM"/>
+<span class="material-symbols-outlined text-headline-xl text-primary absolute">play_circle</span>
+</div>
+<div class="h-24 bg-surface-container-low rounded border border-dashed border-outline-variant flex items-center px-4 gap-4">
+<div class="w-20 h-16 bg-surface-container-highest rounded-lg border border-primary"></div>
+<div class="w-20 h-16 bg-surface-container-highest rounded-lg border border-outline-variant opacity-40"></div>
+<div class="w-20 h-16 bg-surface-container-highest rounded-lg border border-outline-variant opacity-40"></div>
+</div>
+</div>
+<!-- Side Data Card -->
+<div class="md:col-span-4 space-y-gutter">
+<div class="bg-surface-container p-6 rounded-xl border border-outline-variant">
+<h3 class="text-label-md font-label-md text-primary mb-4">DETALHES DA CENA</h3>
+<div class="space-y-4">
+<div class="h-12 bg-surface-container-high rounded-lg border border-outline-variant"></div>
+<div class="h-12 bg-surface-container-high rounded-lg border border-outline-variant"></div>
+<div class="h-32 bg-surface-container-high rounded-lg border border-outline-variant"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Settings Modal Overlay -->
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-surface-container-lowest/80 backdrop-blur-[2px]">
+<div class="w-[520px] bg-surface-container-low rounded-xl border-2 border-outline-variant shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-300">
+<!-- Modal Header -->
+<div class="flex justify-between items-center px-6 py-4 border-b border-outline-variant bg-surface-container">
+<h2 class="text-headline-md font-headline-md text-on-surface">「Configurações · API narrativas」</h2>
+<button class="p-1 hover:bg-surface-container-highest rounded-full transition-colors text-on-surface-variant">
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<!-- Modal Content -->
+<div class="p-6 space-y-8 max-h-[716px] overflow-y-auto no-scrollbar">
+<!-- Radio Group: Providers -->
+<section>
+<label class="text-label-sm font-label-sm text-primary uppercase tracking-widest block mb-4">Provedor de IA Narrativa</label>
+<div class="grid grid-cols-1 gap-3">
+<label class="flex items-center justify-between p-4 bg-surface-container border border-outline-variant rounded-lg cursor-pointer hover:border-primary transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">storage</span>
+<span class="font-label-md text-on-surface">Templates locais</span>
+</div>
+<input class="w-5 h-5 text-primary-container bg-surface-container border-outline focus:ring-0" name="provider" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 bg-primary-container/10 border-2 border-primary-container rounded-lg cursor-pointer transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-container" style="font-variation-settings: 'FILL' 1;">bolt</span>
+<span class="font-label-md text-on-surface">ChatGPT / OpenAI</span>
+</div>
+<input checked="" class="w-5 h-5 text-primary-container bg-surface-container border-primary-container focus:ring-0" name="provider" type="radio"/>
+</label>
+<label class="flex items-center justify-between p-4 bg-surface-container border border-outline-variant rounded-lg cursor-pointer hover:border-primary transition-all group">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant">auto_awesome</span>
+<span class="font-label-md text-on-surface">Gemini</span>
+</div>
+<input class="w-5 h-5 text-primary-container bg-surface-container border-outline focus:ring-0" name="provider" type="radio"/>
+</label>
+</div>
+</section>
+<!-- Collapsible Inputs: API Keys -->
+<section class="space-y-4">
+<div class="group">
+<button class="w-full flex items-center justify-between py-2 text-on-surface border-b border-outline-variant/50" onclick="this.nextElementSibling.classList.toggle('hidden')">
+<span class="font-label-md">Autenticação OpenAI</span>
+<span class="material-symbols-outlined text-label-sm">expand_more</span>
+</button>
+<div class="mt-4 space-y-4">
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant">Chave de API (Secret Key)</label>
+<div class="relative">
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-4 py-3 focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all outline-none font-mono text-sm text-on-surface" type="password" value="sk-proj-................................"/>
+<span class="material-symbols-outlined absolute right-4 top-3 text-on-surface-variant cursor-pointer">visibility_off</span>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant">ID da Organização (Opcional)</label>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-4 py-3 focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all outline-none text-on-surface" placeholder="org-..." type="text"/>
+</div>
+</div>
+</div>
+<div class="group">
+<button class="w-full flex items-center justify-between py-2 text-on-surface-variant border-b border-outline-variant/30" onclick="this.nextElementSibling.classList.toggle('hidden')">
+<span class="font-label-md">Autenticação Gemini</span>
+<span class="material-symbols-outlined text-label-sm">chevron_right</span>
+</button>
+<div class="mt-4 hidden space-y-4">
+<div class="space-y-2">
+<label class="text-label-sm font-label-sm text-on-surface-variant">API Key</label>
+<input class="w-full bg-surface-container-high border border-outline-variant rounded-lg px-4 py-3 focus:border-primary-container focus:ring-1 focus:ring-primary-container transition-all outline-none font-mono text-sm text-on-surface" type="password"/>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Modal Actions -->
+<div class="px-6 py-6 bg-surface-container flex gap-3 justify-end">
+<button class="px-6 py-2.5 rounded-full border border-outline-variant text-on-surface font-label-md hover:bg-surface-container-highest transition-all flex items-center gap-2 active:scale-95">
+<span class="material-symbols-outlined text-[18px]">open_run</span>
+                    Testar Conexão
+                </button>
+<button class="px-8 py-2.5 rounded-full bg-primary-container text-on-primary-container font-label-md hover:opacity-90 transition-all shadow-lg shadow-primary-container/20 active:scale-95">
+                    Salvar Alterações
+                </button>
+</div>
+</div>
+</div>
+<!-- Micro-interaction Script -->
+<script>
+        // Simple logic for the visibility toggle if needed, or other UI behaviors
+        document.querySelectorAll('.material-symbols-outlined').forEach(icon => {
+            if(icon.innerText === 'visibility_off') {
+                icon.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    if(input.type === 'password') {
+                        input.type = 'text';
+                        this.innerText = 'visibility';
+                    } else {
+                        input.type = 'password';
+                        this.innerText = 'visibility_off';
+                    }
+                });
+            }
+        });
+    </script>
+</body></html>
