@@ -22,6 +22,8 @@
 
   var TEAM_PRESETS_DIR = TEAM_AVATAR_DIR + "presets/";
 
+  var DEFAULT_TEAM_PRESET_ID = "dalvani";
+
 
 
   var activePresetId = null;
@@ -720,6 +722,18 @@
 
 
 
+  function applyDefaultTeamPresetIfNeeded() {
+
+    if (!window.Ph3aAvatarState || !teamPresetIds[DEFAULT_TEAM_PRESET_ID]) return;
+
+    if (Ph3aAvatarState.hasCustomAvatar()) return;
+
+    applyTeamPreset(DEFAULT_TEAM_PRESET_ID);
+
+  }
+
+
+
   function resetActiveAvatar() {
 
     clearPresetSelection();
@@ -728,8 +742,6 @@
 
     setPickerV2Tab("team");
 
-    if (window.Ph3aAvatarState) Ph3aAvatarState.clearCustomAvatar();
-
     if (window.Ph3aAvatarUi) {
 
       Ph3aAvatarUi.clearCreationVariants();
@@ -737,6 +749,16 @@
       Ph3aAvatarUi.clearDebugOutput();
 
     }
+
+    if (teamPresetIds[DEFAULT_TEAM_PRESET_ID]) {
+
+      applyTeamPreset(DEFAULT_TEAM_PRESET_ID);
+
+      return;
+
+    }
+
+    if (window.Ph3aAvatarState) Ph3aAvatarState.clearCustomAvatar();
 
     updatePresetStatus("Avatar resetado — Cubo PH3A padrão nos Keyframes.");
 
@@ -849,6 +871,8 @@
       renderTeamGrid(Array.isArray(pair[1]) ? pair[1] : []);
 
       restoreSavedPresetUi();
+
+      applyDefaultTeamPresetIfNeeded();
 
     });
 
