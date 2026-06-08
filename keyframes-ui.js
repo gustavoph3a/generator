@@ -8,6 +8,7 @@
   const generated = { 1: null, 2: null, 3: null, 4: null };
   let generating = false;
   let initialized = false;
+  let mascotAutoSynced = false;
 
   function setKfStatus(msg, isError) {
     const el = $("kfApiStatus");
@@ -27,7 +28,35 @@
     return " · Avatar ativo: " + s.label + (s.detail ? " (" + s.detail + ")" : "");
   }
 
+  function mascotRefFileName() {
+    if (!window.Ph3aAvatarState) return "avatar-sheet.png";
+    const ctx = Ph3aAvatarState.getProfileCtx();
+    if (ctx && ctx.presetLabel) return ctx.presetLabel + ".png";
+    if (ctx && ctx.profile && ctx.profile.name) return ctx.profile.name + ".png";
+    return "avatar-sheet.png";
+  }
+
+  function syncMascotFromAvatarState() {
+    if (!window.Ph3aAvatarState) return;
+    if (Ph3aAvatarState.getMode() === "custom" && Ph3aAvatarState.hasCustomAvatar()) {
+      const url = Ph3aAvatarState.getChosenImageDataUrl();
+      mascotFiles.length = 0;
+      if (url) {
+        mascotFiles.push({ name: mascotRefFileName(), dataUrl: url });
+      }
+      mascotAutoSynced = true;
+      renderMascotThumbs();
+      return;
+    }
+    if (mascotAutoSynced) {
+      mascotFiles.length = 0;
+      mascotAutoSynced = false;
+      renderMascotThumbs();
+    }
+  }
+
   function refresh() {
+    syncMascotFromAvatarState();
     const n = window.Ph3aApp && Ph3aApp.getSelectedNarrative();
     const hint = $("kfApiNarrativeHint");
     const section = $("keyframesApiSection");
@@ -83,6 +112,7 @@
       rm.title = "Remover";
       rm.addEventListener("click", () => {
         mascotFiles.splice(i, 1);
+        mascotAutoSynced = false;
         renderMascotThumbs();
       });
       wrap.appendChild(img);
@@ -107,6 +137,7 @@
       const dataUrl = await readFileAsDataUrl(file);
       mascotFiles.push({ name: file.name, dataUrl: dataUrl });
     }
+    mascotAutoSynced = false;
     renderMascotThumbs();
     if (mascotFiles.length) {
       setKfStatus(mascotFiles.length + " referência(s) do mascote (opcional).");
@@ -277,8 +308,7 @@
     document.querySelectorAll("[data-kf-gen]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const kf = btn.getAttribute("data-kf-gen");
-        if (kf === "1-2") generateRange(1, 2);
-        else if (kf === "3-4") generateRange(3, 4);
+        if (kf === "all") generateRange(1, 4);
         else generateOne(parseInt(kf, 10));
       });
     });

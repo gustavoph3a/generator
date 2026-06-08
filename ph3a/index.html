@@ -342,24 +342,18 @@
           <div class="stitch-card space-y-4">
             <p class="hint" id="kfApiNarrativeHint">Selecione narrativa no §2.</p>
             <div class="mascot-drop border-2 border-dashed border-outline-variant rounded-xl p-6 bg-surface-container-low" id="mascotDropZone">
-              <p class="mascot-drop-label text-center text-on-surface-variant mb-3">Referência visual do avatar (opcional — arraste ou escolha arquivos)</p>
+              <p class="mascot-drop-label text-center text-on-surface-variant mb-3">Referência visual do avatar (auto se Team/personalizado; opcional no Cubo — arraste ou escolha arquivos)</p>
               <input type="file" id="mascotFileInput" accept="image/png,image/jpeg,image/webp" multiple hidden />
               <div class="flex justify-center"><button type="button" class="btn secondary mascot-pick-btn" id="btnMascotPick">Escolher arquivos</button></div>
               <div class="mascot-thumbs mt-4" id="mascotThumbs"></div>
             </div>
-            <div class="kf-gen-toolbar space-y-3">
-              <div class="row kf-gen-buttons flex flex-wrap gap-2">
-                <button type="button" class="btn" data-kf-gen="1" disabled>KF 1</button>
-                <button type="button" class="btn" data-kf-gen="2" disabled>KF 2</button>
-                <button type="button" class="btn" data-kf-gen="3" disabled>KF 3</button>
-                <button type="button" class="btn" data-kf-gen="4" disabled>KF 4</button>
-                <span class="kf-gen-sep hidden sm:inline">|</span>
-                <button type="button" class="btn primary" data-kf-gen="1-2" disabled>1–2</button>
-                <button type="button" class="btn primary" data-kf-gen="3-4" disabled>3–4</button>
-              </div>
-              <div class="row flex flex-wrap gap-2">
-                <button type="button" class="btn secondary" id="btnKfDownloadAll">Baixar 4</button>
-                <button type="button" class="btn secondary" id="btnKfClear">Limpar</button>
+            <div class="kf-gen-toolbar">
+              <div class="kf-gen-toolbar-row">
+                <button type="button" class="btn primary" id="btnKfGenAll" data-kf-gen="all" disabled>Gerar todas as keyframes</button>
+                <div class="kf-gen-actions">
+                  <button type="button" class="btn secondary" id="btnKfDownloadAll">Baixar Todos</button>
+                  <button type="button" class="btn secondary" id="btnKfClear">Limpar</button>
+                </div>
               </div>
             </div>
             <p class="gemini-status" id="kfApiStatus" aria-live="polite"></p>
@@ -372,7 +366,8 @@
                   <div class="kf-slot-error absolute inset-0"><span class="kf-slot-error-text">Falhou</span></div>
                   <img class="kf-slot-img absolute inset-0 w-full h-full object-cover" alt="" />
                 </div>
-                <button type="button" class="btn secondary kf-slot-download mt-2 w-full text-sm" hidden>Baixar</button>
+                <button type="button" class="btn secondary kf-slot-gen w-full text-sm mt-2" data-kf-gen="1" disabled>Gerar keyframe_1.png</button>
+                <button type="button" class="btn secondary kf-slot-download w-full text-sm" hidden>Baixar</button>
               </div>
               <div class="kf-slot is-idle" data-kf="2">
                 <p class="kf-slot-title text-label-sm mb-2">keyframe_2.png</p>
@@ -382,7 +377,8 @@
                   <div class="kf-slot-error absolute inset-0"><span class="kf-slot-error-text">Falhou</span></div>
                   <img class="kf-slot-img absolute inset-0 w-full h-full object-cover" alt="" />
                 </div>
-                <button type="button" class="btn secondary kf-slot-download mt-2 w-full text-sm" hidden>Baixar</button>
+                <button type="button" class="btn secondary kf-slot-gen w-full text-sm mt-2" data-kf-gen="2" disabled>Gerar keyframe_2.png</button>
+                <button type="button" class="btn secondary kf-slot-download w-full text-sm" hidden>Baixar</button>
               </div>
               <div class="kf-slot is-idle" data-kf="3">
                 <p class="kf-slot-title text-label-sm mb-2">keyframe_3.png</p>
@@ -392,7 +388,8 @@
                   <div class="kf-slot-error absolute inset-0"><span class="kf-slot-error-text">Falhou</span></div>
                   <img class="kf-slot-img absolute inset-0 w-full h-full object-cover" alt="" />
                 </div>
-                <button type="button" class="btn secondary kf-slot-download mt-2 w-full text-sm" hidden>Baixar</button>
+                <button type="button" class="btn secondary kf-slot-gen w-full text-sm mt-2" data-kf-gen="3" disabled>Gerar keyframe_3.png</button>
+                <button type="button" class="btn secondary kf-slot-download w-full text-sm" hidden>Baixar</button>
               </div>
               <div class="kf-slot is-idle" data-kf="4">
                 <p class="kf-slot-title text-label-sm mb-2">keyframe_4.png</p>
@@ -402,7 +399,8 @@
                   <div class="kf-slot-error absolute inset-0"><span class="kf-slot-error-text">Falhou</span></div>
                   <img class="kf-slot-img absolute inset-0 w-full h-full object-cover" alt="" />
                 </div>
-                <button type="button" class="btn secondary kf-slot-download mt-2 w-full text-sm" hidden>Baixar</button>
+                <button type="button" class="btn secondary kf-slot-gen w-full text-sm mt-2" data-kf-gen="4" disabled>Gerar keyframe_4.png</button>
+                <button type="button" class="btn secondary kf-slot-download w-full text-sm" hidden>Baixar</button>
               </div>
             </div>
           </div>

@@ -120,7 +120,7 @@
       ", claros " +
       (palette.text || "#F5F1EA") +
       (palette.notes ? " (" + palette.notes + ")" : "") +
-      "\n\nResponda APENAS JSON: {\"narratives\":[ ...5 objetos... ]} cada um com label, scenes{c1t,c1s,c2t,c2f[4 strings],c3a,c3b}, narration.";
+      "\n\nResponda APENAS JSON: {\"narratives\":[ ...5 objetos... ]} cada um com label (título curto só, sem \"Ângulo\" nem numeração), scenes{c1t,c1s,c2t,c2f[4 strings],c3a,c3b}, narration.";
 
     var variation = opts.variationId != null ? opts.variationId : Date.now();
     var user =
@@ -134,7 +134,7 @@
       (opts.tone || "") +
       "\nLote #" +
       variation +
-      " — 5 ângulos DIFERENTES.\n\nBase:\n" +
+      " — 5 narrativas com abordagens DIFERENTES.\n\nBase:\n" +
       excerpt;
 
     return Ph3aOpenAI.chatCompletion(apiKey, { system: system, user: user }).then(function (r) {

@@ -136,6 +136,14 @@
     return tryModel();
   }
 
+  function cleanNarrativeLabel(raw, index) {
+    var s = String(raw || "")
+      .trim()
+      .replace(/^ângulo\s*\d+\s*[:\-—–]\s*/i, "")
+      .replace(/^opção\s*\d+\s*[:\-—–]\s*/i, "");
+    return (s || "Opção " + (index + 1)).slice(0, 80);
+  }
+
   function parseNarrativesJson(raw, opts) {
     var jsonStr = raw.trim();
     var fence = jsonStr.match(/```(?:json)?\s*([\s\S]*?)```/);
@@ -151,7 +159,7 @@
       var c2f = Array.isArray(s.c2f) ? s.c2f : ["Etapa 1", "Etapa 2", "Etapa 3", "Etapa 4"];
       return {
         id: "gemini-" + i,
-        label: String(item.label || "Opção " + (i + 1)).slice(0, 80),
+        label: cleanNarrativeLabel(item.label, i),
         scenes: {
           c1t: String(s.c1t || "O PROBLEMA É REAL").slice(0, 60),
           c1s: String(s.c1s || "").slice(0, 80),
@@ -184,7 +192,7 @@
     var system =
       "Você cria narrativas para vídeo PH3A (CUBO-PH). pt-BR, marketing B2B, textos curtos on-screen, sem inglês, sem by PH3A.\n" +
       (profileHints[opts.profile] || profileHints.generic) +
-      "\nResponda APENAS JSON: array de 5 objetos com label, scenes{c1t,c1s,c2t,c2f[4],c3a,c3b}, narration.";
+      "\nResponda APENAS JSON: array de 5 objetos com label (título curto só, sem \"Ângulo\" nem numeração), scenes{c1t,c1s,c2t,c2f[4],c3a,c3b}, narration.";
 
     var variation = opts.variationId != null ? opts.variationId : Date.now();
     var user =
@@ -196,7 +204,7 @@
       opts.profile +
       "\nLote criativo #" +
       variation +
-      " — proponha 5 ângulos DIFERENTES de narrativas anteriores típicas.\n\nBase:\n" +
+      " — proponha 5 narrativas com abordagens DIFERENTES das típicas.\n\nBase:\n" +
       excerpt;
 
     return generateContent(apiKey, { system: system, user: user }).then(function (r) {
